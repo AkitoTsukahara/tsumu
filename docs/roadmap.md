@@ -17,6 +17,8 @@
 
 ### StepとPRを対応づける手順
 
+共通の統合先・既定ブランチは **`main`**。`git fetch origin` 後の最新の `origin/main` からStepごとの作業ブランチを切り出し、**作業ブランチ → `main`** のPRを作成する。`main`への直接Pushは通常の開発では行わず、レビュー後にユーザーの指示・許可を受けてマージする。PR作成時は `gh pr create --base main` のようにマージ先を明示する。
+
 1. 実装前に対象Stepを一つ選び、完了条件を具体化する。既存のStepにない作業は、まずロードマップへStepを追加する。
 2. ブランチは `codex/step-<ID>-<概要>`、PRタイトルは `[Step <ID>] <変更の目的>` とする。例：`codex/step-2-4-equipment-form`、`[Step 2-4] 機材の登録画面を追加する`。
 3. PR本文にStep番号と該当フェーズへのリンクを記載する。一つのPRに複数のStepをまとめない。分割時はロードマップにも `2-4a`・`2-4b` のような子Stepとそれぞれの完了条件を追加する。
@@ -33,7 +35,7 @@
 
 | Step | 状態 | PR・実装記録 |
 | --- | --- | --- |
-| 0-1 | 導入済み（初期コミット） | [854661e](https://github.com/AkitoTsukahara/tsumu/commit/854661e28ce2b4d7c315090f92eb6e5f1a2bb1e7)。空リポジトリへの初期PushのためPRなし |
+| 0-1 | 導入済み（初期コミット） | [854661e](https://github.com/AkitoTsukahara/tsumu/commit/854661e28ce2b4d7c315090f92eb6e5f1a2bb1e7)。空リポジトリへの初期PushのためPRなし。このコミットを起点に`main`を作成 |
 | 0-1a | レビュー待ち | [PR #1](https://github.com/AkitoTsukahara/tsumu/pull/1)：PRレビュー運用とテンプレートの整備 |
 
 以下のStepは分割案。実際の差分量に応じてさらに小さくし、未決定の仕様は該当Stepに入る前に確認する。各Stepのテストは [テスト方針](testing.md) に従う。

@@ -23,6 +23,7 @@ The complete MVP is not authorization to build every feature in a single task. W
 
 ## Step-based pull requests
 
+- `main` is the integration and default branch. Fetch origin and create each new Step branch from the latest `origin/main`; target every PR at `main` (use `gh pr create --base main`). Deliver changes through reviewed PRs rather than pushing directly to `main`. Merge only when the user requests or authorizes it.
 - Use exactly one roadmap Step per PR. Before implementation, select a Step and its acceptance criteria; add a Step to `docs/roadmap.md` first if the work is not represented there.
 - Name branches `codex/step-<ID>-<slug>` and PRs `[Step <ID>] <purpose>`. Include the Step ID and roadmap phase link in the PR body. If a Step is too large, define child Steps with their own acceptance criteria before splitting the work.
 - Fill `.github/pull_request_template.md` with the user story, acceptance criteria, implementation, automated test perspectives/results, and reproducible manual verification steps/results. Use acceptance IDs such as AC1 to connect criteria and verification. Small changes need only concise entries; explain when a section is not applicable.
