@@ -34,7 +34,7 @@
 | Step | 状態 | PR・実装記録 |
 | --- | --- | --- |
 | 0-1 | 導入済み（初期コミット） | [854661e](https://github.com/AkitoTsukahara/tsumu/commit/854661e28ce2b4d7c315090f92eb6e5f1a2bb1e7)。空リポジトリへの初期PushのためPRなし |
-| 0-1a | 作業中 | PRレビュー運用とテンプレートの整備 |
+| 0-1a | レビュー待ち | [PR #1](https://github.com/AkitoTsukahara/tsumu/pull/1)：PRレビュー運用とテンプレートの整備 |
 
 以下のStepは分割案。実際の差分量に応じてさらに小さくし、未決定の仕様は該当Stepに入る前に確認する。各Stepのテストは [テスト方針](testing.md) に従う。
 
