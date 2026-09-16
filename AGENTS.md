@@ -21,6 +21,15 @@ The complete MVP is not authorization to build every feature in a single task. W
 - The user explicitly exempts the initial foundation PR (Laravel, Livewire, Pest, Boost, and project documentation) from the line limit. Report generated scaffolding, dependency locks, and generated Boost files separately. This exemption does not apply to subsequent PRs; identify any unavoidable generated-file overage before proceeding.
 - Use Pest Unit (no framework or DB), Feature (HTTP/Livewire/application behavior), and DbIntegration (real persistence and queries). Browser testing is proposed in `docs/testing.md`; do not silently choose or install a browser runner until that choice is settled.
 
+## Step-based pull requests
+
+- Use exactly one roadmap Step per PR. Before implementation, select a Step and its acceptance criteria; add a Step to `docs/roadmap.md` first if the work is not represented there.
+- Name branches `codex/step-<ID>-<slug>` and PRs `[Step <ID>] <purpose>`. Include the Step ID and roadmap phase link in the PR body. If a Step is too large, define child Steps with their own acceptance criteria before splitting the work.
+- Fill `.github/pull_request_template.md` with the user story, acceptance criteria, implementation, automated test perspectives/results, and reproducible manual verification steps/results. Use acceptance IDs such as AC1 to connect criteria and verification. Small changes need only concise entries; explain when a section is not applicable.
+- Distinguish checks actually run from suggested or unexecuted checks. Include commands and outcomes; never mark acceptance criteria complete solely because code was written. Infrastructure stories may use a developer or reviewer as the actor.
+- Measure additions plus deletions over the entire PR against its merge base, not only the latest commit. Report application/config/docs, tests, and generated/lock changes separately.
+- After creating a PR, update the Step-to-PR table in `docs/roadmap.md`. A pushed branch or opened PR is not a completed Step; completion requires satisfied criteria, review, and merge. Do not begin the next Step before merge unless the user instructs otherwise.
+
 ## Agreed architecture
 
 - Use Laravel with Blade + Livewire and Pest. Target Android Chrome and desktop Chrome, online only.
