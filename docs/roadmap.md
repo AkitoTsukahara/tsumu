@@ -38,7 +38,7 @@
 | 0-1 | 導入済み（初期コミット） | [854661e](https://github.com/AkitoTsukahara/tsumu/commit/854661e28ce2b4d7c315090f92eb6e5f1a2bb1e7)。空リポジトリへの初期PushのためPRなし。このコミットを起点に`main`を作成 |
 | 0-1a | 完了 | [PR #1](https://github.com/AkitoTsukahara/tsumu/pull/1)：PRレビュー運用とテンプレートの整備。mainへマージ済み |
 | 0-2 | 完了 | [PR #2](https://github.com/AkitoTsukahara/tsumu/pull/2)：Pestの3 suite・Pint・ビルドをGitHub Actionsで確認。mainへマージ済み |
-| 0-3 | 作業中 | Pest Browser＋Playwrightを採用。ChromiumのスモークテストとCIを整備。依存lock更新1,604行は今回に限り行数制限の対象外としてユーザー了承済み |
+| 0-3 | レビュー待ち | [PR #3](https://github.com/AkitoTsukahara/tsumu/pull/3)：Pest Browser＋Playwrightを採用し、ChromiumのスモークテストとCIを整備。依存lock更新1,604行は今回に限り行数制限の対象外としてユーザー了承済み |
 
 以下のStepは分割案。実際の差分量に応じてさらに小さくし、未決定の仕様は該当Stepに入る前に確認する。各Stepのテストは [テスト方針](testing.md) に従う。
 
