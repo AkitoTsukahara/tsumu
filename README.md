@@ -9,7 +9,7 @@
 - [プロダクトコンセプト](docs/product-concept.md)：解決する課題、MVP全体、対象外の機能
 - [アーキテクチャ](docs/architecture.md)：app / domain / infra、Livewire、Command / Query
 - [実装ロードマップ](docs/roadmap.md)：フェーズ別の小さなStepと完了条件
-- [テスト方針](docs/testing.md)：Unit / Feature / DbIntegrationとブラウザテストの提案
+- [テスト方針](docs/testing.md)：Unit / Feature / DbIntegrationとBrowserテスト
 - [Codex向けルール](AGENTS.md)：実装前に読む文書とLaravel Boostのガイドライン
 
 初期導入PRは行数制限の対象外。その後は原則1 Stepにつき1 PR、テストを除く追加＋削除で400行程度以内とします。
@@ -18,11 +18,11 @@
 
 - PHP 8.5 / Laravel 13
 - Blade / Livewire 4 / Tailwind CSS 4
-- Pest 5：Unit・Feature・DbIntegration
+- Pest 5：Unit・Feature・DbIntegration・Browser
 - Laravel Pint
 - Laravel Boost 2：CodexのMCP設定、ガイドライン、開発スキル
 
-正確なバージョンは`composer.lock`と`package-lock.json`で固定しています。ブラウザテストはPest Browser＋Playwrightを第一候補とする提案段階で、まだ導入していません。
+正確なバージョンは`composer.lock`と`package-lock.json`で固定しています。ブラウザテストにはPest Browser＋Playwright（Chromium）を使用します。
 
 ## ローカルセットアップ
 
@@ -37,6 +37,7 @@ php artisan key:generate
 php -r "file_exists('database/database.sqlite') || touch('database/database.sqlite');"
 php artisan migrate
 npm ci
+npx playwright install chromium
 npm run build
 php artisan boost:install --guidelines --skills --mcp --no-interaction
 ```
@@ -56,9 +57,12 @@ composer test
 php artisan test --testsuite=Unit
 php artisan test --testsuite=Feature
 php artisan test --testsuite=DbIntegration
+php artisan test --testsuite=Browser
 vendor/bin/pint --dirty --format agent
 npm run build
 ```
+
+`composer test`にはBrowserも含まれます。ブラウザのインストールとビルドが必要です。Linuxの追加手順・ブラウザなしでの実行方法は[テスト方針](docs/testing.md#ブラウザテストの実行)を参照してください。
 
 現在のテストは基盤のスモークテストです。Domainの業務ルールやUser境界の振る舞いは、該当機能の実装と一緒に追加します。DbIntegrationは現時点ではインメモリSQLiteで実行し、本番DBが決まり次第そのDBでの検証も追加します。
 
