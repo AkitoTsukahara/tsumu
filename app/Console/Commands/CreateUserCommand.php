@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Service\Command\CreateUser;
-use Domain\User\EmailAlreadyInUse;
+use Domain\User\Exceptions\EmailAlreadyInUseException;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
@@ -56,7 +56,7 @@ class CreateUserCommand extends Command
                 email: (string) $input['email'],
                 password: (string) $input['password'],
             );
-        } catch (EmailAlreadyInUse) {
+        } catch (EmailAlreadyInUseException) {
             $this->error('このメールアドレスはすでに使用されています。');
 
             return self::FAILURE;

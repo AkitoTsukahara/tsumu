@@ -78,13 +78,27 @@ test('API変更では関連するAPIテストだけを選択できる', function
 test('ユーザー作成Serviceでは関連するFeature・Repositoryテストだけを選択する', function () {
     expect(selector()->select(['app/Service/Command/CreateUser.php']))->toBe([
         'backend' => [
-            'tests/DbIntegration/Infra/Persistence/Eloquent/EloquentUserRepositoryTest.php',
+            'tests/DbIntegration/Infra/Persistence/Repositories/UserRepositoryTest.php',
             'tests/Feature/Console/CreateUserCommandTest.php',
         ],
         'browser' => [],
         'unmapped' => [],
     ]);
 });
+
+test('User Repositoryの新旧パスで関連テストを選択する', function (string $path) {
+    expect(selector()->select([$path]))->toBe([
+        'backend' => [
+            'tests/DbIntegration/Infra/Persistence/Repositories/UserRepositoryTest.php',
+            'tests/Feature/Console/CreateUserCommandTest.php',
+        ],
+        'browser' => [],
+        'unmapped' => [],
+    ]);
+})->with([
+    '移動後' => 'infra/Persistence/Repositories/UserRepository.php',
+    '移動前の削除' => 'infra/Persistence/Eloquent/EloquentUserRepository.php',
+]);
 
 test('対応表にないアプリケーション変更を報告する', function () {
     expect(selector([])->select(['app/Http/Controllers/Api/UnknownController.php']))->toBe([

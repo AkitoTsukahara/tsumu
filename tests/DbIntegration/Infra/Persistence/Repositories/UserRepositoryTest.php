@@ -1,6 +1,6 @@
 <?php
 
-use Domain\User\EmailAlreadyInUse;
+use Domain\User\Exceptions\EmailAlreadyInUseException;
 use Domain\User\UserRepository;
 use Illuminate\Support\Facades\Hash;
 use Infra\Persistence\Eloquent\Models\User;
@@ -17,7 +17,7 @@ it('DomainのRepository契約を通してユーザーを保存する', function 
         ->and($user->password)->toBe($passwordHash);
 });
 
-it('メールアドレスが重複した場合にDomainエラーを通知する', function () {
+it('メールアドレスが重複した場合にDomain例外を通知する', function () {
     User::factory()->create(['email' => 'akito@example.com']);
 
     app(UserRepository::class)->create(
@@ -25,4 +25,4 @@ it('メールアドレスが重複した場合にDomainエラーを通知する'
         email: 'akito@example.com',
         passwordHash: Hash::make('secret-password'),
     );
-})->throws(EmailAlreadyInUse::class);
+})->throws(EmailAlreadyInUseException::class);

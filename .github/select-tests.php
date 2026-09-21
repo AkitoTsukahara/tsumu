@@ -124,7 +124,7 @@ final class ChangedTestSelector
                     'database/migrations/0001_01_01_000000_create_users_table.php',
                 ],
                 'backend' => [
-                    'tests/DbIntegration/Infra/Persistence/Eloquent/EloquentUserRepositoryTest.php',
+                    'tests/DbIntegration/Infra/Persistence/Repositories/UserRepositoryTest.php',
                     'tests/DbIntegration/Infra/UserProviderTest.php',
                     'tests/Feature/Console/CreateUserCommandTest.php',
                 ],
@@ -138,9 +138,10 @@ final class ChangedTestSelector
                     'app/Service/Command/CreateUser.php',
                     'domain/User/**',
                     'infra/Persistence/Eloquent/EloquentUserRepository.php',
+                    'infra/Persistence/Repositories/UserRepository.php',
                 ],
                 'backend' => [
-                    'tests/DbIntegration/Infra/Persistence/Eloquent/EloquentUserRepositoryTest.php',
+                    'tests/DbIntegration/Infra/Persistence/Repositories/UserRepositoryTest.php',
                     'tests/Feature/Console/CreateUserCommandTest.php',
                 ],
             ],
