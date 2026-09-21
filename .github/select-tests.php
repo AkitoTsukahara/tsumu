@@ -225,7 +225,26 @@ final class ChangedTestSelector
         $paths = array_values(array_unique($paths));
         sort($paths);
 
-        return $paths;
+        return array_values(array_filter(
+            $paths,
+            fn (string $path): bool => ! $this->hasSelectedParentDirectory($path, $paths),
+        ));
+    }
+
+    /** @param list<string> $paths */
+    private function hasSelectedParentDirectory(string $path, array $paths): bool
+    {
+        foreach ($paths as $candidate) {
+            if ($candidate === $path || ! is_dir($this->projectRoot.'/'.$candidate)) {
+                continue;
+            }
+
+            if (str_starts_with($path, $candidate.'/')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 
