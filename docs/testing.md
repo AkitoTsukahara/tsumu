@@ -70,12 +70,32 @@ PestからLivewireのテストAPIを使い、入力値を設定し、アクシ�
 
 ## CIへの導入順
 
-1. Unit・Feature・DbIntegrationとPint、フロントのビルド。
+1. Unit・Feature・DbIntegrationとPint、フロントのビルド（Step 0-2）。
 2. 本番DBと同じ種類のDbIntegration。
 3. ブラウザのスモークテスト1本。
 4. トレーニングの重要な操作と再開を検証する少数のE2E。
 
 通常の画面表示・入力エラーはFeatureで素早く確認し、BrowserはJavaScriptを含めた連動に集中する。テスト差分は400行の枠から除外できるが、レビュー時には本体とテストそれぞれの行数を示す。
+
+### Step 0-2の実行内容
+
+[CIワークフロー](../.github/workflows/ci.yml)は、`main`向けPRの作成・更新と`main`へのPushで実行する。PRのChecksで以下を個別に確認できる。
+
+| チェック | 実行内容 |
+| --- | --- |
+| Pest (Unit) | `vendor/bin/pest --ci --testsuite=Unit` |
+| Pest (Feature) | `vendor/bin/pest --ci --testsuite=Feature` |
+| Pest (DbIntegration) | `vendor/bin/pest --ci --testsuite=DbIntegration` |
+| Pint | `vendor/bin/pint --test`（変更せず、不整形なら失敗） |
+| Build | `npm ci` → `npm run build` |
+
+Ubuntu 24.04・PHP 8.5・Node 24を使用。Composer/npmのlockファイルから依存を復元する。テスト用APP_KEYは実行ごとに生成し、DBは`phpunit.xml`のインメモリSQLiteを使う。本番DBやCloudの認証情報は不要。
+
+チェックは独立して実行し、一つのsuiteが失敗しても残りの結果を確認できる。同一PRの古い実行は追加Pushでキャンセルし、各ジョブは10分でタイムアウトする。外部ActionsはコミットSHAで固定している。
+
+失敗時はPRのChecksから該当ジョブのログを開き、上記と同じコマンドでローカル再現する。Pintの修正はローカルで`vendor/bin/pint`を実行し、差分を確認してPushする。CIは自動修正・コミット・デプロイを行わない。
+
+このStepはチェックの実行・表示まで。マージをブロックするGitHubのブランチ保護設定、本番と同じDB、ブラウザテストは含めない。
 
 ## 公式資料
 
