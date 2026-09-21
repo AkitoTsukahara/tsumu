@@ -16,7 +16,7 @@ The complete MVP is not authorization to build every feature in a single task. W
 - Implement one roadmap step per review unit. Target 100–250 changed lines; keep handwritten implementation, configuration, and documentation additions plus deletions at about 400 lines maximum. Tests may be excluded, but report their size separately.
 - Split a step before it exceeds the limit; do not build many steps first and merely divide the commits afterward. Do not combine unrelated refactoring.
 - The user explicitly exempts the initial foundation PR (Laravel, Livewire, Pest, Boost, and project documentation) from the line limit. Report generated scaffolding, dependency locks, and generated Boost files separately. This exemption does not apply to subsequent PRs; identify any unavoidable generated-file overage before proceeding.
-- Use Pest Unit (no framework or DB), Feature (HTTP/Livewire/application behavior), and DbIntegration (real persistence and queries). Browser testing is proposed in `docs/testing.md`; do not silently choose or install a browser runner until that choice is settled.
+- Use Pest Unit (no framework or DB), Feature (HTTP/Livewire/application behavior), and DbIntegration (real persistence and queries). Use Pest Browser + Playwright for browser tests in `tests/Browser`, with Chromium as the default. Follow `docs/testing.md` for setup and coverage.
 
 ## Step-based pull requests
 
