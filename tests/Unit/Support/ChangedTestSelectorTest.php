@@ -64,6 +64,17 @@ test('an API change can select only its related API test', function () {
     ]);
 });
 
+test('the account service selects only its feature and repository tests', function () {
+    expect(selector()->select(['app/Service/Command/CreateUser.php']))->toBe([
+        'backend' => [
+            'tests/DbIntegration/Infra/Persistence/Eloquent/EloquentUserRepositoryTest.php',
+            'tests/Feature/Console/CreateUserCommandTest.php',
+        ],
+        'browser' => [],
+        'unmapped' => [],
+    ]);
+});
+
 test('an unmapped application change is reported', function () {
     expect(selector([])->select(['app/Http/Controllers/Api/UnknownController.php']))->toBe([
         'backend' => [],

@@ -50,6 +50,12 @@ php artisan serve
 
 フロントの編集時は別ターミナルで`npm run dev`を実行します。ローカルDBはSQLiteです。本番DBはCloudの費用を見積もる段階で決定します。Seederは初期アカウントを自動作成しません。
 
+初期アカウントはmigration後に対話式コマンドで作成します。パスワードは画面に表示されず、ソースやコマンド履歴にも残りません。
+
+```sh
+php artisan tsumu:user:create
+```
+
 ## 検証
 
 ```sh
