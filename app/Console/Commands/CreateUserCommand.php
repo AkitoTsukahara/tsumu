@@ -11,7 +11,7 @@ use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
 use Illuminate\Validation\Rules\Password;
 
 #[Signature('tsumu:user:create')]
-#[Description('Create a user who can sign in to Tsumu')]
+#[Description('Tsumuへログインできるユーザーを作成します')]
 class CreateUserCommand extends Command
 {
     public function __construct(
@@ -24,10 +24,10 @@ class CreateUserCommand extends Command
     public function handle(): int
     {
         $input = [
-            'name' => $this->ask('Name'),
-            'email' => $this->ask('Email address'),
-            'password' => $this->secret('Password (minimum 8 characters)'),
-            'password_confirmation' => $this->secret('Confirm password'),
+            'name' => $this->ask('名前'),
+            'email' => $this->ask('メールアドレス'),
+            'password' => $this->secret('パスワード（8文字以上）'),
+            'password_confirmation' => $this->secret('パスワード（確認）'),
         ];
 
         $validator = $this->validatorFactory->make($input, [
@@ -35,13 +35,13 @@ class CreateUserCommand extends Command
             'email' => ['required', 'email'],
             'password' => ['required', 'string', Password::min(8), 'confirmed'],
         ], [
-            'name.required' => 'Name is required.',
-            'name.max' => 'Name must not exceed 255 characters.',
-            'email.required' => 'Email address is required.',
-            'email.email' => 'Enter a valid email address.',
-            'password.required' => 'Password is required.',
-            'password.min' => 'Password must be at least 8 characters.',
-            'password.confirmed' => 'Passwords do not match.',
+            'name.required' => '名前を入力してください。',
+            'name.max' => '名前は255文字以内で入力してください。',
+            'email.required' => 'メールアドレスを入力してください。',
+            'email.email' => '有効なメールアドレスを入力してください。',
+            'password.required' => 'パスワードを入力してください。',
+            'password.min' => 'パスワードは8文字以上で入力してください。',
+            'password.confirmed' => 'パスワードが一致しません。',
         ]);
 
         if ($validator->fails()) {
@@ -57,12 +57,12 @@ class CreateUserCommand extends Command
                 password: (string) $input['password'],
             );
         } catch (EmailAlreadyInUse) {
-            $this->error('An account with this email address already exists.');
+            $this->error('このメールアドレスはすでに使用されています。');
 
             return self::FAILURE;
         }
 
-        $this->info('Account created.');
+        $this->info('ユーザーを作成しました。');
 
         return self::SUCCESS;
     }

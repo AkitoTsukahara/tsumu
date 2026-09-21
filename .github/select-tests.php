@@ -257,7 +257,7 @@ $changedFiles = file('php://stdin', FILE_IGNORE_NEW_LINES) ?: [];
 $selection = $selector->select($changedFiles);
 
 if ($selection['unmapped'] !== []) {
-    fwrite(STDERR, "Add an explicit test mapping for:\n - ".implode("\n - ", $selection['unmapped'])."\n");
+    fwrite(STDERR, "次のファイルに対応するテストを明示してください:\n - ".implode("\n - ", $selection['unmapped'])."\n");
     exit(1);
 }
 

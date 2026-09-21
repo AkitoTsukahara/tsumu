@@ -1,6 +1,6 @@
 <?php
 
-test('the initial page opens without JavaScript errors', function () {
+test('初期ページがJavaScriptエラーなしで開く', function () {
     visit('/')
         ->assertSee("Let's get started")
         ->assertNoJavascriptErrors();

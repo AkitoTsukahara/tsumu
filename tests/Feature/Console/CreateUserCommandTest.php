@@ -6,13 +6,13 @@ use Infra\Persistence\Eloquent\Models\User;
 
 uses(RefreshDatabase::class);
 
-it('creates an account without exposing or storing the plain password', function () {
+it('平文パスワードを表示・保存せずにユーザーを作成する', function () {
     $this->artisan('tsumu:user:create')
-        ->expectsQuestion('Name', 'Akito')
-        ->expectsQuestion('Email address', 'AKITO@example.com')
-        ->expectsQuestion('Password (minimum 8 characters)', 'secret-password')
-        ->expectsQuestion('Confirm password', 'secret-password')
-        ->expectsOutput('Account created.')
+        ->expectsQuestion('名前', 'Akito')
+        ->expectsQuestion('メールアドレス', 'AKITO@example.com')
+        ->expectsQuestion('パスワード（8文字以上）', 'secret-password')
+        ->expectsQuestion('パスワード（確認）', 'secret-password')
+        ->expectsOutput('ユーザーを作成しました。')
         ->doesntExpectOutput('secret-password')
         ->assertSuccessful();
 
@@ -24,7 +24,7 @@ it('creates an account without exposing or storing the plain password', function
         ->and(Hash::check('secret-password', $user->password))->toBeTrue();
 });
 
-it('rejects invalid account details', function (
+it('不正なユーザー情報を拒否する', function (
     string $name,
     string $email,
     string $password,
@@ -32,33 +32,33 @@ it('rejects invalid account details', function (
     string $message,
 ) {
     $this->artisan('tsumu:user:create')
-        ->expectsQuestion('Name', $name)
-        ->expectsQuestion('Email address', $email)
-        ->expectsQuestion('Password (minimum 8 characters)', $password)
-        ->expectsQuestion('Confirm password', $confirmation)
+        ->expectsQuestion('名前', $name)
+        ->expectsQuestion('メールアドレス', $email)
+        ->expectsQuestion('パスワード（8文字以上）', $password)
+        ->expectsQuestion('パスワード（確認）', $confirmation)
         ->expectsOutput($message)
         ->assertFailed();
 
     expect(User::query()->exists())->toBeFalse();
 })->with([
-    'missing name' => ['', 'akito@example.com', 'secret-password', 'secret-password', 'Name is required.'],
-    'long name' => [str_repeat('a', 256), 'akito@example.com', 'secret-password', 'secret-password', 'Name must not exceed 255 characters.'],
-    'missing email' => ['Akito', '', 'secret-password', 'secret-password', 'Email address is required.'],
-    'invalid email' => ['Akito', 'not-an-email', 'secret-password', 'secret-password', 'Enter a valid email address.'],
-    'missing password' => ['Akito', 'akito@example.com', '', '', 'Password is required.'],
-    'short password' => ['Akito', 'akito@example.com', 'short', 'short', 'Password must be at least 8 characters.'],
-    'unconfirmed password' => ['Akito', 'akito@example.com', 'secret-password', 'different-password', 'Passwords do not match.'],
+    '名前が未入力' => ['', 'akito@example.com', 'secret-password', 'secret-password', '名前を入力してください。'],
+    '名前が長すぎる' => [str_repeat('a', 256), 'akito@example.com', 'secret-password', 'secret-password', '名前は255文字以内で入力してください。'],
+    'メールアドレスが未入力' => ['Akito', '', 'secret-password', 'secret-password', 'メールアドレスを入力してください。'],
+    'メールアドレスの形式が不正' => ['Akito', 'not-an-email', 'secret-password', 'secret-password', '有効なメールアドレスを入力してください。'],
+    'パスワードが未入力' => ['Akito', 'akito@example.com', '', '', 'パスワードを入力してください。'],
+    'パスワードが短すぎる' => ['Akito', 'akito@example.com', 'short', 'short', 'パスワードは8文字以上で入力してください。'],
+    '確認用パスワードが不一致' => ['Akito', 'akito@example.com', 'secret-password', 'different-password', 'パスワードが一致しません。'],
 ]);
 
-it('rejects an email address that already belongs to an account', function () {
+it('既存ユーザーと重複するメールアドレスを拒否する', function () {
     User::factory()->create(['email' => 'akito@example.com']);
 
     $this->artisan('tsumu:user:create')
-        ->expectsQuestion('Name', 'Another Akito')
-        ->expectsQuestion('Email address', 'AKITO@example.com')
-        ->expectsQuestion('Password (minimum 8 characters)', 'secret-password')
-        ->expectsQuestion('Confirm password', 'secret-password')
-        ->expectsOutput('An account with this email address already exists.')
+        ->expectsQuestion('名前', 'Another Akito')
+        ->expectsQuestion('メールアドレス', 'AKITO@example.com')
+        ->expectsQuestion('パスワード（8文字以上）', 'secret-password')
+        ->expectsQuestion('パスワード（確認）', 'secret-password')
+        ->expectsOutput('このメールアドレスはすでに使用されています。')
         ->assertFailed();
 
     expect(User::query()->count())->toBe(1);

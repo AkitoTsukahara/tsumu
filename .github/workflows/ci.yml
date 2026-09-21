@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   select-tests:
-    name: Select tests
+    name: テスト選択
     runs-on: ubuntu-24.04
     timeout-minutes: 2
     outputs:
@@ -27,7 +27,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Select tests affected by changed files
+      - name: 変更ファイルに関係するテストを選択
         id: select
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
@@ -35,7 +35,7 @@ jobs:
         run: git diff --name-only --diff-filter=ACDMRTUXB "$BASE_SHA" "$HEAD_SHA" | php .github/select-tests.php >> "$GITHUB_OUTPUT"
 
   tests:
-    name: Pest (Backend)
+    name: Pest（バックエンド）
     needs: select-tests
     if: needs.select-tests.outputs.backend != ''
     runs-on: ubuntu-24.04
@@ -48,7 +48,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up PHP
+      - name: PHPをセットアップ
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: '8.5'
@@ -56,15 +56,15 @@ jobs:
           tools: composer:v2
           coverage: none
 
-      - name: Install PHP dependencies
+      - name: PHP依存関係をインストール
         run: composer install --no-interaction --prefer-dist --no-progress
 
-      - name: Prepare test environment
+      - name: テスト環境を準備
         run: |
           cp .env.example .env
           php artisan key:generate --no-interaction
 
-      - name: Run selected tests
+      - name: 選択したテストを実行
         run: vendor/bin/pest --ci $TEST_PATHS
 
   pint:
@@ -76,7 +76,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up PHP
+      - name: PHPをセットアップ
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: '8.5'
@@ -84,14 +84,14 @@ jobs:
           tools: composer:v2
           coverage: none
 
-      - name: Install PHP dependencies
+      - name: PHP依存関係をインストール
         run: composer install --no-interaction --prefer-dist --no-progress
 
-      - name: Check PHP formatting
+      - name: PHPのフォーマットを確認
         run: vendor/bin/pint --test
 
   build:
-    name: Build
+    name: ビルド
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -99,20 +99,20 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up Node
+      - name: Node.jsをセットアップ
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: '24'
           cache: npm
 
-      - name: Install frontend dependencies
+      - name: フロントエンド依存関係をインストール
         run: npm ci
 
-      - name: Build frontend assets
+      - name: フロントエンドアセットをビルド
         run: npm run build
 
   browser:
-    name: Pest (Browser)
+    name: Pest（ブラウザ）
     needs: select-tests
     if: needs.select-tests.outputs.browser != ''
     runs-on: ubuntu-24.04
@@ -125,7 +125,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up PHP
+      - name: PHPをセットアップ
         uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
         with:
           php-version: '8.5'
@@ -133,28 +133,28 @@ jobs:
           tools: composer:v2
           coverage: none
 
-      - name: Install PHP dependencies
+      - name: PHP依存関係をインストール
         run: composer install --no-interaction --prefer-dist --no-progress
 
-      - name: Set up Node
+      - name: Node.jsをセットアップ
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: '24'
           cache: npm
 
-      - name: Install frontend dependencies
+      - name: フロントエンド依存関係をインストール
         run: npm ci
 
-      - name: Install Chromium and system dependencies
+      - name: Chromiumとシステム依存関係をインストール
         run: npx playwright install --with-deps chromium
 
-      - name: Build frontend assets
+      - name: フロントエンドアセットをビルド
         run: npm run build
 
-      - name: Prepare test environment
+      - name: テスト環境を準備
         run: |
           cp .env.example .env
           php artisan key:generate --no-interaction
 
-      - name: Run selected browser tests
+      - name: 選択したブラウザテストを実行
         run: vendor/bin/pest --ci $TEST_PATHS
