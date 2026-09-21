@@ -1,0 +1,227 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tsumu\Ci;
+
+final class ChangedTestSelector
+{
+    /**
+     * @param  list<array{patterns: list<string>, backend?: list<string>, browser?: list<string>}>|null  $testMap
+     */
+    public function __construct(
+        private readonly string $projectRoot,
+        private readonly ?array $testMap = null,
+    ) {}
+
+    /**
+     * @param  list<string>  $changedFiles
+     * @return array{backend: list<string>, browser: list<string>, unmapped: list<string>}
+     */
+    public function select(array $changedFiles): array
+    {
+        $backend = [];
+        $browser = [];
+        $unmapped = [];
+
+        foreach ($changedFiles as $file) {
+            $file = trim(str_replace('\\', '/', $file));
+
+            if ($file === '') {
+                continue;
+            }
+
+            if ($this->matchesAny($file, $this->allTestPatterns())) {
+                $backend = [...$backend, 'tests/Unit', 'tests/Feature', 'tests/DbIntegration'];
+                $browser[] = 'tests/Browser';
+
+                continue;
+            }
+
+            if ($this->matchesAny($file, $this->browserInfrastructurePatterns())) {
+                $browser[] = 'tests/Browser';
+
+                continue;
+            }
+
+            if (str_starts_with($file, 'tests/')) {
+                $this->selectChangedTest($file, $backend, $browser);
+
+                continue;
+            }
+
+            $mapped = false;
+
+            foreach ($this->testMap ?? $this->defaultTestMap() as $entry) {
+                if (! $this->matchesAny($file, $entry['patterns'])) {
+                    continue;
+                }
+
+                $mapped = true;
+                $backend = [...$backend, ...($entry['backend'] ?? [])];
+                $browser = [...$browser, ...($entry['browser'] ?? [])];
+            }
+
+            if (! $mapped && $this->requiresExplicitMapping($file)) {
+                $unmapped[] = $file;
+            }
+        }
+
+        return [
+            'backend' => $this->uniquePaths($backend),
+            'browser' => $this->uniquePaths($browser),
+            'unmapped' => $this->uniquePaths($unmapped),
+        ];
+    }
+
+    /** @return list<string> */
+    private function allTestPatterns(): array
+    {
+        return [
+            '.env.example',
+            '.github/select-tests.php',
+            '.github/workflows/ci.yml',
+            'bootstrap/**',
+            'composer.json',
+            'composer.lock',
+            'config/**',
+            'phpunit.xml',
+            'tests/Pest.php',
+            'tests/TestCase.php',
+        ];
+    }
+
+    /** @return list<string> */
+    private function browserInfrastructurePatterns(): array
+    {
+        return ['package.json', 'package-lock.json', 'vite.config.*'];
+    }
+
+    /**
+     * @return list<array{patterns: list<string>, backend?: list<string>, browser?: list<string>}>
+     */
+    private function defaultTestMap(): array
+    {
+        return [
+            [
+                'patterns' => ['routes/web.php'],
+                'backend' => ['tests/Feature'],
+                'browser' => ['tests/Browser'],
+            ],
+            [
+                'patterns' => ['resources/views/welcome.blade.php'],
+                'backend' => ['tests/Feature/ExampleTest.php'],
+                'browser' => ['tests/Browser/HomePageTest.php'],
+            ],
+            [
+                'patterns' => ['resources/css/app.css', 'resources/js/app.js'],
+                'browser' => ['tests/Browser'],
+            ],
+            [
+                'patterns' => [
+                    'infra/Persistence/Eloquent/Models/User.php',
+                    'database/factories/UserFactory.php',
+                    'database/migrations/0001_01_01_000000_create_users_table.php',
+                ],
+                'backend' => ['tests/DbIntegration/Infra/UserProviderTest.php'],
+            ],
+            [
+                'patterns' => ['app/Http/Controllers/Controller.php'],
+                'backend' => ['tests/Feature'],
+            ],
+            [
+                'patterns' => ['app/Providers/AppServiceProvider.php'],
+                'backend' => ['tests/Feature', 'tests/DbIntegration'],
+                'browser' => ['tests/Browser'],
+            ],
+            [
+                'patterns' => [
+                    'database/migrations/0001_01_01_000001_create_cache_table.php',
+                    'database/migrations/0001_01_01_000002_create_jobs_table.php',
+                    'database/seeders/DatabaseSeeder.php',
+                    'routes/console.php',
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @param  list<string>  $backend
+     * @param  list<string>  $browser
+     */
+    private function selectChangedTest(string $file, array &$backend, array &$browser): void
+    {
+        if (! preg_match('/^tests\/(Unit|Feature|DbIntegration|Browser)\/[A-Za-z0-9_.\/-]+Test\.php$/', $file)) {
+            return;
+        }
+
+        $target = is_file($this->projectRoot.'/'.$file)
+            ? $file
+            : implode('/', array_slice(explode('/', $file), 0, 2));
+
+        if (str_starts_with($file, 'tests/Browser/')) {
+            $browser[] = $target;
+
+            return;
+        }
+
+        $backend[] = $target;
+    }
+
+    private function requiresExplicitMapping(string $file): bool
+    {
+        return $this->matchesAny($file, [
+            'app/**',
+            'database/**',
+            'domain/**',
+            'infra/**',
+            'resources/css/**',
+            'resources/js/**',
+            'resources/views/**',
+            'routes/**',
+        ]);
+    }
+
+    /** @param list<string> $patterns */
+    private function matchesAny(string $file, array $patterns): bool
+    {
+        foreach ($patterns as $pattern) {
+            $expression = preg_quote($pattern, '#');
+            $expression = str_replace(['\*\*', '\*'], ['.*', '[^/]*'], $expression);
+
+            if (preg_match('#^'.$expression.'$#', $file) === 1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param  list<string>  $paths
+     * @return list<string>
+     */
+    private function uniquePaths(array $paths): array
+    {
+        $paths = array_values(array_unique($paths));
+        sort($paths);
+
+        return $paths;
+    }
+}
+
+if (realpath($_SERVER['SCRIPT_FILENAME'] ?? '') !== __FILE__) {
+    return;
+}
+
+$selector = new ChangedTestSelector(dirname(__DIR__), null);
+$changedFiles = file('php://stdin', FILE_IGNORE_NEW_LINES) ?: [];
+$selection = $selector->select($changedFiles);
+
+if ($selection['unmapped'] !== []) {
+    fwrite(STDERR, "Add an explicit test mapping for:\n - ".implode("\n - ", $selection['unmapped'])."\n");
+    exit(1);
+}
+
+fwrite(STDOUT, 'backend='.implode(' ', $selection['backend'])."\n");
+fwrite(STDOUT, 'browser='.implode(' ', $selection['browser'])."\n");

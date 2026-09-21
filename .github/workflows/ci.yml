@@ -14,16 +14,35 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  select-tests:
+    name: Select tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    outputs:
+      backend: ${{ steps.select.outputs.backend }}
+      browser: ${{ steps.select.outputs.browser }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Select tests affected by changed files
+        id: select
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: git diff --name-only --diff-filter=ACDMRTUXB "$BASE_SHA" "$HEAD_SHA" | php .github/select-tests.php >> "$GITHUB_OUTPUT"
+
   tests:
-    name: Pest (${{ matrix.suite }})
+    name: Pest (Backend)
+    needs: select-tests
+    if: needs.select-tests.outputs.backend != ''
     runs-on: ubuntu-24.04
     timeout-minutes: 10
-    strategy:
-      fail-fast: false
-      matrix:
-        suite: [Unit, Feature, DbIntegration]
     env:
       APP_ENV: testing
+      TEST_PATHS: ${{ needs.select-tests.outputs.backend }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
@@ -45,8 +64,8 @@ jobs:
           cp .env.example .env
           php artisan key:generate --no-interaction
 
-      - name: Run test suite
-        run: vendor/bin/pest --ci --testsuite=${{ matrix.suite }}
+      - name: Run selected tests
+        run: vendor/bin/pest --ci $TEST_PATHS
 
   pint:
     name: Pint
@@ -94,10 +113,13 @@ jobs:
 
   browser:
     name: Pest (Browser)
+    needs: select-tests
+    if: needs.select-tests.outputs.browser != ''
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     env:
       APP_ENV: testing
+      TEST_PATHS: ${{ needs.select-tests.outputs.browser }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
@@ -134,5 +156,5 @@ jobs:
           cp .env.example .env
           php artisan key:generate --no-interaction
 
-      - name: Run browser smoke test
-        run: vendor/bin/pest --ci --testsuite=Browser
+      - name: Run selected browser tests
+        run: vendor/bin/pest --ci $TEST_PATHS

@@ -46,5 +46,6 @@ The complete MVP is not authorization to build every feature in a single task. W
 
 - Use Laravel Boost's version-aware docs and the relevant generated skills before changing framework-dependent code. If the MCP is unavailable in the current session, say so and inspect installed sources or official docs; do not claim a tool ran when it did not.
 - Run relevant Pest tests and Pint yourself. Do not ask the user to perform routine checks that you can run. The initial full suite is small enough to run with `composer test`.
+- Keep `.github/select-tests.php` updated in the same PR when application files or tests are added. Map each feature or API to its specific tests; reserve whole-suite mappings for shared infrastructure. An unmapped application change must fail selection rather than silently skipping tests.
 - Never commit `.env`, local databases, secrets, vendor, or node_modules.
 - The custom source for this section is `.ai/guidelines/tsumu.md`. Regenerate `AGENTS.md` with `php artisan boost:update --no-interaction` after editing it. Keep the source and generated guidelines in version control so future tasks read the same rules.
