@@ -95,22 +95,37 @@ Linuxではブラウザのシステム依存も必要なため、インストー
 
 通常の画面表示・入力エラーはFeatureで素早く確認し、BrowserはJavaScriptを含めた連動に集中する。テスト差分は400行の枠から除外できるが、レビュー時には本体とテストそれぞれの行数を示す。
 
+## 変更影響によるCIのテスト選択
+
+CIは`.github/select-tests.php`の対応表を使い、PRまたは`main`へのPushで変更されたファイルに関係するテストパスだけをPestへ渡す。テストファイル自体を変更した場合は、そのファイルだけを実行する。ドキュメントだけの変更ではPestを起動しない。
+
+新しい機能を追加するときは、同じPRで実装ファイルとテストの対応を追加する。たとえばAPI Controllerを変更したときは、そのAPIのFeatureテストだけを対応づける。共通設定や基底クラスなど影響範囲を限定できない変更は、全suiteを指定する。
+
+`app`、`domain`、`infra`、`database`、`resources`、`routes`配下の変更に対応がない場合、Select testsチェックを失敗させる。これは関係するテストを定義し忘れたままCIを通さないため。テストが不要なファイルも、空の対応として理由が分かる位置に明示する。
+
+Pest 5のTest Impact Analysis（TIA）はローカル実行を高速化する機能で、公式資料は通常のPR用CIでの利用を推奨していない。CIではキャッシュ済みの合格結果を再生せず、選ばれたテストをクリーン環境で実行する。
+
+ローカルで選択結果を確認する例：
+
+```sh
+git diff --name-only origin/main...HEAD | php .github/select-tests.php
+```
+
 ### CIの実行内容
 
 [CIワークフロー](../.github/workflows/ci.yml)は、`main`向けPRの作成・更新と`main`へのPushで実行する。PRのChecksで以下を個別に確認できる。
 
 | チェック | 実行内容 |
 | --- | --- |
-| Pest (Unit) | `vendor/bin/pest --ci --testsuite=Unit` |
-| Pest (Feature) | `vendor/bin/pest --ci --testsuite=Feature` |
-| Pest (DbIntegration) | `vendor/bin/pest --ci --testsuite=DbIntegration` |
-| Pest (Browser) | Chromiumを導入・ビルド後、`vendor/bin/pest --ci --testsuite=Browser`（Step 0-3） |
+| Select tests | 変更ファイルを対応表へ照合し、Backend・Browserのテストパスを決定 |
+| Pest (Backend) | 選ばれたUnit・Feature・DbIntegrationのファイル／ディレクトリだけを実行。対象なしならジョブを省略 |
+| Pest (Browser) | Browserテストが選ばれた場合だけ、Chromiumを導入・ビルドして実行 |
 | Pint | `vendor/bin/pint --test`（変更せず、不整形なら失敗） |
 | Build | `npm ci` → `npm run build` |
 
 Ubuntu 24.04・PHP 8.5・Node 24を使用。Composer/npmのlockファイルから依存を復元する。テスト用APP_KEYは実行ごとに生成し、DBは`phpunit.xml`のインメモリSQLiteを使う。本番DBやCloudの認証情報は不要。
 
-チェックは独立して実行し、一つのsuiteが失敗しても残りの結果を確認できる。同一PRの古い実行は追加Pushでキャンセルし、各ジョブは10分でタイムアウトする。外部ActionsはコミットSHAで固定している。
+選択されたBackendとBrowserは独立して実行する。同一PRの古い実行は追加Pushでキャンセルし、テストジョブは10分、選択ジョブは2分でタイムアウトする。外部ActionsはコミットSHAで固定している。
 
 失敗時はPRのChecksから該当ジョブのログを開き、上記と同じコマンドでローカル再現する。Pintの修正はローカルで`vendor/bin/pint`を実行し、差分を確認してPushする。CIは自動修正・コミット・デプロイを行わない。
 
@@ -120,5 +135,6 @@ Ubuntu 24.04・PHP 8.5・Node 24を使用。Composer/npmのlockファイルか�
 
 - [Livewire Testing](https://livewire.laravel.com/docs/4.x/testing)
 - [Pest Browser Testing](https://pestphp.com/docs/browser-testing)
+- [Pest Test Impact Analysis](https://pestphp.com/docs/tia)
 - [Playwright Emulation](https://playwright.dev/docs/emulation)
 - [Playwright Browsers](https://playwright.dev/docs/browsers)

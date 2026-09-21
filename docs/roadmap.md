@@ -38,7 +38,8 @@
 | 0-1 | 導入済み（初期コミット） | [854661e](https://github.com/AkitoTsukahara/tsumu/commit/854661e28ce2b4d7c315090f92eb6e5f1a2bb1e7)。空リポジトリへの初期PushのためPRなし。このコミットを起点に`main`を作成 |
 | 0-1a | 完了 | [PR #1](https://github.com/AkitoTsukahara/tsumu/pull/1)：PRレビュー運用とテンプレートの整備。mainへマージ済み |
 | 0-2 | 完了 | [PR #2](https://github.com/AkitoTsukahara/tsumu/pull/2)：Pestの3 suite・Pint・ビルドをGitHub Actionsで確認。mainへマージ済み |
-| 0-3 | レビュー待ち | [PR #3](https://github.com/AkitoTsukahara/tsumu/pull/3)：Pest Browser＋Playwrightを採用し、ChromiumのスモークテストとCIを整備。依存lock更新1,604行は今回に限り行数制限の対象外としてユーザー了承済み |
+| 0-3 | 完了 | [PR #3](https://github.com/AkitoTsukahara/tsumu/pull/3)：Pest Browser＋Playwrightを採用し、ChromiumのスモークテストとCIを整備。mainへマージ済み |
+| 0-4 | 作業中 | 変更ファイルと明示的な対応表から、関連するPestテストだけをCIで実行 |
 
 以下のStepは分割案。実際の差分量に応じてさらに小さくし、未決定の仕様は該当Stepに入る前に確認する。各Stepのテストは [テスト方針](testing.md) に従う。
 
@@ -70,6 +71,7 @@ Laravel、Livewire、Pest、Laravel Boost、3層の配置、ドキュメント�
 | 0-1a PRレビュー運用 | StepとPRの対応ルール、共通PRテンプレート、Codex向け指示 | PRから目的・完了条件・実装・テスト・動作検証を追える |
 | 0-2 CI | PHPUnitベースのPest各suite、Pint、ビルドのCI | PRでチェック結果が見える。Cloudの契約やデプロイは含めない |
 | 0-3 ブラウザ基盤 | Pest Browser＋Playwright、スモーク1本、CI | AC1: Chromiumで初期ページの表示とJavaScriptエラーなしを検証。AC2: PRのBrowserチェックで結果を確認。AC3: セットアップ・実行手順を文書化 |
+| 0-4 変更影響によるテスト選択 | 変更ファイルとテストの対応表、CIの選択実行 | AC1: 関連するBackend・Browserテストだけを実行。AC2: ドキュメントだけの変更ではPestを実行しない。AC3: 未対応のアプリコード変更はCIで検出する |
 
 ## Phase 1：自分だけがログインできる
 
