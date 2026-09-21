@@ -11,7 +11,7 @@ function selector(?array $testMap = null): ChangedTestSelector
     return new ChangedTestSelector(dirname(__DIR__, 3), $testMap);
 }
 
-test('documentation changes do not select tests', function () {
+test('ドキュメント変更ではテストを選択しない', function () {
     expect(selector()->select(['README.md']))->toBe([
         'backend' => [],
         'browser' => [],
@@ -19,7 +19,7 @@ test('documentation changes do not select tests', function () {
     ]);
 });
 
-test('an explicitly mapped file may require no application tests', function () {
+test('テスト不要と明示したファイルではテストを選択しない', function () {
     expect(selector()->select(['routes/console.php']))->toBe([
         'backend' => [],
         'browser' => [],
@@ -27,7 +27,7 @@ test('an explicitly mapped file may require no application tests', function () {
     ]);
 });
 
-test('a page change selects only its mapped feature and browser tests', function () {
+test('ページ変更では対応するFeature・Browserテストだけを選択する', function () {
     expect(selector()->select(['resources/views/welcome.blade.php']))->toBe([
         'backend' => ['tests/Feature/ExampleTest.php'],
         'browser' => ['tests/Browser/HomePageTest.php'],
@@ -35,7 +35,7 @@ test('a page change selects only its mapped feature and browser tests', function
     ]);
 });
 
-test('a changed test selects that test file only', function () {
+test('テスト変更ではそのテストファイルだけを選択する', function () {
     expect(selector()->select(['tests/Unit/ExampleTest.php']))->toBe([
         'backend' => ['tests/Unit/ExampleTest.php'],
         'browser' => [],
@@ -43,7 +43,7 @@ test('a changed test selects that test file only', function () {
     ]);
 });
 
-test('shared test infrastructure selects every suite', function () {
+test('共通テスト基盤の変更では全suiteを選択する', function () {
     expect(selector()->select(['composer.lock']))->toBe([
         'backend' => ['tests/DbIntegration', 'tests/Feature', 'tests/Unit'],
         'browser' => ['tests/Browser'],
@@ -51,7 +51,7 @@ test('shared test infrastructure selects every suite', function () {
     ]);
 });
 
-test('a selected suite removes duplicate test paths below it', function () {
+test('suiteが選択された場合は配下の重複するテストパスを除く', function () {
     expect(selector()->select([
         'app/Providers/AppServiceProvider.php',
         'app/Service/Command/CreateUser.php',
@@ -62,7 +62,7 @@ test('a selected suite removes duplicate test paths below it', function () {
     ]);
 });
 
-test('an API change can select only its related API test', function () {
+test('API変更では関連するAPIテストだけを選択できる', function () {
     $testMap = [[
         'patterns' => ['app/Http/Controllers/Api/EquipmentController.php'],
         'backend' => ['tests/Feature/ExampleTest.php'],
@@ -75,7 +75,7 @@ test('an API change can select only its related API test', function () {
     ]);
 });
 
-test('the account service selects only its feature and repository tests', function () {
+test('ユーザー作成Serviceでは関連するFeature・Repositoryテストだけを選択する', function () {
     expect(selector()->select(['app/Service/Command/CreateUser.php']))->toBe([
         'backend' => [
             'tests/DbIntegration/Infra/Persistence/Eloquent/EloquentUserRepositoryTest.php',
@@ -86,7 +86,7 @@ test('the account service selects only its feature and repository tests', functi
     ]);
 });
 
-test('an unmapped application change is reported', function () {
+test('対応表にないアプリケーション変更を報告する', function () {
     expect(selector([])->select(['app/Http/Controllers/Api/UnknownController.php']))->toBe([
         'backend' => [],
         'browser' => [],

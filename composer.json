@@ -2,7 +2,7 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "akito-tsukahara/tsumu",
     "type": "project",
-    "description": "A personal workout journal built around your previous performance.",
+    "description": "前回の自分を基準に積み重ねる、個人向けトレーニング記録アプリ。",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {

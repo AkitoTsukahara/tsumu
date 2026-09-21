@@ -1,3 +1,3 @@
 # Tsumu
 
-Read `AGENTS.md` and the project documents it references before working in this repository. The shared source of project rules is `.ai/guidelines/tsumu.md`.
+このリポジトリで作業する前に、`AGENTS.md`とそこから参照されるプロジェクト文書を読んでください。共有するプロジェクトルールの原本は`.ai/guidelines/tsumu.md`です。

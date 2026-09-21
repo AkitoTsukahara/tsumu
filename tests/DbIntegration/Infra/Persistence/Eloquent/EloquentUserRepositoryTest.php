@@ -5,7 +5,7 @@ use Domain\User\UserRepository;
 use Illuminate\Support\Facades\Hash;
 use Infra\Persistence\Eloquent\Models\User;
 
-it('persists a user through the domain repository contract', function () {
+it('DomainのRepository契約を通してユーザーを保存する', function () {
     $repository = app(UserRepository::class);
     $passwordHash = Hash::make('secret-password');
 
@@ -17,7 +17,7 @@ it('persists a user through the domain repository contract', function () {
         ->and($user->password)->toBe($passwordHash);
 });
 
-it('reports the domain error when an email address already exists', function () {
+it('メールアドレスが重複した場合にDomainエラーを通知する', function () {
     User::factory()->create(['email' => 'akito@example.com']);
 
     app(UserRepository::class)->create(

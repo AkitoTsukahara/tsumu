@@ -40,13 +40,14 @@
 | 0-2 | 完了 | [PR #2](https://github.com/AkitoTsukahara/tsumu/pull/2)：Pestの3 suite・Pint・ビルドをGitHub Actionsで確認。mainへマージ済み |
 | 0-3 | 完了 | [PR #3](https://github.com/AkitoTsukahara/tsumu/pull/3)：Pest Browser＋Playwrightを採用し、ChromiumのスモークテストとCIを整備。mainへマージ済み |
 | 0-4 | 完了 | [PR #4](https://github.com/AkitoTsukahara/tsumu/pull/4)：変更ファイルと明示的な対応表から、関連するPestテストだけをCIで実行。mainへマージ済み |
-| 1-1 | レビュー待ち | [PR #5](https://github.com/AkitoTsukahara/tsumu/pull/5)：対話入力で個人アカウントを作成するArtisanコマンド |
+| 1-1 | 完了 | [PR #5](https://github.com/AkitoTsukahara/tsumu/pull/5)：対話入力で個人アカウントを作成するArtisanコマンド。mainへマージ済み |
+| 1-1a | レビュー待ち | [PR #6](https://github.com/AkitoTsukahara/tsumu/pull/6)：プロジェクト固有の文書、説明、利用者・開発者向けメッセージを日本語化 |
 
 以下のStepは分割案。実際の差分量に応じてさらに小さくし、未決定の仕様は該当Stepに入る前に確認する。各Stepのテストは [テスト方針](testing.md) に従う。
 
-## 現在の段階：開発基盤
+## 現在の段階：自分だけがログインできる
 
-Laravel、Livewire、Pest、Laravel Boost、3層の配置、ドキュメントとCodexの参照ルールを用意する。認証画面・機材管理・トレーニング機能はまだ未実装。
+開発基盤と個人アカウントの作成手段は整備済み。認証処理・ログイン画面・Today画面はまだ未実装。
 
 ## 最初に使える範囲（合意済み）
 
@@ -81,6 +82,7 @@ Laravel、Livewire、Pest、Laravel Boost、3層の配置、ドキュメント�
 | Step | 変更範囲 | 完了条件・主な検証 |
 | --- | --- | --- |
 | 1-1 個人アカウント作成 | 対話式の初期作成コマンド | 秘密情報をソースに置かず作成。重複作成・不正入力を検証 |
+| 1-1a 日本語化 | プロジェクト固有の文書・説明・CLI文言 | AC1: プロジェクト固有の説明を日本語で参照できる。AC2: ユーザー作成コマンドの案内・入力・結果が日本語で表示される。AC3: Boostの生成物が原本と同期している |
 | 1-2 認証処理 | Laravel標準のセッション認証、失敗時の扱い、試行制限 | 正しい資格情報で認証、誤りは拒否。Feature |
 | 1-3 ログイン画面 | Blade＋Livewireのフォーム、エラー表示 | Android幅で入力できる。Livewire Feature＋Browser |
 | 1-4 Todayとログアウト | 認証必須のToday、ログアウト、セッション終了 | 未認証はログインへ、ログアウト後は保護画面へ戻れない |

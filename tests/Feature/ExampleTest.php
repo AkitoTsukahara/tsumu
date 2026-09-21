@@ -1,5 +1,5 @@
 <?php
 
-test('the application returns a successful response', function () {
+test('アプリケーションが正常なレスポンスを返す', function () {
     $this->get('/')->assertOk();
 });

@@ -1,53 +1,53 @@
-# Tsumu project rules
+# Tsumuプロジェクトルール
 
-## Read before implementation
+## 実装前に読む文書
 
-Read these repository documents before planning or changing implementation:
+実装の計画や変更を始める前に、以下のリポジトリ内文書を読むこと。
 
-1. `docs/product-concept.md` — product vision, complete MVP, exclusions.
-2. `docs/architecture.md` — agreed architecture and technology constraints.
-3. `docs/roadmap.md` — first release, current stage, open decisions.
-4. `docs/testing.md` — Unit, Feature, DbIntegration, and browser test strategy.
+1. `docs/product-concept.md` — プロダクトの構想、MVP全体、対象外の機能。
+2. `docs/architecture.md` — 合意済みのアーキテクチャと技術的な制約。
+3. `docs/roadmap.md` — 最初のリリース、現在の段階、未決定事項。
+4. `docs/testing.md` — Unit、Feature、DbIntegration、Browserのテスト方針。
 
-The complete MVP is not authorization to build every feature in a single task. Work in small usable increments. Keep unresolved product rules explicit; ask when a decision is needed for the current increment. Update the relevant document when the user changes an agreed decision.
+MVP全体の記載は、すべての機能を一度に実装してよいという意味ではない。小さく利用可能な単位で進める。未決定のプロダクトルールは明示し、現在の変更に判断が必要ならユーザーへ確認する。合意事項が変わった場合は、関連する文書を更新する。
 
-## Review size
+## レビューする差分の大きさ
 
-- Implement one roadmap step per review unit. Target 100–250 changed lines; keep handwritten implementation, configuration, and documentation additions plus deletions at about 400 lines maximum. Tests may be excluded, but report their size separately.
-- Split a step before it exceeds the limit; do not build many steps first and merely divide the commits afterward. Do not combine unrelated refactoring.
-- The user explicitly exempts the initial foundation PR (Laravel, Livewire, Pest, Boost, and project documentation) from the line limit. Report generated scaffolding, dependency locks, and generated Boost files separately. This exemption does not apply to subsequent PRs; identify any unavoidable generated-file overage before proceeding.
-- Use Pest Unit (no framework or DB), Feature (HTTP/Livewire/application behavior), and DbIntegration (real persistence and queries). Use Pest Browser + Playwright for browser tests in `tests/Browser`, with Chromium as the default. Follow `docs/testing.md` for setup and coverage.
+- 1回のレビュー単位につき、ロードマップのStepを一つ実装する。変更は100〜250行を目安とし、手書きの実装・設定・文書の追加と削除を合計約400行以内に収める。テストは除外してよいが、行数を別に報告する。
+- 上限を超える前にStepを分割する。複数のStepを先に実装して、後からコミットだけを分割しない。無関係なリファクタリングを混ぜない。
+- Laravel、Livewire、Pest、Boost、プロジェクト文書を含む初期基盤PRは、ユーザーの明示的な指示により行数制限の対象外。生成されたひな形、依存関係のlockファイル、Boostの生成ファイルは別に報告する。この例外は以降のPRには適用しない。生成ファイルによりやむを得ず上限を超える場合は、作業前に明示する。
+- PestのUnit（フレームワークやDBを使わない）、Feature（HTTP・Livewire・アプリケーションの振る舞い）、DbIntegration（実際の永続化とクエリ）を使う。`tests/Browser`のブラウザテストにはPest Browser＋Playwrightを使い、Chromiumを既定とする。設定と対象範囲は`docs/testing.md`に従う。
 
-## Step-based pull requests
+## Step単位のPR
 
-- `main` is the integration and default branch. Fetch origin and create each new Step branch from the latest `origin/main`; target every PR at `main` (use `gh pr create --base main`). Deliver changes through reviewed PRs rather than pushing directly to `main`. Merge only when the user requests or authorizes it.
-- Use exactly one roadmap Step per PR. Before implementation, select a Step and its acceptance criteria; add a Step to `docs/roadmap.md` first if the work is not represented there.
-- Name branches `codex/step-<ID>-<slug>` and PRs `[Step <ID>] <purpose>`. Include the Step ID and roadmap phase link in the PR body. If a Step is too large, define child Steps with their own acceptance criteria before splitting the work.
-- Fill `.github/pull_request_template.md` with the user story, acceptance criteria, implementation, automated test perspectives/results, and reproducible manual verification steps/results. Use acceptance IDs such as AC1 to connect criteria and verification. Small changes need only concise entries; explain when a section is not applicable.
-- Distinguish checks actually run from suggested or unexecuted checks. Include commands and outcomes; never mark acceptance criteria complete solely because code was written. Infrastructure stories may use a developer or reviewer as the actor.
-- Measure additions plus deletions over the entire PR against its merge base, not only the latest commit. Report application/config/docs, tests, and generated/lock changes separately.
-- After creating a PR, update the Step-to-PR table in `docs/roadmap.md`. A pushed branch or opened PR is not a completed Step; completion requires satisfied criteria, review, and merge. Do not begin the next Step before merge unless the user instructs otherwise.
+- `main`を統合先および既定ブランチとする。`git fetch origin`の後、最新の`origin/main`から各Stepの作業ブランチを作り、すべてのPRを`main`へ向ける（`gh pr create --base main`を使う）。`main`へ直接Pushせず、レビュー可能なPRとして変更を提出する。ユーザーから指示または許可を受けるまでマージしない。
+- 1 PRにつきロードマップのStepを一つだけ扱う。実装前にStepと完了条件を選ぶ。該当するStepがない作業は、先に`docs/roadmap.md`へ追加する。
+- ブランチ名は`codex/step-<ID>-<概要>`、PRタイトルは`[Step <ID>] <目的>`とする。PR本文にStep IDとロードマップの該当Phaseへのリンクを記載する。Stepが大きすぎる場合は、実装前にそれぞれの完了条件を持つ子Stepへ分割する。
+- `.github/pull_request_template.md`に、ユーザーストーリー、完了条件、実装内容、自動テストの観点と結果、再現可能な手動確認の手順と結果を記載する。AC1などのIDで完了条件と検証を対応づける。小さな変更では簡潔でよく、対象外の項目には理由を書く。
+- 実際に実行した確認と、提案または未実行の確認を区別する。コマンドと結果を記載し、コードを書いただけで完了条件を満たしたことにしない。基盤整備では、開発者やレビュアーをユーザーストーリーの主体にしてよい。
+- 最新コミットだけではなく、マージベースからPR全体の追加行と削除行を測る。アプリケーション・設定・文書、テスト、生成物・lockファイルを分けて報告する。
+- PR作成後に`docs/roadmap.md`のStep・PR対応表を更新する。ブランチのPushやPR作成だけではStep完了としない。完了条件を満たし、レビュー後にマージされて完了となる。ユーザーの指示がない限り、マージ前に次のStepを始めない。
 
-## Agreed architecture
+## 合意済みのアーキテクチャ
 
-- Use Laravel with Blade + Livewire and Pest. Target Android Chrome and desktop Chrome, online only.
-- `app/Service/Command` owns write use cases; `app/Service/Query` owns read use cases and read contracts/DTOs. Use one database; no command bus or event sourcing initially.
-- Root `domain/` (`Domain\`) contains framework-independent business rules and repository contracts.
-- Root `infra/` (`Infra\`) contains persistence/external implementations. Eloquent models belong in `infra/Persistence/Eloquent/Models`.
-- Repository implementations belong in `infra/Persistence/Repositories`, regardless of Eloquent, Query Builder, or raw SQL usage. Use `UserRepository` for both the Domain contract and Infra implementation; distinguish them by namespace and import aliases such as `UserRepositoryContract`. Do not add an `Eloquent` prefix unless multiple actual implementations need distinguishing. Keep persistence-specific types out of the contract; see `docs/architecture.md` for the rationale.
-- When meaningful design alternatives affect responsibilities, naming, or dependency boundaries, explain the tradeoffs and consult the user before adopting a new convention. Keep proposals distinct from agreed decisions; CLI input validation placement is still under discussion.
-- `app/Http`, `app/Livewire`, and `resources/views` are the presentation boundary. They delegate to services; do not put business rules or database queries there.
-- `app/Providers`, Laravel configuration, factories, and seeders may reference Infra to wire the application. Domain must not depend on Laravel, Livewire, App, or Infra.
-- Do not add `app/App`, a separate Application layer directory, or a Presentation directory. Use Laravel's singular `database/`.
-- These explicit project decisions take precedence over generic generated folder examples. Follow Laravel conventions within these boundaries; inspect installed APIs with Boost.
-- Preserve the User ownership boundary for both reads and writes from the first feature. Never trust a client-supplied owner ID.
-- Save completed sets individually; support resuming a workout. Do not add offline sync or polling by default.
-- Laravel Cloud budget target is about US$5/month, with cold starts acceptable. Do not provision optional always-on services without a demonstrated need.
+- Laravel、Blade＋Livewire、Pestを使う。Android ChromeとPC Chromeを対象とし、オンライン利用のみとする。
+- `app/Service/Command`が更新ユースケース、`app/Service/Query`が参照ユースケースと参照用の契約・DTOを担当する。DBは一つとし、初期段階ではCommand Busやイベントソーシングを導入しない。
+- ルートの`domain/`（`Domain\`）に、フレームワークから独立した業務ルールとRepository契約を置く。
+- ルートの`infra/`（`Infra\`）に、永続化と外部サービスの実装を置く。Eloquentモデルは`infra/Persistence/Eloquent/Models`に配置する。
+- Repositoryの実装は、Eloquent、Query Builder、生SQLのいずれを使う場合も`infra/Persistence/Repositories`に配置する。Domainの契約とInfraの実装はいずれも`UserRepository`のように命名し、名前空間と`UserRepositoryContract`などのimport aliasで区別する。複数の実装を実際に区別する必要がない限り、`Eloquent`接頭辞を付けない。永続化固有の型を契約へ漏らさない。理由は`docs/architecture.md`を参照する。
+- 責務、命名、依存関係の境界に影響する有意な設計案が複数ある場合は、長所と短所を説明し、新しい規約を採用する前にユーザーと相談する。提案と合意済みの決定を区別する。CLI入力のバリデーション配置は引き続き検討中。
+- `app/Http`、`app/Livewire`、`resources/views`をプレゼンテーション境界とする。これらはServiceへ処理を委譲し、業務ルールやDBクエリを置かない。
+- `app/Providers`、Laravelの設定、factory、seederは、結線のためにInfraを参照できる。DomainはLaravel、Livewire、App、Infraに依存してはならない。
+- `app/App`、独立したApplicationレイヤー、Presentationディレクトリは追加しない。Laravel標準の単数形`database/`を使う。
+- ここに明記したプロジェクトの決定は、一般的な生成例より優先する。この境界の中ではLaravelの規約に従い、インストール済みAPIをBoostで確認する。
+- 読み取りと書き込みの両方で、最初の機能からUser所有者境界を守る。クライアントから渡された所有者IDを信用しない。
+- 完了したセットは個別に保存し、トレーニングを再開できるようにする。既定ではオフライン同期やポーリングを追加しない。
+- Laravel Cloudの予算目標は月額約US$5で、コールドスタートは許容する。必要性が確認できるまで、常時稼働する任意リソースを用意しない。
 
-## Tooling and checks
+## ツールと確認
 
-- Use Laravel Boost's version-aware docs and the relevant generated skills before changing framework-dependent code. If the MCP is unavailable in the current session, say so and inspect installed sources or official docs; do not claim a tool ran when it did not.
-- Run relevant Pest tests and Pint yourself. Do not ask the user to perform routine checks that you can run. The initial full suite is small enough to run with `composer test`.
-- Keep `.github/select-tests.php` updated in the same PR when application files or tests are added. Map each feature or API to its specific tests; reserve whole-suite mappings for shared infrastructure. An unmapped application change must fail selection rather than silently skipping tests.
-- Never commit `.env`, local databases, secrets, vendor, or node_modules.
-- The custom source for this section is `.ai/guidelines/tsumu.md`. Regenerate `AGENTS.md` with `php artisan boost:update --no-interaction` after editing it. Keep the source and generated guidelines in version control so future tasks read the same rules.
+- フレームワーク依存のコードを変更する前に、Laravel Boostのバージョン対応ドキュメントと関連する生成済みスキルを使う。現在のセッションでMCPが利用できない場合はその旨を伝え、インストール済みソースまたは公式ドキュメントを確認する。実行していないツールを実行したと報告しない。
+- 関連するPestテストとPintを自分で実行する。ユーザーに通常の確認作業を依頼しない。初期段階の全テストは小規模なため、`composer test`で実行できる。
+- アプリケーションファイルやテストを追加した場合は、同じPRで`.github/select-tests.php`も更新する。各機能やAPIを固有のテストへ対応づけ、全suiteの指定は共通基盤に限る。対応表にないアプリケーション変更は、テストを黙って省略せず選択処理を失敗させる。
+- `.env`、ローカルDB、秘密情報、`vendor`、`node_modules`をコミットしない。
+- この節のプロジェクト固有ルールの原本は`.ai/guidelines/tsumu.md`。編集後は`php artisan boost:update --no-interaction`で`AGENTS.md`を再生成する。原本と生成済みガイドラインの両方をバージョン管理し、将来のタスクでも同じルールを参照できるようにする。

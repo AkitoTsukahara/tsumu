@@ -2,6 +2,6 @@
 
 use Tests\TestCase;
 
-test('the unit test runner works without booting Laravel', function () {
+test('Laravelを起動せずにUnitテストを実行できる', function () {
     expect($this)->not->toBeInstanceOf(TestCase::class);
 });
