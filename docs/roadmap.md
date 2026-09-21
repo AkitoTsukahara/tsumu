@@ -39,7 +39,8 @@
 | 0-1a | 完了 | [PR #1](https://github.com/AkitoTsukahara/tsumu/pull/1)：PRレビュー運用とテンプレートの整備。mainへマージ済み |
 | 0-2 | 完了 | [PR #2](https://github.com/AkitoTsukahara/tsumu/pull/2)：Pestの3 suite・Pint・ビルドをGitHub Actionsで確認。mainへマージ済み |
 | 0-3 | 完了 | [PR #3](https://github.com/AkitoTsukahara/tsumu/pull/3)：Pest Browser＋Playwrightを採用し、ChromiumのスモークテストとCIを整備。mainへマージ済み |
-| 0-4 | レビュー待ち | [PR #4](https://github.com/AkitoTsukahara/tsumu/pull/4)：変更ファイルと明示的な対応表から、関連するPestテストだけをCIで実行 |
+| 0-4 | 完了 | [PR #4](https://github.com/AkitoTsukahara/tsumu/pull/4)：変更ファイルと明示的な対応表から、関連するPestテストだけをCIで実行。mainへマージ済み |
+| 1-1 | レビュー待ち | [PR #5](https://github.com/AkitoTsukahara/tsumu/pull/5)：対話入力で個人アカウントを作成するArtisanコマンド |
 
 以下のStepは分割案。実際の差分量に応じてさらに小さくし、未決定の仕様は該当Stepに入る前に確認する。各Stepのテストは [テスト方針](testing.md) に従う。
 

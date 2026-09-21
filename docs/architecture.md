@@ -24,7 +24,9 @@ app/                         App\
 domain/                      Domain\
                              業務ルール、エンティティ、値オブジェクト、Repositoryの契約
 infra/                       Infra\
-  Persistence/Eloquent/      Eloquentモデル、Repository・Queryの実装
+  Persistence/
+    Eloquent/Models/         Eloquentモデル
+    Repositories/            Repository契約の実装（使用技術によらず配置）
 database/                    migrations、factories、seeders
 resources/views/             Bladeテンプレート
 tests/                       Pestテスト
@@ -38,6 +40,21 @@ tests/                       Pestテスト
 - `app/Providers`、Laravelの設定、factory・seederは結線箇所としてInfraを参照できる。標準認証のEloquent UserもInfraに配置する。
 - DomainのエンティティとEloquentモデルを同一にしない。画面の入力値やEloquent BuilderをDomainへ渡さない。
 - 単なる一覧取得のためにDomainエンティティを組み立てない。QueryのDTOなど、必要な表示データを返す。
+
+## Repositoryの配置と命名
+
+Repository実装は`infra/Persistence/Repositories`へ配置する。Eloquentモデルは`infra/Persistence/Eloquent/Models`へ配置し、役割で分ける。これはLaravel標準の必須構成ではなく、Tsumuのプロジェクト規約である。
+
+- 契約：`Domain\User\UserRepository`（`domain/User/UserRepository.php`）。
+- 実装：`Infra\Persistence\Repositories\UserRepository`（`infra/Persistence/Repositories/UserRepository.php`）。
+- 実装名に`Eloquent`などの技術名は原則付けない。契約と実装はnamespaceで区別し、同じファイルで参照するときは契約を`UserRepositoryContract`などのimport別名で区別する。
+- Eloquent、Query Builder、生SQLのどれを使ってもRepositoryの配置は共通とする。内部の使用技術を変えても、呼び出し側の契約や実装クラス名を変えずに済むようにする。
+- 異なる実装を同時に持つ必要が生じた段階で、区別する名前を検討する。将来の差し替えだけを理由に実装・ディレクトリ・汎用基底クラスを先回りして増やさない。
+- Serviceは契約へ依存し、Providerで実装を結び付ける。Eloquent ModelやBuilderをRepositoryの契約から上位層へ漏らさない。単なるDB参照をすべてRepositoryにせず、一覧・集計は既定のQuery契約とDTOを使う。
+
+この配置は、保存処理を技術によらず同じ場所から探せることを優先する。技術別に全実装をまとめて探す利便性より、役割の分かりやすさを選ぶ。汎用性を支えるのはフォルダ名ではなく、契約が永続化技術へ依存しないことである。
+
+命名・責務・依存方向に複数の有力な選択肢がある場合、エージェントは利点と欠点を示して相談する。提案を合意済みの規約として記録しない。CLIの入力検証の配置は別途すり合わせ中である。
 
 ## 小さなCommand／Query分離
 

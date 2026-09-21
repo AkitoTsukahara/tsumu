@@ -123,7 +123,26 @@ final class ChangedTestSelector
                     'database/factories/UserFactory.php',
                     'database/migrations/0001_01_01_000000_create_users_table.php',
                 ],
-                'backend' => ['tests/DbIntegration/Infra/UserProviderTest.php'],
+                'backend' => [
+                    'tests/DbIntegration/Infra/Persistence/Eloquent/EloquentUserRepositoryTest.php',
+                    'tests/DbIntegration/Infra/UserProviderTest.php',
+                    'tests/Feature/Console/CreateUserCommandTest.php',
+                ],
+            ],
+            [
+                'patterns' => ['app/Console/Commands/CreateUserCommand.php'],
+                'backend' => ['tests/Feature/Console/CreateUserCommandTest.php'],
+            ],
+            [
+                'patterns' => [
+                    'app/Service/Command/CreateUser.php',
+                    'domain/User/**',
+                    'infra/Persistence/Eloquent/EloquentUserRepository.php',
+                ],
+                'backend' => [
+                    'tests/DbIntegration/Infra/Persistence/Eloquent/EloquentUserRepositoryTest.php',
+                    'tests/Feature/Console/CreateUserCommandTest.php',
+                ],
             ],
             [
                 'patterns' => ['app/Http/Controllers/Controller.php'],
@@ -206,7 +225,26 @@ final class ChangedTestSelector
         $paths = array_values(array_unique($paths));
         sort($paths);
 
-        return $paths;
+        return array_values(array_filter(
+            $paths,
+            fn (string $path): bool => ! $this->hasSelectedParentDirectory($path, $paths),
+        ));
+    }
+
+    /** @param list<string> $paths */
+    private function hasSelectedParentDirectory(string $path, array $paths): bool
+    {
+        foreach ($paths as $candidate) {
+            if ($candidate === $path || ! is_dir($this->projectRoot.'/'.$candidate)) {
+                continue;
+            }
+
+            if (str_starts_with($path, $candidate.'/')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 

@@ -34,6 +34,8 @@ The complete MVP is not authorization to build every feature in a single task. W
 - `app/Service/Command` owns write use cases; `app/Service/Query` owns read use cases and read contracts/DTOs. Use one database; no command bus or event sourcing initially.
 - Root `domain/` (`Domain\`) contains framework-independent business rules and repository contracts.
 - Root `infra/` (`Infra\`) contains persistence/external implementations. Eloquent models belong in `infra/Persistence/Eloquent/Models`.
+- Repository implementations belong in `infra/Persistence/Repositories`, regardless of Eloquent, Query Builder, or raw SQL usage. Use `UserRepository` for both the Domain contract and Infra implementation; distinguish them by namespace and import aliases such as `UserRepositoryContract`. Do not add an `Eloquent` prefix unless multiple actual implementations need distinguishing. Keep persistence-specific types out of the contract; see `docs/architecture.md` for the rationale.
+- When meaningful design alternatives affect responsibilities, naming, or dependency boundaries, explain the tradeoffs and consult the user before adopting a new convention. Keep proposals distinct from agreed decisions; CLI input validation placement is still under discussion.
 - `app/Http`, `app/Livewire`, and `resources/views` are the presentation boundary. They delegate to services; do not put business rules or database queries there.
 - `app/Providers`, Laravel configuration, factories, and seeders may reference Infra to wire the application. Domain must not depend on Laravel, Livewire, App, or Infra.
 - Do not add `app/App`, a separate Application layer directory, or a Presentation directory. Use Laravel's singular `database/`.

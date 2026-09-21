@@ -51,6 +51,17 @@ test('shared test infrastructure selects every suite', function () {
     ]);
 });
 
+test('a selected suite removes duplicate test paths below it', function () {
+    expect(selector()->select([
+        'app/Providers/AppServiceProvider.php',
+        'app/Service/Command/CreateUser.php',
+    ]))->toBe([
+        'backend' => ['tests/DbIntegration', 'tests/Feature'],
+        'browser' => ['tests/Browser'],
+        'unmapped' => [],
+    ]);
+});
+
 test('an API change can select only its related API test', function () {
     $testMap = [[
         'patterns' => ['app/Http/Controllers/Api/EquipmentController.php'],
@@ -59,6 +70,17 @@ test('an API change can select only its related API test', function () {
 
     expect(selector($testMap)->select(['app/Http/Controllers/Api/EquipmentController.php']))->toBe([
         'backend' => ['tests/Feature/ExampleTest.php'],
+        'browser' => [],
+        'unmapped' => [],
+    ]);
+});
+
+test('the account service selects only its feature and repository tests', function () {
+    expect(selector()->select(['app/Service/Command/CreateUser.php']))->toBe([
+        'backend' => [
+            'tests/DbIntegration/Infra/Persistence/Eloquent/EloquentUserRepositoryTest.php',
+            'tests/Feature/Console/CreateUserCommandTest.php',
+        ],
         'browser' => [],
         'unmapped' => [],
     ]);
