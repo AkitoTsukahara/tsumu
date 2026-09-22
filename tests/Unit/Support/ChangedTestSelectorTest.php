@@ -86,6 +86,14 @@ test('ユーザー作成Serviceでは関連するFeature・Repositoryテスト�
     ]);
 });
 
+test('認証Serviceでは関連するFeatureテストだけを選択する', function () {
+    expect(selector()->select(['app/Service/Command/AuthenticateUser.php']))->toBe([
+        'backend' => ['tests/Feature/Service/Command/AuthenticateUserTest.php'],
+        'browser' => [],
+        'unmapped' => [],
+    ]);
+});
+
 test('User Repositoryの新旧パスで関連テストを選択する', function (string $path) {
     expect(selector()->select([$path]))->toBe([
         'backend' => [
