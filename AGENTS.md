@@ -34,6 +34,7 @@ MVP全体の記載は、すべての機能を一度に実装してよいとい�
 ## 合意済みのアーキテクチャ
 
 - Laravel、Blade＋Livewire、Pestを使う。Android ChromeとPC Chromeを対象とし、オンライン利用のみとする。
+- ローカルのDocker環境にはLaravel Sailを使い、PHP 8.5・Node 24・SQLiteで構成する。現在の機能に不要なMySQL、Redisなどのサービスは追加しない。Sailは開発専用で、本番のLaravel Cloud構成へ含めない。
 - `app/Service/Command`が更新ユースケース、`app/Service/Query`が参照ユースケースと参照用の契約・DTOを担当する。DBは一つとし、初期段階ではCommand Busやイベントソーシングを導入しない。
 - ルートの`domain/`（`Domain\`）に、フレームワークから独立した業務ルールとRepository契約を置く。
 - ルートの`infra/`（`Infra\`）に、永続化と外部サービスの実装を置く。Eloquentモデルは`infra/Persistence/Eloquent/Models`に配置する。

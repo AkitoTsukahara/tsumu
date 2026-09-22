@@ -24,6 +24,43 @@
 
 正確なバージョンは`composer.lock`と`package-lock.json`で固定しています。ブラウザテストにはPest Browser＋Playwright（Chromium）を使用します。
 
+## Dockerでのローカルセットアップ
+
+Docker Desktopを起動してから実行します。ローカルのPHPやNode.jsは不要です。最初にComposer公式イメージでSailを含む依存関係を復元します。
+
+```sh
+docker run --rm \
+  --user "$(id -u):$(id -g)" \
+  --volume "$PWD:/app" \
+  --workdir /app \
+  composer:2 composer install --ignore-platform-reqs --no-scripts
+```
+
+環境ファイルとSQLiteを用意し、PHP 8.5のSailコンテナを起動します。既存の`.env`やDBを作り直す場合は、必要なデータを先に退避してください。
+
+```sh
+test -f .env || cp .env.example .env
+touch database/database.sqlite
+./vendor/bin/sail up -d
+./vendor/bin/sail composer install
+./vendor/bin/sail artisan key:generate
+./vendor/bin/sail artisan migrate
+./vendor/bin/sail npm ci
+./vendor/bin/sail npx playwright install chromium
+./vendor/bin/sail npm run build
+./vendor/bin/sail artisan tsumu:user:create
+```
+
+[http://localhost:8000/login](http://localhost:8000/login)を開き、作成したユーザーでログインします。停止は`./vendor/bin/sail stop`、コンテナを削除する場合は`./vendor/bin/sail down`を使います。
+
+Docker内で検証するコマンドは次のとおりです。
+
+```sh
+./vendor/bin/sail composer test
+./vendor/bin/sail pint --dirty --format agent
+./vendor/bin/sail npm run build
+```
+
 ## ローカルセットアップ
 
 PHP 8.5、Composer、Node.js（検証環境は24.2）、npmを用意してください。PHPにはSQLite拡張を含め、Composerが要求する拡張を有効にします。

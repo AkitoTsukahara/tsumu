@@ -115,6 +115,10 @@ Domain境界を越えてIDを扱う場合は、プリミティブな文字列の
 
 Boostは`require-dev`で管理する。本番は`composer install --no-dev`とし、Boost MCPや開発ツールを公開しない。Cloudの契約・リソース作成・デプロイはまだ行っていない。
 
+## ローカルDocker環境
+
+ローカルで同じ実行環境を再現するためLaravel Sailを使う。アプリコンテナはPHP 8.5とNode 24を使用し、DBは当面SQLiteを継続する。MySQL、Redis、常駐workerなど、現在の機能に不要なサービスは追加しない。Sailは開発依存とし、本番のLaravel Cloud構成には含めない。
+
 ## 公式情報
 
 - [Laravel Boost](https://laravel.com/docs/13.x/boost)

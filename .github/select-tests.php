@@ -84,6 +84,7 @@ final class ChangedTestSelector
             'bootstrap/**',
             'composer.json',
             'composer.lock',
+            'compose.yaml',
             'config/**',
             'phpunit.xml',
             'tests/Pest.php',
