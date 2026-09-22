@@ -43,13 +43,17 @@ test('テスト変更ではそのテストファイルだけを選択する', fu
     ]);
 });
 
-test('共通テスト基盤の変更では全suiteを選択する', function () {
-    expect(selector()->select(['composer.lock']))->toBe([
+test('共通テスト基盤の変更では全suiteを選択する', function (string $path) {
+    expect(selector()->select([$path]))->toBe([
         'backend' => ['tests/DbIntegration', 'tests/Feature', 'tests/Unit'],
         'browser' => ['tests/Browser'],
         'unmapped' => [],
     ]);
-});
+})->with([
+    'PHP依存関係' => 'composer.lock',
+    'Docker構成' => 'compose.yaml',
+    '開発コマンド' => 'Makefile',
+]);
 
 test('suiteが選択された場合は配下の重複するテストパスを除く', function () {
     expect(selector()->select([

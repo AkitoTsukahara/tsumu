@@ -40,6 +40,7 @@
 | 0-2 | 完了 | [PR #2](https://github.com/AkitoTsukahara/tsumu/pull/2)：Pestの3 suite・Pint・ビルドをGitHub Actionsで確認。mainへマージ済み |
 | 0-3 | 完了 | [PR #3](https://github.com/AkitoTsukahara/tsumu/pull/3)：Pest Browser＋Playwrightを採用し、ChromiumのスモークテストとCIを整備。mainへマージ済み |
 | 0-4 | 完了 | [PR #4](https://github.com/AkitoTsukahara/tsumu/pull/4)：変更ファイルと明示的な対応表から、関連するPestテストだけをCIで実行。mainへマージ済み |
+| 0-5 | レビュー待ち | [PR #13](https://github.com/AkitoTsukahara/tsumu/pull/13)：Laravel SailによるローカルDocker検証環境を整備 |
 | 1-1 | 完了 | [PR #5](https://github.com/AkitoTsukahara/tsumu/pull/5)：対話入力で個人アカウントを作成するArtisanコマンド。mainへマージ済み |
 | 1-1a | 完了 | [PR #6](https://github.com/AkitoTsukahara/tsumu/pull/6)：プロジェクト固有の文書、説明、利用者・開発者向けメッセージを日本語化。mainへマージ済み |
 | 1-1b | 完了 | [PR #7](https://github.com/AkitoTsukahara/tsumu/pull/7)：RepositoryとDomain例外を合意済みの配置・命名へ修正。mainへマージ済み |
@@ -47,7 +48,7 @@
 | 1-3 | 完了 | [PR #9](https://github.com/AkitoTsukahara/tsumu/pull/9)：Livewireのログイン画面、試行制限、セッション再生成を実装。mainへマージ済み |
 | 1-4 | 完了 | [PR #10](https://github.com/AkitoTsukahara/tsumu/pull/10)：認証必須のToday画面と安全なログアウトを実装。mainへマージ済み |
 | 2-1 | 完了 | [PR #11](https://github.com/AkitoTsukahara/tsumu/pull/11)：機材のDomain定義とDB構造を実装。mainへマージ済み |
-| 2-1a | レビュー待ち | [PR #12](https://github.com/AkitoTsukahara/tsumu/pull/12)：Domainデータの識別子をUUIDv7へ統一 |
+| 2-1a | 完了 | [PR #12](https://github.com/AkitoTsukahara/tsumu/pull/12)：Domainデータの識別子をUUIDv7へ統一。mainへマージ済み |
 
 以下のStepは分割案。実際の差分量に応じてさらに小さくし、未決定の仕様は該当Stepに入る前に確認する。各Stepのテストは [テスト方針](testing.md) に従う。
 
@@ -80,6 +81,7 @@
 | 0-2 CI | PHPUnitベースのPest各suite、Pint、ビルドのCI | PRでチェック結果が見える。Cloudの契約やデプロイは含めない |
 | 0-3 ブラウザ基盤 | Pest Browser＋Playwright、スモーク1本、CI | AC1: Chromiumで初期ページの表示とJavaScriptエラーなしを検証。AC2: PRのBrowserチェックで結果を確認。AC3: セットアップ・実行手順を文書化 |
 | 0-4 変更影響によるテスト選択 | 変更ファイルとテストの対応表、CIの選択実行 | AC1: 関連するBackend・Browserテストだけを実行。AC2: ドキュメントだけの変更ではPestを実行しない。AC3: 未対応のアプリコード変更はCIで検出する |
+| 0-5 ローカルDocker環境 | Laravel Sail、PHP 8.5、Node 24、SQLite、Chromium | AC1: Dockerでアプリを起動できる。AC2: Docker内で全Pest・Pint・ビルドを実行できる。AC3: Dockerだけを前提に初期セットアップ手順を再現できる |
 
 ## Phase 1：自分だけがログインできる
 

@@ -24,51 +24,54 @@
 
 正確なバージョンは`composer.lock`と`package-lock.json`で固定しています。ブラウザテストにはPest Browser＋Playwright（Chromium）を使用します。
 
-## ローカルセットアップ
+## Dockerでのローカルセットアップ
 
-PHP 8.5、Composer、Node.js（検証環境は24.2）、npmを用意してください。PHPにはSQLite拡張を含め、Composerが要求する拡張を有効にします。
-
-以下は新しくcloneした環境で一度実行します。既存の`.env`やアプリキーを上書きしないでください。
+Docker Desktopを起動し、リポジトリのルートで次を実行します。ローカルのPHP、Composer、Node.jsは不要です。
 
 ```sh
-composer install
-cp .env.example .env
-php artisan key:generate
-php -r "file_exists('database/database.sqlite') || touch('database/database.sqlite');"
-php artisan migrate
-npm ci
-npx playwright install chromium
-npm run build
-php artisan boost:install --guidelines --skills --mcp --no-interaction
+make setup
+make user
 ```
 
-ローカル起動：
+`make setup`は、初回にSailを含む依存関係、`.env`、SQLiteを用意します。その後、Dockerの起動、migration、PlaywrightのChromium、フロントのビルドまで実行します。既存の`.env`やDBは上書きしません。
+
+`make user`ではログインに使う名前、メールアドレス、パスワードを対話形式で入力します。セットアップ後は[http://localhost:8000/login](http://localhost:8000/login)を開いてください。
+
+## 日常的に使うコマンド
+
+利用できるコマンドと説明は次のコマンドでも確認できます。
 
 ```sh
-php artisan serve
+make
 ```
 
-フロントの編集時は別ターミナルで`npm run dev`を実行します。ローカルDBはSQLiteです。本番DBはCloudの費用を見積もる段階で決定します。Seederは初期アカウントを自動作成しません。
-
-初期アカウントはmigration後に対話式コマンドで作成します。パスワードは画面に表示されず、ソースやコマンド履歴にも残りません。
-
-```sh
-php artisan tsumu:user:create
-```
+| 操作 | コマンド |
+| --- | --- |
+| Dockerを起動 | `make up` |
+| Dockerを停止 | `make stop` |
+| Dockerを停止してコンテナを削除 | `make down` |
+| Dockerを再起動 | `make restart` |
+| コンテナのシェルへ接続 | `make shell` |
+| rootでコンテナへ接続 | `make root-shell` |
+| ログインユーザーを作成 | `make user` |
+| migrationを実行 | `make migrate` |
+| アプリのログを表示 | `make logs` |
+| フロントの開発サーバーを起動 | `make dev` |
+| Laravel Boostの生成物を更新 | `make boost-update` |
 
 ## 検証
 
-```sh
-composer test
-php artisan test --testsuite=Unit
-php artisan test --testsuite=Feature
-php artisan test --testsuite=DbIntegration
-php artisan test --testsuite=Browser
-vendor/bin/pint --dirty --format agent
-npm run build
-```
+| 検証 | コマンド |
+| --- | --- |
+| 全テスト | `make test` |
+| Unitテスト | `make test-unit` |
+| Featureテスト | `make test-feature` |
+| DbIntegrationテスト | `make test-db` |
+| Browserテスト | `make test-browser` |
+| PHPコードの整形 | `make pint` |
+| フロントのビルド | `make build` |
 
-`composer test`にはBrowserも含まれます。ブラウザのインストールとビルドが必要です。Linuxの追加手順・ブラウザなしでの実行方法は[テスト方針](docs/testing.md#ブラウザテストの実行)を参照してください。
+`make test`にはBrowserも含まれます。ブラウザのインストールとビルドが必要です。Linuxの追加手順・ブラウザなしでの実行方法は[テスト方針](docs/testing.md#ブラウザテストの実行)を参照してください。
 
 現在のテストは基盤のスモークテストです。Domainの業務ルールやUser境界の振る舞いは、該当機能の実装と一緒に追加します。DbIntegrationは現時点ではインメモリSQLiteで実行し、本番DBが決まり次第そのDBでの検証も追加します。
 
@@ -84,7 +87,7 @@ npm run build
 パッケージ構成やプロジェクトルールを変更した後は、以下で生成物を更新し、差分を確認します。
 
 ```sh
-php artisan boost:update --no-interaction
+make boost-update
 ```
 
 `AGENTS.md`、`boost.json`、`.ai/guidelines`、`.agents/skills`、`.codex/config.toml`はリポジトリで共有します。Boostは開発依存です。本番では`composer install --no-dev`を使い、MCPサーバーを公開しません。
