@@ -46,7 +46,7 @@
 | 1-2 | 完了 | [PR #8](https://github.com/AkitoTsukahara/tsumu/pull/8)：Laravel標準Guardを使った認証情報照合Serviceを実装。mainへマージ済み |
 | 1-3 | 完了 | [PR #9](https://github.com/AkitoTsukahara/tsumu/pull/9)：Livewireのログイン画面、試行制限、セッション再生成を実装。mainへマージ済み |
 | 1-4 | 完了 | [PR #10](https://github.com/AkitoTsukahara/tsumu/pull/10)：認証必須のToday画面と安全なログアウトを実装。mainへマージ済み |
-| 2-1 | 作業中 | 機材のDomain定義とDB構造を実装中 |
+| 2-1 | レビュー待ち | [PR #11](https://github.com/AkitoTsukahara/tsumu/pull/11)：機材のDomain定義とDB構造を実装 |
 
 以下のStepは分割案。実際の差分量に応じてさらに小さくし、未決定の仕様は該当Stepに入る前に確認する。各Stepのテストは [テスト方針](testing.md) に従う。
 
