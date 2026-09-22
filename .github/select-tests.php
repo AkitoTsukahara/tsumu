@@ -104,6 +104,19 @@ final class ChangedTestSelector
     {
         return [
             [
+                'patterns' => [
+                    'app/Livewire/Auth/Login.php',
+                    'resources/views/livewire/auth/login.blade.php',
+                ],
+                'backend' => ['tests/Feature/Auth/LoginTest.php'],
+                'browser' => ['tests/Browser/LoginPageTest.php'],
+            ],
+            [
+                'patterns' => ['resources/views/layouts/app.blade.php'],
+                'backend' => ['tests/Feature/Auth/LoginTest.php'],
+                'browser' => ['tests/Browser'],
+            ],
+            [
                 'patterns' => ['routes/web.php'],
                 'backend' => ['tests/Feature'],
                 'browser' => ['tests/Browser'],
