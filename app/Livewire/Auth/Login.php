@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Auth;
 
+use App\Livewire\Forms\LoginForm;
 use App\Service\Command\AuthenticateUser;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\View\View;
@@ -15,37 +16,26 @@ final class Login extends Component
 
     private const int DECAY_SECONDS = 60;
 
-    public string $email = '';
-
-    public string $password = '';
+    public LoginForm $form;
 
     public function login(AuthenticateUser $authenticateUser): void
     {
-        $this->email = mb_strtolower(trim($this->email));
+        $credentials = $this->form->validatedCredentials();
 
-        $credentials = $this->validate([
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
-        ], [
-            'email.required' => 'メールアドレスを入力してください。',
-            'email.email' => 'メールアドレスの形式で入力してください。',
-            'password.required' => 'パスワードを入力してください。',
-        ]);
-
-        $throttleKey = $this->throttleKey();
+        $throttleKey = $this->throttleKey($credentials['email']);
 
         if (RateLimiter::tooManyAttempts($throttleKey, self::MAX_ATTEMPTS)) {
             $seconds = RateLimiter::availableIn($throttleKey);
 
-            $this->addError('email', "ログイン試行回数が多すぎます。{$seconds}秒後に再試行してください。");
+            $this->form->addError('email', "ログイン試行回数が多すぎます。{$seconds}秒後に再試行してください。");
 
             return;
         }
 
         if (! $authenticateUser->handle($credentials['email'], $credentials['password'])) {
             RateLimiter::hit($throttleKey, self::DECAY_SECONDS);
-            $this->reset('password');
-            $this->addError('email', 'メールアドレスまたはパスワードが正しくありません。');
+            $this->form->reset('password');
+            $this->form->addError('email', 'メールアドレスまたはパスワードが正しくありません。');
 
             return;
         }
@@ -60,10 +50,8 @@ final class Login extends Component
         return view('livewire.auth.login');
     }
 
-    private function throttleKey(): string
+    private function throttleKey(string $email): string
     {
-        $email = mb_strtolower(trim($this->email));
-
         return 'login:'.hash('sha256', $email.'|'.request()->ip());
     }
 }

@@ -12,7 +12,7 @@
             <div>
                 <label for="email" class="mb-2 block text-sm font-medium text-stone-800">メールアドレス</label>
                 <input
-                    wire:model="email"
+                    wire:model="form.email"
                     id="email"
                     name="email"
                     type="email"
@@ -21,12 +21,12 @@
                     autofocus
                     @class([
                         'min-h-12 w-full rounded-xl border bg-white px-4 py-3 text-base shadow-sm outline-none transition focus:ring-4',
-                        'border-red-400 focus:border-red-500 focus:ring-red-100' => $errors->has('email'),
-                        'border-stone-300 focus:border-emerald-600 focus:ring-emerald-100' => ! $errors->has('email'),
+                        'border-red-400 focus:border-red-500 focus:ring-red-100' => $errors->has('form.email'),
+                        'border-stone-300 focus:border-emerald-600 focus:ring-emerald-100' => ! $errors->has('form.email'),
                     ])
-                    @if ($errors->has('email')) aria-invalid="true" aria-describedby="email-error" @endif
+                    @if ($errors->has('form.email')) aria-invalid="true" aria-describedby="email-error" @endif
                 >
-                @error('email')
+                @error('form.email')
                     <p id="email-error" role="alert" class="mt-2 text-sm text-red-700">{{ $message }}</p>
                 @enderror
             </div>
@@ -34,19 +34,19 @@
             <div>
                 <label for="password" class="mb-2 block text-sm font-medium text-stone-800">パスワード</label>
                 <input
-                    wire:model="password"
+                    wire:model="form.password"
                     id="password"
                     name="password"
                     type="password"
                     autocomplete="current-password"
                     @class([
                         'min-h-12 w-full rounded-xl border bg-white px-4 py-3 text-base shadow-sm outline-none transition focus:ring-4',
-                        'border-red-400 focus:border-red-500 focus:ring-red-100' => $errors->has('password'),
-                        'border-stone-300 focus:border-emerald-600 focus:ring-emerald-100' => ! $errors->has('password'),
+                        'border-red-400 focus:border-red-500 focus:ring-red-100' => $errors->has('form.password'),
+                        'border-stone-300 focus:border-emerald-600 focus:ring-emerald-100' => ! $errors->has('form.password'),
                     ])
-                    @if ($errors->has('password')) aria-invalid="true" aria-describedby="password-error" @endif
+                    @if ($errors->has('form.password')) aria-invalid="true" aria-describedby="password-error" @endif
                 >
-                @error('password')
+                @error('form.password')
                     <p id="password-error" role="alert" class="mt-2 text-sm text-red-700">{{ $message }}</p>
                 @enderror
             </div>

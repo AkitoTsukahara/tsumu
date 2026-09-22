@@ -26,13 +26,13 @@ it('必須項目とメールアドレス形式を検証する', function () {
     Livewire::test(Login::class)
         ->call('login')
         ->assertHasErrors([
-            'email' => 'required',
-            'password' => 'required',
+            'form.email' => 'required',
+            'form.password' => 'required',
         ])
-        ->set('email', 'invalid-address')
-        ->set('password', 'password')
+        ->set('form.email', 'invalid-address')
+        ->set('form.password', 'password')
         ->call('login')
-        ->assertHasErrors(['email' => 'email']);
+        ->assertHasErrors(['form.email' => 'email']);
 });
 
 it('正しい認証情報でログインしセッションを再生成する', function () {
@@ -43,8 +43,8 @@ it('正しい認証情報でログインしセッションを再生成する', f
     $previousSessionId = session()->getId();
 
     Livewire::test(Login::class)
-        ->set('email', ' AKITO@example.com ')
-        ->set('password', 'secret-password')
+        ->set('form.email', ' AKITO@example.com ')
+        ->set('form.password', 'secret-password')
         ->call('login')
         ->assertRedirect(route('home'));
 
@@ -59,28 +59,28 @@ it('誤った認証情報では共通エラーを表示する', function () {
     ]);
 
     Livewire::test(Login::class)
-        ->set('email', 'akito@example.com')
-        ->set('password', 'wrong-password')
+        ->set('form.email', 'akito@example.com')
+        ->set('form.password', 'wrong-password')
         ->call('login')
-        ->assertHasErrors(['email'])
+        ->assertHasErrors(['form.email'])
         ->assertSee('メールアドレスまたはパスワードが正しくありません。')
-        ->assertSet('password', '');
+        ->assertSet('form.password', '');
 
     $this->assertGuest();
 });
 
 it('連続して失敗したログインを一時的に制限する', function () {
     $component = Livewire::test(Login::class)
-        ->set('email', 'akito@example.com');
+        ->set('form.email', 'akito@example.com');
 
     foreach (range(1, 5) as $attempt) {
         $component
-            ->set('password', "wrong-password-{$attempt}")
+            ->set('form.password', "wrong-password-{$attempt}")
             ->call('login');
     }
 
     $component
-        ->set('password', 'wrong-password-6')
+        ->set('form.password', 'wrong-password-6')
         ->call('login')
         ->assertSee('ログイン試行回数が多すぎます。');
 

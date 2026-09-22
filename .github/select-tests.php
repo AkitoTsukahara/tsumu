@@ -106,6 +106,7 @@ final class ChangedTestSelector
             [
                 'patterns' => [
                     'app/Livewire/Auth/Login.php',
+                    'app/Livewire/Forms/LoginForm.php',
                     'resources/views/livewire/auth/login.blade.php',
                 ],
                 'backend' => ['tests/Feature/Auth/LoginTest.php'],
