@@ -1,13 +1,13 @@
 <?php
 
-namespace Infra\Persistence\Eloquent;
+namespace Infra\Persistence\Repositories;
 
-use Domain\User\EmailAlreadyInUse;
-use Domain\User\UserRepository;
+use Domain\User\Exceptions\EmailAlreadyInUseException;
+use Domain\User\UserRepository as UserRepositoryContract;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Infra\Persistence\Eloquent\Models\User;
 
-final class EloquentUserRepository implements UserRepository
+final class UserRepository implements UserRepositoryContract
 {
     public function create(string $name, string $email, string $passwordHash): void
     {
@@ -18,7 +18,7 @@ final class EloquentUserRepository implements UserRepository
                 'password' => $passwordHash,
             ]);
         } catch (UniqueConstraintViolationException $exception) {
-            throw new EmailAlreadyInUse(previous: $exception);
+            throw new EmailAlreadyInUseException(previous: $exception);
         }
     }
 }
