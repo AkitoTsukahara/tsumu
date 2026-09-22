@@ -86,6 +86,7 @@ final class ChangedTestSelector
             'composer.lock',
             'compose.yaml',
             'config/**',
+            'Makefile',
             'phpunit.xml',
             'tests/Pest.php',
             'tests/TestCase.php',

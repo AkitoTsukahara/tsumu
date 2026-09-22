@@ -52,6 +52,7 @@ test('共通テスト基盤の変更では全suiteを選択する', function (st
 })->with([
     'PHP依存関係' => 'composer.lock',
     'Docker構成' => 'compose.yaml',
+    '開発コマンド' => 'Makefile',
 ]);
 
 test('suiteが選択された場合は配下の重複するテストパスを除く', function () {
