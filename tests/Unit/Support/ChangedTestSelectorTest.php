@@ -94,6 +94,17 @@ test('認証Serviceでは関連するFeatureテストだけを選択する', fun
     ]);
 });
 
+test('機材の定義では関連するUnit・DbIntegrationテストだけを選択する', function () {
+    expect(selector()->select(['domain/Equipment/WeightIncrement.php']))->toBe([
+        'backend' => [
+            'tests/DbIntegration/Domain/Equipment/EquipmentSchemaTest.php',
+            'tests/Unit/Domain/Equipment/EquipmentTest.php',
+        ],
+        'browser' => [],
+        'unmapped' => [],
+    ]);
+});
+
 test('User Repositoryの新旧パスで関連テストを選択する', function (string $path) {
     expect(selector()->select([$path]))->toBe([
         'backend' => [

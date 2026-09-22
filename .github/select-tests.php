@@ -177,6 +177,16 @@ final class ChangedTestSelector
                 ],
             ],
             [
+                'patterns' => [
+                    'domain/Equipment/**',
+                    'database/migrations/2026_09_22_055057_create_equipment_table.php',
+                ],
+                'backend' => [
+                    'tests/Unit/Domain/Equipment/EquipmentTest.php',
+                    'tests/DbIntegration/Domain/Equipment/EquipmentSchemaTest.php',
+                ],
+            ],
+            [
                 'patterns' => ['app/Http/Controllers/Controller.php'],
                 'backend' => ['tests/Feature'],
             ],
