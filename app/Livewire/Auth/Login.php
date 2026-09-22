@@ -42,7 +42,7 @@ final class Login extends Component
 
         RateLimiter::clear($throttleKey);
         session()->regenerate();
-        $this->redirectRoute('home', navigate: true);
+        $this->redirectIntended(route('today'), navigate: true);
     }
 
     public function render(): View

@@ -44,13 +44,14 @@
 | 1-1a | 完了 | [PR #6](https://github.com/AkitoTsukahara/tsumu/pull/6)：プロジェクト固有の文書、説明、利用者・開発者向けメッセージを日本語化。mainへマージ済み |
 | 1-1b | 完了 | [PR #7](https://github.com/AkitoTsukahara/tsumu/pull/7)：RepositoryとDomain例外を合意済みの配置・命名へ修正。mainへマージ済み |
 | 1-2 | 完了 | [PR #8](https://github.com/AkitoTsukahara/tsumu/pull/8)：Laravel標準Guardを使った認証情報照合Serviceを実装。mainへマージ済み |
-| 1-3 | レビュー待ち | [PR #9](https://github.com/AkitoTsukahara/tsumu/pull/9)：Livewireのログイン画面、試行制限、セッション再生成を実装 |
+| 1-3 | 完了 | [PR #9](https://github.com/AkitoTsukahara/tsumu/pull/9)：Livewireのログイン画面、試行制限、セッション再生成を実装。mainへマージ済み |
+| 1-4 | 作業中 | 認証必須のToday画面とログアウトを実装中 |
 
 以下のStepは分割案。実際の差分量に応じてさらに小さくし、未決定の仕様は該当Stepに入る前に確認する。各Stepのテストは [テスト方針](testing.md) に従う。
 
 ## 現在の段階：自分だけがログインできる
 
-開発基盤、個人アカウントの作成手段、認証情報の照合は整備済み。ログイン画面を実装中で、Today画面はまだ未実装。
+開発基盤、個人アカウント作成、ログイン画面は整備済み。認証必須のToday画面とログアウトを実装中。
 
 ## 最初に使える範囲（合意済み）
 
