@@ -6,14 +6,14 @@ use Domain\Equipment\Equipment;
 use Domain\Equipment\EquipmentCategory;
 use Domain\Equipment\EquipmentName;
 use Domain\Equipment\Exceptions\InvalidEquipmentNameException;
-use Domain\Equipment\Exceptions\InvalidEquipmentOwnerException;
 use Domain\Equipment\Exceptions\InvalidWeightIncrementException;
 use Domain\Equipment\WeightIncrement;
 use Domain\Equipment\WeightUnit;
+use Domain\User\UserId;
 
 it('機材を所有者と設定値から定義できる', function () {
     $equipment = new Equipment(
-        userId: 1,
+        userId: UserId::fromString('01990000-0000-7000-8000-000000000000'),
         name: EquipmentName::fromString(' レッグプレス '),
         category: EquipmentCategory::Machine,
         weightUnit: WeightUnit::Kilogram,
@@ -41,13 +41,3 @@ it('空または長すぎる機材名を拒否する', function (string $input) 
     EquipmentName::fromString($input);
 })->with(['   ', str_repeat('あ', 101)])
     ->throws(InvalidEquipmentNameException::class);
-
-it('不正な所有者IDを拒否する', function () {
-    new Equipment(
-        userId: 0,
-        name: EquipmentName::fromString('レッグプレス'),
-        category: EquipmentCategory::Machine,
-        weightUnit: WeightUnit::Kilogram,
-        weightIncrement: WeightIncrement::fromDecimal('9'),
-    );
-})->throws(InvalidEquipmentOwnerException::class);

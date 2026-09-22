@@ -46,7 +46,8 @@
 | 1-2 | 完了 | [PR #8](https://github.com/AkitoTsukahara/tsumu/pull/8)：Laravel標準Guardを使った認証情報照合Serviceを実装。mainへマージ済み |
 | 1-3 | 完了 | [PR #9](https://github.com/AkitoTsukahara/tsumu/pull/9)：Livewireのログイン画面、試行制限、セッション再生成を実装。mainへマージ済み |
 | 1-4 | 完了 | [PR #10](https://github.com/AkitoTsukahara/tsumu/pull/10)：認証必須のToday画面と安全なログアウトを実装。mainへマージ済み |
-| 2-1 | レビュー待ち | [PR #11](https://github.com/AkitoTsukahara/tsumu/pull/11)：機材のDomain定義とDB構造を実装 |
+| 2-1 | 完了 | [PR #11](https://github.com/AkitoTsukahara/tsumu/pull/11)：機材のDomain定義とDB構造を実装。mainへマージ済み |
+| 2-1a | レビュー待ち | [PR #12](https://github.com/AkitoTsukahara/tsumu/pull/12)：Domainデータの識別子をUUIDv7へ統一 |
 
 以下のStepは分割案。実際の差分量に応じてさらに小さくし、未決定の仕様は該当Stepに入る前に確認する。各Stepのテストは [テスト方針](testing.md) に従う。
 
@@ -100,6 +101,7 @@
 | Step | 変更範囲 | 完了条件・主な検証 |
 | --- | --- | --- |
 | 2-1 機材の定義 | 必須項目・重量増分のルール、migration | AC1: 所有者・名称・カテゴリ・重量単位・増分を持つ。AC2: 増分は0.01〜999.99の範囲で小数2桁までとし、不正値をDomainで拒否。AC3: 所有者FK、必須項目、カテゴリ・単位をDB制約で保護。Unit、DbIntegration |
+| 2-1a UUIDv7識別子 | User・Equipmentの主キーと外部キー、Eloquentの生成、DomainのUserId | AC1: UserとEquipmentをUUID主キーで作成できる。AC2: Laravel認証・セッションがUUIDのUserで動作する。AC3: DomainデータはUUIDv7、Laravel内部テーブルは標準IDを使う方針を共有文書で参照できる |
 | 2-2 機材の保存 | Repository、登録Command、DI | 保存・再取得でき、Userに紐づく。DbIntegration |
 | 2-3 機材の一覧 | 所有者で絞るQuery、一覧画面 | 自分の機材だけが表示される |
 | 2-4 機材の登録画面 | 入力フォーム、入力エラー | レッグプレス・kg・9kgを登録できる |
