@@ -45,7 +45,7 @@
 | 1-1b | 完了 | [PR #7](https://github.com/AkitoTsukahara/tsumu/pull/7)：RepositoryとDomain例外を合意済みの配置・命名へ修正。mainへマージ済み |
 | 1-2 | 完了 | [PR #8](https://github.com/AkitoTsukahara/tsumu/pull/8)：Laravel標準Guardを使った認証情報照合Serviceを実装。mainへマージ済み |
 | 1-3 | 完了 | [PR #9](https://github.com/AkitoTsukahara/tsumu/pull/9)：Livewireのログイン画面、試行制限、セッション再生成を実装。mainへマージ済み |
-| 1-4 | 作業中 | 認証必須のToday画面とログアウトを実装中 |
+| 1-4 | レビュー待ち | [PR #10](https://github.com/AkitoTsukahara/tsumu/pull/10)：認証必須のToday画面と安全なログアウトを実装 |
 
 以下のStepは分割案。実際の差分量に応じてさらに小さくし、未決定の仕様は該当Stepに入る前に確認する。各Stepのテストは [テスト方針](testing.md) に従う。
 
