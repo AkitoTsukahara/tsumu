@@ -1,5 +1,5 @@
 <?php
 
-test('アプリケーションが正常なレスポンスを返す', function () {
-    $this->get('/')->assertOk();
+test('ヘルスチェックが正常なレスポンスを返す', function () {
+    $this->get('/up')->assertOk();
 });

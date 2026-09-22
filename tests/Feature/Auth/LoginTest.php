@@ -19,7 +19,7 @@ it('未認証ユーザーにログイン画面を表示する', function () {
 it('認証済みユーザーをログイン画面から移動させる', function () {
     $this->actingAs(User::factory()->create())
         ->get('/login')
-        ->assertRedirect(route('home'));
+        ->assertRedirect(route('today'));
 });
 
 it('必須項目とメールアドレス形式を検証する', function () {
@@ -46,7 +46,7 @@ it('正しい認証情報でログインしセッションを再生成する', f
         ->set('form.email', ' AKITO@example.com ')
         ->set('form.password', 'secret-password')
         ->call('login')
-        ->assertRedirect(route('home'));
+        ->assertRedirect(route('today'));
 
     $this->assertAuthenticatedAs($user);
     expect(session()->getId())->not->toBe($previousSessionId);

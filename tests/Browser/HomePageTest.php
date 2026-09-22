@@ -1,7 +1,8 @@
 <?php
 
-test('初期ページがJavaScriptエラーなしで開く', function () {
+test('未認証では初期ページからログイン画面へ移動する', function () {
     visit('/')
-        ->assertSee("Let's get started")
+        ->assertPathIs('/login')
+        ->assertSee('ログイン')
         ->assertNoJavascriptErrors();
 });
