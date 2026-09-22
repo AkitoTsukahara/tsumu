@@ -40,7 +40,7 @@
 | 0-2 | 完了 | [PR #2](https://github.com/AkitoTsukahara/tsumu/pull/2)：Pestの3 suite・Pint・ビルドをGitHub Actionsで確認。mainへマージ済み |
 | 0-3 | 完了 | [PR #3](https://github.com/AkitoTsukahara/tsumu/pull/3)：Pest Browser＋Playwrightを採用し、ChromiumのスモークテストとCIを整備。mainへマージ済み |
 | 0-4 | 完了 | [PR #4](https://github.com/AkitoTsukahara/tsumu/pull/4)：変更ファイルと明示的な対応表から、関連するPestテストだけをCIで実行。mainへマージ済み |
-| 0-5 | 作業中 | Laravel SailによるローカルDocker検証環境を整備中 |
+| 0-5 | レビュー待ち | [PR #13](https://github.com/AkitoTsukahara/tsumu/pull/13)：Laravel SailによるローカルDocker検証環境を整備 |
 | 1-1 | 完了 | [PR #5](https://github.com/AkitoTsukahara/tsumu/pull/5)：対話入力で個人アカウントを作成するArtisanコマンド。mainへマージ済み |
 | 1-1a | 完了 | [PR #6](https://github.com/AkitoTsukahara/tsumu/pull/6)：プロジェクト固有の文書、説明、利用者・開発者向けメッセージを日本語化。mainへマージ済み |
 | 1-1b | 完了 | [PR #7](https://github.com/AkitoTsukahara/tsumu/pull/7)：RepositoryとDomain例外を合意済みの配置・命名へ修正。mainへマージ済み |
