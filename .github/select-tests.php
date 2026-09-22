@@ -127,11 +127,16 @@ final class ChangedTestSelector
                     'tests/DbIntegration/Infra/Persistence/Repositories/UserRepositoryTest.php',
                     'tests/DbIntegration/Infra/UserProviderTest.php',
                     'tests/Feature/Console/CreateUserCommandTest.php',
+                    'tests/Feature/Service/Command/AuthenticateUserTest.php',
                 ],
             ],
             [
                 'patterns' => ['app/Console/Commands/CreateUserCommand.php'],
                 'backend' => ['tests/Feature/Console/CreateUserCommandTest.php'],
+            ],
+            [
+                'patterns' => ['app/Service/Command/AuthenticateUser.php'],
+                'backend' => ['tests/Feature/Service/Command/AuthenticateUserTest.php'],
             ],
             [
                 'patterns' => [
