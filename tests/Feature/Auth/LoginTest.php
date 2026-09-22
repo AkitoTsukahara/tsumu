@@ -9,6 +9,8 @@ use Livewire\Livewire;
 uses(RefreshDatabase::class);
 
 it('未認証ユーザーにログイン画面を表示する', function () {
+    $this->withoutVite();
+
     $this->get('/login')
         ->assertOk()
         ->assertSee('前回の自分を基準に、今日も少しずつ積み重ねよう。');
