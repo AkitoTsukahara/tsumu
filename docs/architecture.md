@@ -92,7 +92,9 @@ Laravelがモデルを`App\Models`に生成する場合も、このプロジェ�
 
 User、Equipment、Exercise、Workoutなど、TsumuのDomainデータの主キーにはUUIDv7を使い、外部キーもUUID型に揃える。Laravel 13のEloquentモデルでは`HasUuids`を使い、時系列に沿ったUUIDv7を生成する。内部連番IDと公開UUIDを二重には持たない。
 
-`jobs`、`job_batches`、`cache`、migration管理などLaravel内部のデータ構造は対象外とし、フレームワーク標準の識別子を維持する。UUIDは認可の代替ではないため、推測しにくいIDであってもUser所有者境界を必ず確認する。Domain境界を越えてIDを扱う場合は、プリミティブな文字列の取り違えを防ぐため、必要になった識別子から専用の値オブジェクトを追加する。利用箇所のない共通基底クラスは先回りして作らない。
+`jobs`、`job_batches`、`cache`、migration管理などLaravel内部のデータ構造は対象外とし、フレームワーク標準の識別子を維持する。UUIDは認可の代替ではないため、推測しにくいIDであってもUser所有者境界を必ず確認する。
+
+Domain境界を越えてIDを扱う場合は、プリミティブな文字列の取り違えを防ぐため、`UserId`や`EquipmentId`など用途別の値オブジェクトを使う。UUIDv7の形式検証と正規化は共通基底クラス`Domain\Shared\UuidV7Id`へ集約し、用途別IDは型固有の例外を定義する。具体的な利用箇所ができたIDから追加する。
 
 ## テスト
 
