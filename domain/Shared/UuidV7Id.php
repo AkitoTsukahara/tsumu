@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\Shared;
 
-use DomainException;
+use Domain\Shared\Exceptions\InvalidUuidV7IdException;
 
 abstract readonly class UuidV7Id
 {
@@ -17,11 +17,9 @@ abstract readonly class UuidV7Id
         $value = mb_strtolower(trim($value));
 
         if (preg_match(self::FORMAT, $value) !== 1) {
-            throw static::invalidIdException();
+            throw new InvalidUuidV7IdException;
         }
 
         return new static($value);
     }
-
-    abstract protected static function invalidIdException(): DomainException;
 }

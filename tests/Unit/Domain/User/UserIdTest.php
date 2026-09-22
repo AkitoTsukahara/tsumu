@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Domain\User\Exceptions\InvalidUserIdException;
+use Domain\Shared\Exceptions\InvalidUuidV7IdException;
 use Domain\User\UserId;
 
 it('UUIDv7をユーザーIDとして扱える', function () {
@@ -18,4 +18,4 @@ it('UUIDv7以外をユーザーIDとして拒否する', function (string $value
     'UUIDv4' => '550e8400-e29b-41d4-a716-446655440000',
     '不正なvariant' => '0199a3c7-4c28-7b12-7f65-123456789abc',
     '任意文字列' => 'invalid',
-])->throws(InvalidUserIdException::class);
+])->throws(InvalidUuidV7IdException::class);

@@ -185,8 +185,8 @@ final class ChangedTestSelector
             [
                 'patterns' => [
                     'domain/Shared/UuidV7Id.php',
+                    'domain/Shared/Exceptions/InvalidUuidV7IdException.php',
                     'domain/User/UserId.php',
-                    'domain/User/Exceptions/InvalidUserIdException.php',
                 ],
                 'backend' => [
                     'tests/Unit/Domain/User/UserIdTest.php',

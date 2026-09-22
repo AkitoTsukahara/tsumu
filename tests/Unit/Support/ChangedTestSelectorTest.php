@@ -116,6 +116,7 @@ test('UUIDv7識別子では識別子と利用する機材のUnitテストだけ�
     ]);
 })->with([
     '基底クラス' => 'domain/Shared/UuidV7Id.php',
+    '共通例外' => 'domain/Shared/Exceptions/InvalidUuidV7IdException.php',
     'UserId' => 'domain/User/UserId.php',
 ]);
 
