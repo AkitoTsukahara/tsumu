@@ -1,0 +1,9 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Domain\User\Exceptions;
+
+use DomainException;
+
+final class InvalidUserIdException extends DomainException {}

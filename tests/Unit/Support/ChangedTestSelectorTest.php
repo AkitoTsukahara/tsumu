@@ -105,6 +105,17 @@ test('機材の定義では関連するUnit・DbIntegrationテストだけを選
     ]);
 });
 
+test('UserIdでは識別子と利用する機材のUnitテストだけを選択する', function () {
+    expect(selector()->select(['domain/User/UserId.php']))->toBe([
+        'backend' => [
+            'tests/Unit/Domain/Equipment/EquipmentTest.php',
+            'tests/Unit/Domain/User/UserIdTest.php',
+        ],
+        'browser' => [],
+        'unmapped' => [],
+    ]);
+});
+
 test('User Repositoryの新旧パスで関連テストを選択する', function (string $path) {
     expect(selector()->select([$path]))->toBe([
         'backend' => [

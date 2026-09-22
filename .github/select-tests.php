@@ -152,8 +152,13 @@ final class ChangedTestSelector
                 'backend' => [
                     'tests/DbIntegration/Infra/Persistence/Repositories/UserRepositoryTest.php',
                     'tests/DbIntegration/Infra/UserProviderTest.php',
+                    'tests/DbIntegration/Domain/Equipment/EquipmentSchemaTest.php',
                     'tests/Feature/Console/CreateUserCommandTest.php',
                     'tests/Feature/Service/Command/AuthenticateUserTest.php',
+                ],
+                'browser' => [
+                    'tests/Browser/LoginPageTest.php',
+                    'tests/Browser/TodayPageTest.php',
                 ],
             ],
             [
@@ -167,13 +172,24 @@ final class ChangedTestSelector
             [
                 'patterns' => [
                     'app/Service/Command/CreateUser.php',
-                    'domain/User/**',
+                    'domain/User/UserRepository.php',
+                    'domain/User/Exceptions/EmailAlreadyInUseException.php',
                     'infra/Persistence/Eloquent/EloquentUserRepository.php',
                     'infra/Persistence/Repositories/UserRepository.php',
                 ],
                 'backend' => [
                     'tests/DbIntegration/Infra/Persistence/Repositories/UserRepositoryTest.php',
                     'tests/Feature/Console/CreateUserCommandTest.php',
+                ],
+            ],
+            [
+                'patterns' => [
+                    'domain/User/UserId.php',
+                    'domain/User/Exceptions/InvalidUserIdException.php',
+                ],
+                'backend' => [
+                    'tests/Unit/Domain/User/UserIdTest.php',
+                    'tests/Unit/Domain/Equipment/EquipmentTest.php',
                 ],
             ],
             [
