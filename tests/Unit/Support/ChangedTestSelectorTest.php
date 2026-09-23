@@ -102,7 +102,9 @@ test('機材の定義では関連するUnit・DbIntegrationテストだけを選
     expect(selector()->select(['domain/Equipment/WeightIncrement.php']))->toBe([
         'backend' => [
             'tests/DbIntegration/Domain/Equipment/EquipmentSchemaTest.php',
+            'tests/DbIntegration/Infra/Persistence/Queries/EquipmentListQueryTest.php',
             'tests/DbIntegration/Infra/Persistence/Repositories/EquipmentRepositoryTest.php',
+            'tests/Feature/Equipment/IndexTest.php',
             'tests/Unit/Domain/Equipment/EquipmentTest.php',
         ],
         'browser' => [],
@@ -122,6 +124,22 @@ test('機材の永続化処理では機材Repositoryテストだけを選択す�
     '登録Command' => 'app/Service/Command/CreateEquipment.php',
     'Mapper' => 'infra/Persistence/Mappers/EquipmentMapper.php',
     'Repository' => 'infra/Persistence/Repositories/EquipmentRepository.php',
+]);
+
+test('機材一覧ではQueryと画面のテストだけを選択する', function (string $path) {
+    expect(selector()->select([$path]))->toBe([
+        'backend' => [
+            'tests/DbIntegration/Infra/Persistence/Queries/EquipmentListQueryTest.php',
+            'tests/Feature/Equipment/IndexTest.php',
+        ],
+        'browser' => ['tests/Browser/TodayPageTest.php'],
+        'unmapped' => [],
+    ]);
+})->with([
+    'Livewire' => 'app/Livewire/Equipment/Index.php',
+    'Query契約' => 'app/Service/Query/EquipmentListQuery.php',
+    'Query実装' => 'infra/Persistence/Queries/EquipmentListQuery.php',
+    'Blade' => 'resources/views/livewire/equipment/index.blade.php',
 ]);
 
 test('UUIDv7識別子では識別子と利用する機材のUnitテストだけを選択する', function (string $path) {
