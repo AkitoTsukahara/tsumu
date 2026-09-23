@@ -102,12 +102,27 @@ test('機材の定義では関連するUnit・DbIntegrationテストだけを選
     expect(selector()->select(['domain/Equipment/WeightIncrement.php']))->toBe([
         'backend' => [
             'tests/DbIntegration/Domain/Equipment/EquipmentSchemaTest.php',
+            'tests/DbIntegration/Infra/Persistence/Repositories/EquipmentRepositoryTest.php',
             'tests/Unit/Domain/Equipment/EquipmentTest.php',
         ],
         'browser' => [],
         'unmapped' => [],
     ]);
 });
+
+test('機材の永続化処理では機材Repositoryテストだけを選択する', function (string $path) {
+    expect(selector()->select([$path]))->toBe([
+        'backend' => [
+            'tests/DbIntegration/Infra/Persistence/Repositories/EquipmentRepositoryTest.php',
+        ],
+        'browser' => [],
+        'unmapped' => [],
+    ]);
+})->with([
+    '登録Command' => 'app/Service/Command/CreateEquipment.php',
+    'Mapper' => 'infra/Persistence/Mappers/EquipmentMapper.php',
+    'Repository' => 'infra/Persistence/Repositories/EquipmentRepository.php',
+]);
 
 test('UUIDv7識別子では識別子と利用する機材のUnitテストだけを選択する', function (string $path) {
     expect(selector()->select([$path]))->toBe([

@@ -203,6 +203,18 @@ final class ChangedTestSelector
                 'backend' => [
                     'tests/Unit/Domain/Equipment/EquipmentTest.php',
                     'tests/DbIntegration/Domain/Equipment/EquipmentSchemaTest.php',
+                    'tests/DbIntegration/Infra/Persistence/Repositories/EquipmentRepositoryTest.php',
+                ],
+            ],
+            [
+                'patterns' => [
+                    'app/Service/Command/CreateEquipment.php',
+                    'infra/Persistence/Eloquent/Models/Equipment.php',
+                    'infra/Persistence/Mappers/EquipmentMapper.php',
+                    'infra/Persistence/Repositories/EquipmentRepository.php',
+                ],
+                'backend' => [
+                    'tests/DbIntegration/Infra/Persistence/Repositories/EquipmentRepositoryTest.php',
                 ],
             ],
             [
