@@ -17,6 +17,7 @@ it('認証済みユーザーにToday画面を表示する', function () {
         ->get('/')
         ->assertOk()
         ->assertSee('今日も積みましょう')
+        ->assertSee('機材を管理')
         ->assertSee('ログアウト');
 });
 

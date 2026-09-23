@@ -4,16 +4,21 @@ declare(strict_types=1);
 
 namespace Infra\Persistence\Eloquent\Models;
 
+use Database\Factories\EquipmentFactory;
 use Domain\Equipment\EquipmentCategory;
 use Domain\Equipment\WeightUnit;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 #[Fillable(['id', 'user_id', 'name', 'category', 'weight_unit', 'weight_increment'])]
+#[UseFactory(EquipmentFactory::class)]
 final class Equipment extends Model
 {
-    use HasUuids;
+    /** @use HasFactory<EquipmentFactory> */
+    use HasFactory, HasUuids;
 
     /** @return array<string, string|class-string> */
     protected function casts(): array

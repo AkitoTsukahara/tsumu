@@ -123,7 +123,10 @@ final class ChangedTestSelector
                     'app/Livewire/Today.php',
                     'resources/views/livewire/today.blade.php',
                 ],
-                'backend' => ['tests/Feature/Auth/TodayTest.php'],
+                'backend' => [
+                    'tests/Feature/Auth/TodayTest.php',
+                    'tests/Feature/Equipment/IndexTest.php',
+                ],
                 'browser' => ['tests/Browser/TodayPageTest.php'],
             ],
             [
@@ -198,12 +201,15 @@ final class ChangedTestSelector
             [
                 'patterns' => [
                     'domain/Equipment/**',
+                    'database/factories/EquipmentFactory.php',
                     'database/migrations/2026_09_22_055057_create_equipment_table.php',
                 ],
                 'backend' => [
                     'tests/Unit/Domain/Equipment/EquipmentTest.php',
                     'tests/DbIntegration/Domain/Equipment/EquipmentSchemaTest.php',
                     'tests/DbIntegration/Infra/Persistence/Repositories/EquipmentRepositoryTest.php',
+                    'tests/DbIntegration/Infra/Persistence/Queries/EquipmentListQueryTest.php',
+                    'tests/Feature/Equipment/IndexTest.php',
                 ],
             ],
             [
@@ -216,6 +222,25 @@ final class ChangedTestSelector
                 'backend' => [
                     'tests/DbIntegration/Infra/Persistence/Repositories/EquipmentRepositoryTest.php',
                 ],
+            ],
+            [
+                'patterns' => [
+                    'app/Livewire/Equipment/Index.php',
+                    'app/Service/Query/EquipmentListItem.php',
+                    'app/Service/Query/EquipmentListQuery.php',
+                    'app/Service/Query/Dto/TypedList.php',
+                    'app/Service/Query/Equipment/Dto/EquipmentListItemDto.php',
+                    'app/Service/Query/Equipment/Dto/EquipmentListItemCollection.php',
+                    'app/Service/Query/Equipment/EquipmentListQuery.php',
+                    'infra/Persistence/Queries/EquipmentListQuery.php',
+                    'resources/views/livewire/equipment/index.blade.php',
+                ],
+                'backend' => [
+                    'tests/DbIntegration/Infra/Persistence/Queries/EquipmentListQueryTest.php',
+                    'tests/Feature/Equipment/IndexTest.php',
+                    'tests/Unit/App/Service/Query/Equipment/Dto/EquipmentListItemCollectionTest.php',
+                ],
+                'browser' => ['tests/Browser/TodayPageTest.php'],
             ],
             [
                 'patterns' => ['app/Http/Controllers/Controller.php'],

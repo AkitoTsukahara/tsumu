@@ -73,6 +73,10 @@ Commandは「開始する」「セットを記録する」「終了する」な�
 
 DBは共通とする。専用Command Bus、イベントソーシング、読み書き別DB、汎用Repository基底クラスは初期導入しない。必要なユースケースからクラスを追加する。
 
+Queryが複数のDTOを返す場合は、DTOであることが名前と配置から分かるよう`Dto`ディレクトリへ置き、`EquipmentListItemDto`のように命名する。戻り値は生の配列ではなく、対応する`EquipmentListItemCollection`のような型付きCollectionとする。
+
+Query DTOのCollectionは`App\Service\Query\Dto\TypedList`を共通基底とし、要素型の検証、反復、件数、空判定、条件検索を集約する。現時点では共通化の利用先が一つのためYAGNIには反するが、今後のQuery実装で一覧型と操作を統一し、設計を早期に確認するという明示的な判断で導入する。Domain CollectionやEloquent Collectionへは適用せず、Query DTOの戻り値だけを対象とする。
+
 ## Livewireの責務
 
 Livewireは主にサーバー側PHPで画面状態や操作を扱い、ブラウザとの通信・差分更新を仲介する。PHPクラスは`app/Livewire`、Bladeは`resources/views`へ分離する方針。
