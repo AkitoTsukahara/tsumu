@@ -26,6 +26,7 @@ domain/                      Domain\
 infra/                       Infra\
   Persistence/
     Eloquent/Models/         Eloquentモデル
+    Mappers/                 EloquentモデルとDomainエンティティの相互変換
     Repositories/            Repository契約の実装（使用技術によらず配置）
 database/                    migrations、factories、seeders
 resources/views/             Bladeテンプレート
@@ -51,6 +52,16 @@ Repository実装は`infra/Persistence/Repositories`へ配置する。Eloquentモ
 - Eloquent、Query Builder、生SQLのどれを使ってもRepositoryの配置は共通とする。内部の使用技術を変えても、呼び出し側の契約や実装クラス名を変えずに済むようにする。
 - 異なる実装を同時に持つ必要が生じた段階で、区別する名前を検討する。将来の差し替えだけを理由に実装・ディレクトリ・汎用基底クラスを先回りして増やさない。
 - Serviceは契約へ依存し、Providerで実装を結び付ける。Eloquent ModelやBuilderをRepositoryの契約から上位層へ漏らさない。単なるDB参照をすべてRepositoryにせず、一覧・集計は既定のQuery契約とDTOを使う。
+
+## 永続化モデルとDomainの変換
+
+EloquentモデルとDomainエンティティを相互変換するMapperは`infra/Persistence/Mappers`へ配置する。Repositoryは取得・保存の調整に集中し、具体的な属性変換をMapperへ委譲する。
+
+- Mapperは対応する集約ごとに`EquipmentMapper`のように命名し、EloquentモデルからDomainへの復元と、Domainから永続化用属性への変換を担当する。
+- DomainエンティティはDBカラムやEloquentモデルを知らない。`fromDatabaseRow`のような永続化固有の生成処理をDomainへ置かない。
+- EloquentモデルはcastやリレーションなどEloquent固有の定義に集中し、`toDomain`を持たせない。Domainの構造変更をEloquentモデルの責務にしないためである。
+- 変換が短く利用箇所が一つでも、Repositoryへ直接埋め込まずMapperを用意する。新しいRepositoryを実装するときに変換責務を見落とさず、配置を統一することを優先する。
+- 一覧・集計などDomainエンティティを必要としない参照はMapperを経由せず、QueryのDTOへ必要な値を直接投影してよい。
 
 この配置は、保存処理を技術によらず同じ場所から探せることを優先する。技術別に全実装をまとめて探す利便性より、役割の分かりやすさを選ぶ。汎用性を支えるのはフォルダ名ではなく、契約が永続化技術へ依存しないことである。
 

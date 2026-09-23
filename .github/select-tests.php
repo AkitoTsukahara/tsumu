@@ -210,6 +210,7 @@ final class ChangedTestSelector
                 'patterns' => [
                     'app/Service/Command/CreateEquipment.php',
                     'infra/Persistence/Eloquent/Models/Equipment.php',
+                    'infra/Persistence/Mappers/EquipmentMapper.php',
                     'infra/Persistence/Repositories/EquipmentRepository.php',
                 ],
                 'backend' => [
