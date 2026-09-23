@@ -131,13 +131,15 @@ test('機材一覧ではQueryと画面のテストだけを選択する', functi
         'backend' => [
             'tests/DbIntegration/Infra/Persistence/Queries/EquipmentListQueryTest.php',
             'tests/Feature/Equipment/IndexTest.php',
+            'tests/Unit/App/Service/Query/Equipment/Dto/EquipmentListItemCollectionTest.php',
         ],
         'browser' => ['tests/Browser/TodayPageTest.php'],
         'unmapped' => [],
     ]);
 })->with([
     'Livewire' => 'app/Livewire/Equipment/Index.php',
-    'Query契約' => 'app/Service/Query/EquipmentListQuery.php',
+    'Query契約' => 'app/Service/Query/Equipment/EquipmentListQuery.php',
+    'DTO Collection' => 'app/Service/Query/Equipment/Dto/EquipmentListItemCollection.php',
     'Query実装' => 'infra/Persistence/Queries/EquipmentListQuery.php',
     'Blade' => 'resources/views/livewire/equipment/index.blade.php',
 ]);

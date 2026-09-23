@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Service\Query\EquipmentListQuery;
+use App\Service\Query\Equipment\EquipmentListQuery;
 use Domain\User\UserId;
 use Infra\Persistence\Eloquent\Models\Equipment;
 use Infra\Persistence\Eloquent\Models\User;

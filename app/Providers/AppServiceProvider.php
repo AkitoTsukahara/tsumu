@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Service\Query\EquipmentListQuery as EquipmentListQueryContract;
+use App\Service\Query\Equipment\EquipmentListQuery as EquipmentListQueryContract;
 use Domain\Equipment\EquipmentRepository as EquipmentRepositoryContract;
 use Domain\User\UserRepository as UserRepositoryContract;
 use Illuminate\Auth\AuthManager;

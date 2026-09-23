@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Service\Query;
+declare(strict_types=1);
 
-final readonly class EquipmentListItem
+namespace App\Service\Query\Equipment\Dto;
+
+final readonly class EquipmentListItemDto
 {
     public function __construct(
         public string $id,
