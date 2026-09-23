@@ -102,7 +102,18 @@ test('機材の定義では関連するUnit・DbIntegrationテストだけを選
     expect(selector()->select(['domain/Equipment/WeightIncrement.php']))->toBe([
         'backend' => [
             'tests/DbIntegration/Domain/Equipment/EquipmentSchemaTest.php',
+            'tests/DbIntegration/Infra/Persistence/Repositories/EquipmentRepositoryTest.php',
             'tests/Unit/Domain/Equipment/EquipmentTest.php',
+        ],
+        'browser' => [],
+        'unmapped' => [],
+    ]);
+});
+
+test('機材登録Commandでは機材Repositoryテストだけを選択する', function () {
+    expect(selector()->select(['app/Service/Command/CreateEquipment.php']))->toBe([
+        'backend' => [
+            'tests/DbIntegration/Infra/Persistence/Repositories/EquipmentRepositoryTest.php',
         ],
         'browser' => [],
         'unmapped' => [],

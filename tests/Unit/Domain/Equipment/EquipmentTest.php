@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Domain\Equipment\Equipment;
 use Domain\Equipment\EquipmentCategory;
+use Domain\Equipment\EquipmentId;
 use Domain\Equipment\EquipmentName;
 use Domain\Equipment\Exceptions\InvalidEquipmentNameException;
 use Domain\Equipment\Exceptions\InvalidWeightIncrementException;
@@ -13,6 +14,7 @@ use Domain\User\UserId;
 
 it('機材を所有者と設定値から定義できる', function () {
     $equipment = new Equipment(
+        id: EquipmentId::fromString('01990000-0000-7000-8000-000000000001'),
         userId: UserId::fromString('01990000-0000-7000-8000-000000000000'),
         name: EquipmentName::fromString(' レッグプレス '),
         category: EquipmentCategory::Machine,
