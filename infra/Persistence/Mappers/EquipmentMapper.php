@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Infra\Persistence\Mappers;
 
 use Domain\Equipment\Equipment;
+use Domain\Equipment\EquipmentCategory;
 use Domain\Equipment\EquipmentId;
 use Domain\Equipment\EquipmentName;
 use Domain\Equipment\WeightIncrement;
+use Domain\Equipment\WeightUnit;
 use Domain\User\UserId;
 use Infra\Persistence\Eloquent\Models\Equipment as EquipmentModel;
 
@@ -18,8 +20,8 @@ final class EquipmentMapper
      *     id: string,
      *     user_id: string,
      *     name: string,
-     *     category: \Domain\Equipment\EquipmentCategory,
-     *     weight_unit: \Domain\Equipment\WeightUnit,
+     *     category: EquipmentCategory,
+     *     weight_unit: WeightUnit,
      *     weight_increment: string
      * }
      */
