@@ -110,7 +110,7 @@
                 <div class="flex flex-col gap-3 sm:col-span-2 sm:flex-row">
                     <button
                         type="submit"
-                        class="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-emerald-700 px-5 text-base font-semibold text-white transition hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-200 disabled:cursor-wait disabled:opacity-60 sm:w-auto"
+                        class="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-stone-950 px-5 text-base font-semibold text-white shadow-sm transition hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-200 disabled:cursor-wait disabled:opacity-60 sm:w-auto"
                         wire:loading.attr="disabled"
                         wire:target="{{ $editingEquipmentId === null ? 'save' : 'update' }}"
                     >
