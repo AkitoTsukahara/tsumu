@@ -176,6 +176,7 @@ test('種目の定義では関連するUnit・DbIntegrationテストだけを選
     expect(selector()->select([$path]))->toBe([
         'backend' => [
             'tests/DbIntegration/Domain/Exercise/ExerciseSchemaTest.php',
+            'tests/DbIntegration/Infra/Persistence/Repositories/ExerciseRepositoryTest.php',
             'tests/Unit/Domain/Exercise/ExerciseTest.php',
         ],
         'browser' => [],
@@ -186,6 +187,20 @@ test('種目の定義では関連するUnit・DbIntegrationテストだけを選
     'Factory' => 'database/factories/ExerciseFactory.php',
     'Migration' => 'database/migrations/2026_09_24_080206_create_exercises_table.php',
     'Eloquentモデル' => 'infra/Persistence/Eloquent/Models/Exercise.php',
+]);
+
+test('種目の永続化処理では種目Repositoryテストだけを選択する', function (string $path) {
+    expect(selector()->select([$path]))->toBe([
+        'backend' => [
+            'tests/DbIntegration/Infra/Persistence/Repositories/ExerciseRepositoryTest.php',
+        ],
+        'browser' => [],
+        'unmapped' => [],
+    ]);
+})->with([
+    '登録Command' => 'app/Service/Command/CreateExercise.php',
+    'Mapper' => 'infra/Persistence/Mappers/ExerciseMapper.php',
+    'Repository' => 'infra/Persistence/Repositories/ExerciseRepository.php',
 ]);
 
 test('User Repositoryの新旧パスで関連テストを選択する', function (string $path) {

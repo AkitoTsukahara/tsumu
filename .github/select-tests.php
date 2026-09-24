@@ -252,6 +252,17 @@ final class ChangedTestSelector
                 'backend' => [
                     'tests/Unit/Domain/Exercise/ExerciseTest.php',
                     'tests/DbIntegration/Domain/Exercise/ExerciseSchemaTest.php',
+                    'tests/DbIntegration/Infra/Persistence/Repositories/ExerciseRepositoryTest.php',
+                ],
+            ],
+            [
+                'patterns' => [
+                    'app/Service/Command/CreateExercise.php',
+                    'infra/Persistence/Mappers/ExerciseMapper.php',
+                    'infra/Persistence/Repositories/ExerciseRepository.php',
+                ],
+                'backend' => [
+                    'tests/DbIntegration/Infra/Persistence/Repositories/ExerciseRepositoryTest.php',
                 ],
             ],
             [
