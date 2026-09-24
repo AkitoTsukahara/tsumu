@@ -1,0 +1,13 @@
+<option value="chest">胸</option>
+<option value="back">背中</option>
+<option value="shoulders">肩</option>
+<option value="biceps">上腕二頭筋</option>
+<option value="triceps">上腕三頭筋</option>
+<option value="forearms">前腕</option>
+<option value="quadriceps">大腿四頭筋</option>
+<option value="hamstrings">ハムストリング</option>
+<option value="glutes">臀部</option>
+<option value="calves">ふくらはぎ</option>
+<option value="core">体幹</option>
+<option value="full_body">全身</option>
+<option value="other">その他</option>

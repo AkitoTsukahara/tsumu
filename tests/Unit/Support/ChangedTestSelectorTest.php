@@ -156,6 +156,18 @@ test('機材登録フォームでは画面のFeature・Browserテストを選択
     '入力DTO' => 'app/Livewire/Forms/Dto/ValidatedEquipmentInputDto.php',
 ]);
 
+test('種目登録フォームでは画面のFeature・Browserテストを選択する', function (string $path) {
+    expect(selector()->select([$path]))->toBe([
+        'backend' => ['tests/Feature/Exercise/IndexTest.php'],
+        'browser' => ['tests/Browser/TodayPageTest.php'],
+        'unmapped' => [],
+    ]);
+})->with([
+    'Form' => 'app/Livewire/Forms/ExerciseForm.php',
+    '入力DTO' => 'app/Livewire/Forms/Dto/ValidatedExerciseInputDto.php',
+    '部位選択肢' => 'resources/views/components/exercise/body-part-options.blade.php',
+]);
+
 test('UUIDv7識別子では識別子を利用するDomainのUnitテストだけを選択する', function (string $path) {
     expect(selector()->select([$path]))->toBe([
         'backend' => [
