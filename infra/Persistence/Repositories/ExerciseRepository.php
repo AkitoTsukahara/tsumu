@@ -20,6 +20,14 @@ final class ExerciseRepository implements ExerciseRepositoryContract
         ExerciseModel::query()->create($this->mapper->toPersistence($exercise));
     }
 
+    public function update(Exercise $exercise): bool
+    {
+        return ExerciseModel::query()
+            ->whereKey($exercise->id->value)
+            ->where('user_id', $exercise->userId->value)
+            ->update($this->mapper->toPersistence($exercise)) === 1;
+    }
+
     public function findOwnedBy(ExerciseId $exerciseId, UserId $userId): ?Exercise
     {
         $model = ExerciseModel::query()

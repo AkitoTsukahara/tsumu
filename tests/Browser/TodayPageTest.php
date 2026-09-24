@@ -59,6 +59,9 @@ test('認証済みユーザーが所有する機材を使う種目を登録で�
     $equipment = Equipment::factory()
         ->forUser($user)
         ->create(['name' => 'レッグプレス機材']);
+    $newEquipment = Equipment::factory()
+        ->forUser($user)
+        ->create(['name' => 'ハックスクワット機材']);
 
     $this->actingAs($user);
 
@@ -76,5 +79,16 @@ test('認証済みユーザーが所有する機材を使う種目を登録で�
         ->assertSee('大腿四頭筋')
         ->assertSee('臀部')
         ->assertSee('重量＋回数')
+        ->click('レッグプレスを編集')
+        ->assertSee('種目を編集')
+        ->type('name', 'ハックスクワット')
+        ->select('equipment_id', $newEquipment->id)
+        ->select('primary_target', 'glutes')
+        ->select('secondary_target', '')
+        ->press('更新する')
+        ->assertSee('種目を更新しました。')
+        ->assertSee('ハックスクワット')
+        ->assertSee('ハックスクワット機材')
+        ->assertSee('臀部')
         ->assertNoJavascriptErrors();
 });

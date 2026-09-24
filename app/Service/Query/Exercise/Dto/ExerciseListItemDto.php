@@ -9,6 +9,7 @@ final readonly class ExerciseListItemDto
     public function __construct(
         public string $id,
         public string $name,
+        public ?string $equipmentId,
         public ?string $equipmentName,
         public string $primaryTarget,
         public ?string $secondaryTarget,

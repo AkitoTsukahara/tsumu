@@ -41,6 +41,7 @@ it('自分の種目だけを名前とIDの順で機材名とともに返す', fu
         ->and($items[0]->secondaryTarget)->toBeNull()
         ->and($items[0]->recordingMethod)->toBe('duration')
         ->and($items[1]->name)->toBe('レッグプレス')
+        ->and($items[1]->equipmentId)->toBe($equipment->id)
         ->and($items[1]->equipmentName)->toBe('レッグプレス機材')
         ->and($items[1]->primaryTarget)->toBe('quadriceps')
         ->and($items[1]->secondaryTarget)->toBe('glutes')
@@ -61,5 +62,6 @@ it('所有者が異なる機材名を種目一覧へ公開しない', function (
     $items = app(ExerciseListQuery::class)->forUser(UserId::fromString($user->id));
 
     expect($items)->toHaveCount(1)
+        ->and($items[0]->equipmentId)->toBeNull()
         ->and($items[0]->equipmentName)->toBeNull();
 });

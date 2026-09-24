@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Livewire\Forms\Dto\ValidatedExerciseInputDto;
+use App\Service\Query\Exercise\Dto\ExerciseListItemDto;
 use Domain\Equipment\EquipmentId;
 use Domain\Exercise\BodyPart;
 use Illuminate\Validation\Rule;
@@ -17,6 +18,15 @@ final class ExerciseForm extends Form
     public string $primaryTarget = '';
 
     public string $secondaryTarget = '';
+
+    public function fillFrom(ExerciseListItemDto $exercise): void
+    {
+        $this->name = $exercise->name;
+        $this->equipmentId = $exercise->equipmentId ?? '';
+        $this->primaryTarget = $exercise->primaryTarget;
+        $this->secondaryTarget = $exercise->secondaryTarget ?? '';
+        $this->resetValidation();
+    }
 
     public function validatedInput(): ValidatedExerciseInputDto
     {

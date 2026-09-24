@@ -211,6 +211,7 @@ test('種目の永続化処理では種目Repositoryテストだけを選択す�
     ]);
 })->with([
     '登録Command' => 'app/Service/Command/CreateExercise.php',
+    '更新Command' => 'app/Service/Command/UpdateExercise.php',
     'Mapper' => 'infra/Persistence/Mappers/ExerciseMapper.php',
     'Repository' => 'infra/Persistence/Repositories/ExerciseRepository.php',
 ]);

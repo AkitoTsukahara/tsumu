@@ -10,5 +10,7 @@ interface ExerciseRepository
 {
     public function save(Exercise $exercise): void;
 
+    public function update(Exercise $exercise): bool;
+
     public function findOwnedBy(ExerciseId $exerciseId, UserId $userId): ?Exercise;
 }

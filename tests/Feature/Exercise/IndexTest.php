@@ -158,3 +158,119 @@ it('別ユーザーの機材を指定した種目を登録しない', function (
 
     $this->assertDatabaseCount('exercises', 0);
 });
+
+it('自分の種目をフォームへ読み込んで更新する', function () {
+    $user = User::factory()->create();
+    $currentEquipment = Equipment::factory()->forUser($user)->create();
+    $newEquipment = Equipment::factory()->forUser($user)->create();
+    $exercise = Exercise::factory()->forEquipment($currentEquipment)->create([
+        'name' => 'レッグプレス',
+        'primary_target' => BodyPart::Quadriceps,
+        'secondary_target' => BodyPart::Glutes,
+        'recording_method' => RecordingMethod::Duration,
+    ]);
+
+    Livewire::actingAs($user)
+        ->test(Index::class)
+        ->call('edit', $exercise->id)
+        ->assertSet('editingExerciseId', $exercise->id)
+        ->assertSet('form.name', 'レッグプレス')
+        ->assertSet('form.equipmentId', $currentEquipment->id)
+        ->assertSet('form.primaryTarget', 'quadriceps')
+        ->assertSet('form.secondaryTarget', 'glutes')
+        ->set('form.name', ' レッグプレス45 ')
+        ->set('form.equipmentId', $newEquipment->id)
+        ->set('form.primaryTarget', 'glutes')
+        ->set('form.secondaryTarget', '')
+        ->call('update')
+        ->assertHasNoErrors()
+        ->assertSet('editingExerciseId', null)
+        ->assertSee('種目を更新しました。')
+        ->assertSee('レッグプレス45');
+
+    $this->assertDatabaseHas('exercises', [
+        'id' => $exercise->id,
+        'user_id' => $user->id,
+        'equipment_id' => $newEquipment->id,
+        'name' => 'レッグプレス45',
+        'primary_target' => 'glutes',
+        'secondary_target' => null,
+        'recording_method' => 'duration',
+    ]);
+});
+
+it('別ユーザーの種目を編集フォームへ読み込まない', function () {
+    $user = User::factory()->create();
+    $otherUser = User::factory()->create();
+    $exercise = Exercise::factory()->forUser($otherUser)->create();
+
+    Livewire::actingAs($user)
+        ->test(Index::class)
+        ->call('edit', $exercise->id)
+        ->assertNotFound();
+
+    $this->assertDatabaseHas('exercises', [
+        'id' => $exercise->id,
+        'user_id' => $otherUser->id,
+        'name' => $exercise->name,
+    ]);
+});
+
+it('編集内容が不正な場合は種目を更新しない', function () {
+    $user = User::factory()->create();
+    $exercise = Exercise::factory()->forUser($user)->create(['name' => 'レッグプレス']);
+
+    Livewire::actingAs($user)
+        ->test(Index::class)
+        ->call('edit', $exercise->id)
+        ->set('form.name', '   ')
+        ->set('form.primaryTarget', 'invalid')
+        ->call('update')
+        ->assertHasErrors(['form.name' => 'required', 'form.primaryTarget'])
+        ->assertSee('種目名を入力してください。')
+        ->assertSee('主対象部位を選択肢から選んでください。');
+
+    $this->assertDatabaseHas('exercises', [
+        'id' => $exercise->id,
+        'name' => 'レッグプレス',
+        'primary_target' => 'quadriceps',
+    ]);
+});
+
+it('編集対象が未選択の場合は種目を更新しない', function () {
+    $user = User::factory()->create();
+    $exercise = Exercise::factory()->forUser($user)->create();
+
+    Livewire::actingAs($user)
+        ->test(Index::class)
+        ->set('form.name', '変更後')
+        ->set('form.primaryTarget', 'glutes')
+        ->call('update')
+        ->assertNotFound();
+
+    $this->assertDatabaseHas('exercises', [
+        'id' => $exercise->id,
+        'name' => $exercise->name,
+    ]);
+});
+
+it('別ユーザーの機材を指定して種目を更新しない', function () {
+    $user = User::factory()->create();
+    $otherUser = User::factory()->create();
+    $otherUsersEquipment = Equipment::factory()->forUser($otherUser)->create();
+    $exercise = Exercise::factory()->forUser($user)->create(['name' => 'レッグプレス']);
+
+    Livewire::actingAs($user)
+        ->test(Index::class)
+        ->call('edit', $exercise->id)
+        ->set('form.name', '変更後')
+        ->set('form.equipmentId', $otherUsersEquipment->id)
+        ->call('update')
+        ->assertNotFound();
+
+    $this->assertDatabaseHas('exercises', [
+        'id' => $exercise->id,
+        'equipment_id' => null,
+        'name' => 'レッグプレス',
+    ]);
+});
