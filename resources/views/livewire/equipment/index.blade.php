@@ -36,10 +36,14 @@
         @endif
 
         <section class="mt-10 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
-            <h2 class="text-xl font-semibold text-stone-950">機材を登録</h2>
-            <p class="mt-2 text-sm leading-6 text-stone-600">最初の機材として、レッグプレスと9kgの刻み幅を登録できます。</p>
+            <h2 class="text-xl font-semibold text-stone-950">
+                {{ $editingEquipmentId === null ? '機材を登録' : '機材を編集' }}
+            </h2>
+            <p class="mt-2 text-sm leading-6 text-stone-600">
+                {{ $editingEquipmentId === null ? '最初の機材として、レッグプレスと9kgの刻み幅を登録できます。' : '機材の名前、カテゴリ、重量単位、刻み幅を変更できます。' }}
+            </p>
 
-            <form wire:submit="save" class="mt-6 grid gap-5 sm:grid-cols-2">
+            <form wire:submit="{{ $editingEquipmentId === null ? 'save' : 'update' }}" class="mt-6 grid gap-5 sm:grid-cols-2">
                 <div class="sm:col-span-2">
                     <label for="equipment-name" class="text-sm font-medium text-stone-700">機材名</label>
                     <input
@@ -103,16 +107,30 @@
                     @error('form.weightIncrement') <p class="mt-2 text-sm font-medium text-red-700">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="sm:col-span-2">
+                <div class="flex flex-col gap-3 sm:col-span-2 sm:flex-row">
                     <button
                         type="submit"
                         class="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-emerald-700 px-5 text-base font-semibold text-white transition hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-200 disabled:cursor-wait disabled:opacity-60 sm:w-auto"
                         wire:loading.attr="disabled"
-                        wire:target="save"
+                        wire:target="{{ $editingEquipmentId === null ? 'save' : 'update' }}"
                     >
-                        <span wire:loading.remove wire:target="save">登録する</span>
-                        <span wire:loading wire:target="save">登録中...</span>
+                        <span wire:loading.remove wire:target="{{ $editingEquipmentId === null ? 'save' : 'update' }}">
+                            {{ $editingEquipmentId === null ? '登録する' : '更新する' }}
+                        </span>
+                        <span wire:loading wire:target="{{ $editingEquipmentId === null ? 'save' : 'update' }}">
+                            {{ $editingEquipmentId === null ? '登録中...' : '更新中...' }}
+                        </span>
                     </button>
+
+                    @if ($editingEquipmentId !== null)
+                        <button
+                            type="button"
+                            wire:click="cancelEditing"
+                            class="inline-flex min-h-12 w-full items-center justify-center rounded-2xl border border-stone-300 bg-white px-5 text-base font-semibold text-stone-700 transition hover:bg-stone-50 focus:outline-none focus:ring-4 focus:ring-stone-200 sm:w-auto"
+                        >
+                            キャンセル
+                        </button>
+                    @endif
                 </div>
             </form>
         </section>
@@ -147,6 +165,14 @@
                             <p class="text-xs font-medium tracking-wide text-stone-500">重量の刻み幅</p>
                             <p class="mt-1 text-base font-semibold text-stone-900">{{ $equipment->weightIncrement }} {{ $equipment->weightUnit }}</p>
                         </div>
+
+                        <button
+                            type="button"
+                            wire:click="edit('{{ $equipment->id }}')"
+                            class="mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-xl border border-stone-300 bg-white px-4 text-sm font-semibold text-stone-700 transition hover:bg-stone-50 focus:outline-none focus:ring-4 focus:ring-emerald-100"
+                        >
+                            {{ $equipment->name }}を編集
+                        </button>
                     </li>
                 @endforeach
             </ul>
