@@ -85,6 +85,8 @@ LivewireとControllerは入力チェック、認証・認可の入口、Service�
 
 ログインでは、入力値・正規化・バリデーションルールを`app/Livewire/Forms/LoginForm`へ分離し、Livewireコンポーネントは認証フローの調整に集中する。Form ObjectはPresentationの入力境界であり、認証処理や業務ルール、DBアクセスは持たせない。認証情報の照合は`app/Service/Command`へ委譲し、IPを含む試行制限、認証成功後のセッション再生成、エラー表示はリクエスト境界で扱う。
 
+業務データを作成・更新するForm Objectから検証済み入力を別クラスへ渡す場合は、生の連想配列や検証前にも呼べる個別getterではなく、入力ごとの不変DTOを返す。DTOは`app/Livewire/Forms/Dto`へ配置し、`ValidatedEquipmentInputDto`のように検証済み入力であることを命名で示す。Form Objectが正規化・検証と入力用enumへの変換までを担当し、DTOには認証済みUser IDなどクライアント入力ではない値を含めない。これにより、Presentation境界からServiceへ渡す値の種類を実行時の型でも明示する。
+
 ログイン済みであることの確認は、保護対象のルートへLaravel標準の`auth`ミドルウェアを適用して共通化する。ログイン画面には`guest`ミドルウェアを適用し、各LivewireコンポーネントやControllerで同じ認証チェックを繰り返さない。特定データを操作できるかという所有者確認はログイン状態とは別の認可として、ServiceやPolicyで扱う。
 
 ログアウトは専用のinvokable ControllerでGuard、セッション破棄、CSRFトークン再生成を扱う。TodayのLivewireコンポーネントへセッション終了処理を混在させない。

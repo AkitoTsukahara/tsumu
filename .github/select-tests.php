@@ -225,6 +225,14 @@ final class ChangedTestSelector
             ],
             [
                 'patterns' => [
+                    'app/Livewire/Forms/EquipmentForm.php',
+                    'app/Livewire/Forms/Dto/ValidatedEquipmentInputDto.php',
+                ],
+                'backend' => ['tests/Feature/Equipment/IndexTest.php'],
+                'browser' => ['tests/Browser/TodayPageTest.php'],
+            ],
+            [
+                'patterns' => [
                     'app/Livewire/Equipment/Index.php',
                     'app/Service/Query/EquipmentListItem.php',
                     'app/Service/Query/EquipmentListQuery.php',

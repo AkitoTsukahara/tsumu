@@ -23,3 +23,20 @@ test('ログインしてTodayを表示しログアウトできる', function () 
         ->assertSee('ログイン')
         ->assertNoJavascriptErrors();
 });
+
+test('認証済みユーザーが機材を登録できる', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user);
+
+    visit('/settings/equipment')
+        ->resize(360, 800)
+        ->assertSee('機材はまだありません')
+        ->type('name', 'レッグプレス')
+        ->type('weight_increment', '9')
+        ->press('登録する')
+        ->assertSee('機材を登録しました。')
+        ->assertSee('レッグプレス')
+        ->assertSee('9.00 kg')
+        ->assertNoJavascriptErrors();
+});
