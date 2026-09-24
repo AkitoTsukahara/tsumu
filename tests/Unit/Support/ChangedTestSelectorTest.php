@@ -156,10 +156,11 @@ test('機材登録フォームでは画面のFeature・Browserテストを選択
     '入力DTO' => 'app/Livewire/Forms/Dto/ValidatedEquipmentInputDto.php',
 ]);
 
-test('UUIDv7識別子では識別子と利用する機材のUnitテストだけを選択する', function (string $path) {
+test('UUIDv7識別子では識別子を利用するDomainのUnitテストだけを選択する', function (string $path) {
     expect(selector()->select([$path]))->toBe([
         'backend' => [
             'tests/Unit/Domain/Equipment/EquipmentTest.php',
+            'tests/Unit/Domain/Exercise/ExerciseTest.php',
             'tests/Unit/Domain/User/UserIdTest.php',
         ],
         'browser' => [],
@@ -169,6 +170,22 @@ test('UUIDv7識別子では識別子と利用する機材のUnitテストだけ�
     '基底クラス' => 'domain/Shared/UuidV7Id.php',
     '共通例外' => 'domain/Shared/Exceptions/InvalidUuidV7IdException.php',
     'UserId' => 'domain/User/UserId.php',
+]);
+
+test('種目の定義では関連するUnit・DbIntegrationテストだけを選択する', function (string $path) {
+    expect(selector()->select([$path]))->toBe([
+        'backend' => [
+            'tests/DbIntegration/Domain/Exercise/ExerciseSchemaTest.php',
+            'tests/Unit/Domain/Exercise/ExerciseTest.php',
+        ],
+        'browser' => [],
+        'unmapped' => [],
+    ]);
+})->with([
+    'Domain' => 'domain/Exercise/Exercise.php',
+    'Factory' => 'database/factories/ExerciseFactory.php',
+    'Migration' => 'database/migrations/2026_09_24_080206_create_exercises_table.php',
+    'Eloquentモデル' => 'infra/Persistence/Eloquent/Models/Exercise.php',
 ]);
 
 test('User Repositoryの新旧パスで関連テストを選択する', function (string $path) {

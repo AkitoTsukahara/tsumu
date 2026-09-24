@@ -158,6 +158,7 @@ final class ChangedTestSelector
                     'tests/DbIntegration/Infra/Persistence/Repositories/UserRepositoryTest.php',
                     'tests/DbIntegration/Infra/UserProviderTest.php',
                     'tests/DbIntegration/Domain/Equipment/EquipmentSchemaTest.php',
+                    'tests/DbIntegration/Domain/Exercise/ExerciseSchemaTest.php',
                     'tests/Feature/Console/CreateUserCommandTest.php',
                     'tests/Feature/Service/Command/AuthenticateUserTest.php',
                 ],
@@ -196,14 +197,11 @@ final class ChangedTestSelector
                 'backend' => [
                     'tests/Unit/Domain/User/UserIdTest.php',
                     'tests/Unit/Domain/Equipment/EquipmentTest.php',
+                    'tests/Unit/Domain/Exercise/ExerciseTest.php',
                 ],
             ],
             [
-                'patterns' => [
-                    'domain/Equipment/**',
-                    'database/factories/EquipmentFactory.php',
-                    'database/migrations/2026_09_22_055057_create_equipment_table.php',
-                ],
+                'patterns' => ['domain/Equipment/**'],
                 'backend' => [
                     'tests/Unit/Domain/Equipment/EquipmentTest.php',
                     'tests/DbIntegration/Domain/Equipment/EquipmentSchemaTest.php',
@@ -214,14 +212,46 @@ final class ChangedTestSelector
             ],
             [
                 'patterns' => [
+                    'database/factories/EquipmentFactory.php',
+                    'database/migrations/2026_09_22_055057_create_equipment_table.php',
+                ],
+                'backend' => [
+                    'tests/Unit/Domain/Equipment/EquipmentTest.php',
+                    'tests/DbIntegration/Domain/Equipment/EquipmentSchemaTest.php',
+                    'tests/DbIntegration/Domain/Exercise/ExerciseSchemaTest.php',
+                    'tests/DbIntegration/Infra/Persistence/Repositories/EquipmentRepositoryTest.php',
+                    'tests/DbIntegration/Infra/Persistence/Queries/EquipmentListQueryTest.php',
+                    'tests/Feature/Equipment/IndexTest.php',
+                ],
+            ],
+            [
+                'patterns' => [
                     'app/Service/Command/CreateEquipment.php',
                     'app/Service/Command/UpdateEquipment.php',
-                    'infra/Persistence/Eloquent/Models/Equipment.php',
                     'infra/Persistence/Mappers/EquipmentMapper.php',
                     'infra/Persistence/Repositories/EquipmentRepository.php',
                 ],
                 'backend' => [
                     'tests/DbIntegration/Infra/Persistence/Repositories/EquipmentRepositoryTest.php',
+                ],
+            ],
+            [
+                'patterns' => ['infra/Persistence/Eloquent/Models/Equipment.php'],
+                'backend' => [
+                    'tests/DbIntegration/Domain/Exercise/ExerciseSchemaTest.php',
+                    'tests/DbIntegration/Infra/Persistence/Repositories/EquipmentRepositoryTest.php',
+                ],
+            ],
+            [
+                'patterns' => [
+                    'domain/Exercise/**',
+                    'database/factories/ExerciseFactory.php',
+                    'database/migrations/2026_09_24_080206_create_exercises_table.php',
+                    'infra/Persistence/Eloquent/Models/Exercise.php',
+                ],
+                'backend' => [
+                    'tests/Unit/Domain/Exercise/ExerciseTest.php',
+                    'tests/DbIntegration/Domain/Exercise/ExerciseSchemaTest.php',
                 ],
             ],
             [
