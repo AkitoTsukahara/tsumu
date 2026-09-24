@@ -144,6 +144,14 @@ test('機材一覧ではQueryと画面のテストだけを選択する', functi
     'Blade' => 'resources/views/livewire/equipment/index.blade.php',
 ]);
 
+test('機材登録フォームでは画面のFeature・Browserテストを選択する', function () {
+    expect(selector()->select(['app/Livewire/Forms/EquipmentForm.php']))->toBe([
+        'backend' => ['tests/Feature/Equipment/IndexTest.php'],
+        'browser' => ['tests/Browser/TodayPageTest.php'],
+        'unmapped' => [],
+    ]);
+});
+
 test('UUIDv7識別子では識別子と利用する機材のUnitテストだけを選択する', function (string $path) {
     expect(selector()->select([$path]))->toBe([
         'backend' => [
