@@ -20,6 +20,14 @@ final class EquipmentRepository implements EquipmentRepositoryContract
         EquipmentModel::query()->create($this->mapper->toPersistence($equipment));
     }
 
+    public function update(Equipment $equipment): bool
+    {
+        return EquipmentModel::query()
+            ->whereKey($equipment->id->value)
+            ->where('user_id', $equipment->userId->value)
+            ->update($this->mapper->toPersistence($equipment)) === 1;
+    }
+
     public function findOwnedBy(EquipmentId $equipmentId, UserId $userId): ?Equipment
     {
         $model = EquipmentModel::query()

@@ -122,6 +122,7 @@ test('機材の永続化処理では機材Repositoryテストだけを選択す�
     ]);
 })->with([
     '登録Command' => 'app/Service/Command/CreateEquipment.php',
+    '更新Command' => 'app/Service/Command/UpdateEquipment.php',
     'Mapper' => 'infra/Persistence/Mappers/EquipmentMapper.php',
     'Repository' => 'infra/Persistence/Repositories/EquipmentRepository.php',
 ]);

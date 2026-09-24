@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Livewire\Forms\Dto\ValidatedEquipmentInputDto;
+use App\Service\Query\Equipment\Dto\EquipmentListItemDto;
 use Domain\Equipment\EquipmentCategory;
 use Domain\Equipment\WeightUnit;
 use Illuminate\Validation\Rule;
@@ -17,6 +18,15 @@ final class EquipmentForm extends Form
     public string $weightUnit = WeightUnit::Kilogram->value;
 
     public string $weightIncrement = '';
+
+    public function fillFrom(EquipmentListItemDto $equipment): void
+    {
+        $this->name = $equipment->name;
+        $this->category = $equipment->category;
+        $this->weightUnit = $equipment->weightUnit;
+        $this->weightIncrement = $equipment->weightIncrement;
+        $this->resetValidation();
+    }
 
     public function validatedInput(): ValidatedEquipmentInputDto
     {

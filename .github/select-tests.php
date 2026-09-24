@@ -215,6 +215,7 @@ final class ChangedTestSelector
             [
                 'patterns' => [
                     'app/Service/Command/CreateEquipment.php',
+                    'app/Service/Command/UpdateEquipment.php',
                     'infra/Persistence/Eloquent/Models/Equipment.php',
                     'infra/Persistence/Mappers/EquipmentMapper.php',
                     'infra/Persistence/Repositories/EquipmentRepository.php',

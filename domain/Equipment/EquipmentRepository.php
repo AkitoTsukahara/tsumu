@@ -10,5 +10,7 @@ interface EquipmentRepository
 {
     public function save(Equipment $equipment): void;
 
+    public function update(Equipment $equipment): bool;
+
     public function findOwnedBy(EquipmentId $equipmentId, UserId $userId): ?Equipment;
 }

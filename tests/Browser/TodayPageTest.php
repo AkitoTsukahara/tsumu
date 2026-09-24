@@ -38,5 +38,13 @@ test('認証済みユーザーが機材を登録できる', function () {
         ->assertSee('機材を登録しました。')
         ->assertSee('レッグプレス')
         ->assertSee('9.00 kg')
+        ->click('レッグプレスを編集')
+        ->assertSee('機材を編集')
+        ->type('name', 'レッグプレス45')
+        ->type('weight_increment', '4.5')
+        ->press('更新する')
+        ->assertSee('機材を更新しました。')
+        ->assertSee('レッグプレス45')
+        ->assertSee('4.50 kg')
         ->assertNoJavascriptErrors();
 });
