@@ -36,6 +36,102 @@
             機材を管理
         </a>
 
+        @if (session('status'))
+            <p role="status" class="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800">
+                {{ session('status') }}
+            </p>
+        @endif
+
+        <section class="mt-8 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
+            <h2 class="text-xl font-semibold text-stone-950">種目を登録</h2>
+            <p class="mt-2 text-sm leading-6 text-stone-600">最初の画面では、重量と回数を記録する種目を登録できます。</p>
+
+            <form wire:submit="save" class="mt-6 grid gap-5 sm:grid-cols-2">
+                <div class="sm:col-span-2">
+                    <label for="name" class="block text-sm font-medium text-stone-700">種目名</label>
+                    <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        wire:model="form.name"
+                        maxlength="100"
+                        autocomplete="off"
+                        class="mt-2 min-h-11 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-950 shadow-sm outline-none transition focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100"
+                    >
+                    @error('form.name')
+                        <p class="mt-2 text-sm font-medium text-red-700">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label for="equipment_id" class="block text-sm font-medium text-stone-700">使用機材（任意）</label>
+                    <select
+                        id="equipment_id"
+                        name="equipment_id"
+                        wire:model="form.equipmentId"
+                        class="mt-2 min-h-11 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-950 shadow-sm outline-none transition focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100"
+                    >
+                        <option value="">機材を使わない</option>
+                        @foreach ($equipmentItems as $equipment)
+                            <option wire:key="exercise-equipment-{{ $equipment->id }}" value="{{ $equipment->id }}">{{ $equipment->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('form.equipmentId')
+                        <p class="mt-2 text-sm font-medium text-red-700">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="primary_target" class="block text-sm font-medium text-stone-700">主対象部位</label>
+                    <select
+                        id="primary_target"
+                        name="primary_target"
+                        wire:model="form.primaryTarget"
+                        class="mt-2 min-h-11 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-950 shadow-sm outline-none transition focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100"
+                    >
+                        <option value="">選択してください</option>
+                        <x-exercise.body-part-options />
+                    </select>
+                    @error('form.primaryTarget')
+                        <p class="mt-2 text-sm font-medium text-red-700">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="secondary_target" class="block text-sm font-medium text-stone-700">副対象部位（任意）</label>
+                    <select
+                        id="secondary_target"
+                        name="secondary_target"
+                        wire:model="form.secondaryTarget"
+                        class="mt-2 min-h-11 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-950 shadow-sm outline-none transition focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100"
+                    >
+                        <option value="">選択しない</option>
+                        <x-exercise.body-part-options />
+                    </select>
+                    @error('form.secondaryTarget')
+                        <p class="mt-2 text-sm font-medium text-red-700">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="sm:col-span-2">
+                    <p class="text-sm font-medium text-stone-700">記録方式</p>
+                    <p class="mt-2 rounded-xl bg-stone-100 px-4 py-3 text-sm font-semibold text-stone-800">重量＋回数</p>
+                </div>
+
+                <div class="sm:col-span-2">
+                    <button
+                        type="submit"
+                        class="inline-flex min-h-11 items-center justify-center rounded-xl bg-emerald-700 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-200 disabled:cursor-wait disabled:opacity-70"
+                        wire:loading.attr="disabled"
+                        wire:target="save"
+                    >
+                        <span wire:loading.remove wire:target="save">登録する</span>
+                        <span wire:loading wire:target="save">登録中...</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+
         @if ($exerciseItems->isEmpty())
             <section class="mt-10 rounded-3xl border border-dashed border-stone-300 bg-white p-8 text-center shadow-sm">
                 <p class="text-lg font-semibold text-stone-900">種目はまだありません</p>

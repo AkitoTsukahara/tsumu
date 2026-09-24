@@ -276,6 +276,15 @@ final class ChangedTestSelector
             ],
             [
                 'patterns' => [
+                    'app/Livewire/Forms/ExerciseForm.php',
+                    'app/Livewire/Forms/Dto/ValidatedExerciseInputDto.php',
+                    'resources/views/components/exercise/body-part-options.blade.php',
+                ],
+                'backend' => ['tests/Feature/Exercise/IndexTest.php'],
+                'browser' => ['tests/Browser/TodayPageTest.php'],
+            ],
+            [
+                'patterns' => [
                     'app/Livewire/Equipment/Index.php',
                     'app/Service/Query/EquipmentListItem.php',
                     'app/Service/Query/EquipmentListQuery.php',
