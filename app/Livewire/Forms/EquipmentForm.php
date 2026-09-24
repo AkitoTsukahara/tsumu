@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Livewire\Forms\Dto\ValidatedEquipmentInputDto;
 use Domain\Equipment\EquipmentCategory;
 use Domain\Equipment\WeightUnit;
 use Illuminate\Validation\Rule;
@@ -17,10 +18,7 @@ final class EquipmentForm extends Form
 
     public string $weightIncrement = '';
 
-    /**
-     * @return array{name: string, category: string, weightUnit: string, weightIncrement: string}
-     */
-    public function validatedInput(): array
+    public function validatedInput(): ValidatedEquipmentInputDto
     {
         $this->name = trim($this->name);
         $this->weightIncrement = trim($this->weightIncrement);
@@ -28,7 +26,12 @@ final class EquipmentForm extends Form
         /** @var array{name: string, category: string, weightUnit: string, weightIncrement: string} $input */
         $input = $this->validate();
 
-        return $input;
+        return new ValidatedEquipmentInputDto(
+            name: $input['name'],
+            category: EquipmentCategory::from($input['category']),
+            weightUnit: WeightUnit::from($input['weightUnit']),
+            weightIncrement: $input['weightIncrement'],
+        );
     }
 
     /** @return array<string, list<mixed>> */
