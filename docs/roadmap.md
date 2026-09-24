@@ -55,7 +55,8 @@
 | 2-4a | 完了 | [PR #19](https://github.com/AkitoTsukahara/tsumu/pull/19)：機材登録ボタンを通常時にも認識できる配色へ調整。mainへマージ済み |
 | 2-5 | 完了 | [PR #17](https://github.com/AkitoTsukahara/tsumu/pull/17)：所有者境界を守る機材の編集フォームを実装。mainへマージ済み |
 | 2-6 | 完了 | [PR #18](https://github.com/AkitoTsukahara/tsumu/pull/18)：種目のDomain定義とDB構造を実装。mainへマージ済み |
-| 2-7 | レビュー待ち | [PR #20](https://github.com/AkitoTsukahara/tsumu/pull/20)：種目のRepository、登録Command、所有者チェックを実装 |
+| 2-7 | 完了 | [PR #20](https://github.com/AkitoTsukahara/tsumu/pull/20)：種目のRepository、登録Command、所有者チェックを実装。mainへマージ済み |
+| 2-8a | 作業中 | 所有者で絞った種目一覧Queryと設定画面への導線を実装 |
 
 以下のStepは分割案。実際の差分量に応じてさらに小さくし、未決定の仕様は該当Stepに入る前に確認する。各Stepのテストは [テスト方針](testing.md) に従う。
 
@@ -118,7 +119,8 @@
 | 2-5 機材の編集 | 更新Commandと編集フォーム | 他ユーザーのIDでは変更できない |
 | 2-6 種目の定義 | 名前、任意の機材、主・副対象部位、記録方式の定義・migration | 機材と種目を分離。重量＋回数、時間、時間＋距離、速度＋時間を定義し、初回UIは重量＋回数だけを操作可能にする |
 | 2-7 種目の保存 | Repository、登録Command、所有者チェック | 他ユーザーの機材に紐づけられない |
-| 2-8 種目の一覧・登録画面 | Queryとフォーム | レッグプレス種目を登録・選択できる |
+| 2-8a 種目の一覧 | 所有者で絞るQuery、一覧画面、設定画面への導線 | 自分の種目だけを一覧で確認できる |
+| 2-8b 種目の登録画面 | Form Object、検証済みDTO、登録フォーム | 所有する機材を使うレッグプレス種目を登録できる |
 | 2-9 種目の編集 | 更新処理とフォーム | 名称・設定変更、User境界を検証 |
 
 ## Phase 3：ジムで記録する
