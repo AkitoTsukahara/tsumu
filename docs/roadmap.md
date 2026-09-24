@@ -52,6 +52,7 @@
 | 2-2 | 完了 | [PR #14](https://github.com/AkitoTsukahara/tsumu/pull/14)：機材のRepository、登録Command、DIを実装。mainへマージ済み |
 | 2-3 | 完了 | [PR #15](https://github.com/AkitoTsukahara/tsumu/pull/15)：所有者で絞り込むQueryと機材一覧画面を実装。mainへマージ済み |
 | 2-4 | 完了 | [PR #16](https://github.com/AkitoTsukahara/tsumu/pull/16)：機材の登録フォームと入力エラーを実装。mainへマージ済み |
+| 2-4a | 完了 | [PR #19](https://github.com/AkitoTsukahara/tsumu/pull/19)：機材登録ボタンを通常時にも認識できる配色へ調整。mainへマージ済み |
 | 2-5 | 完了 | [PR #17](https://github.com/AkitoTsukahara/tsumu/pull/17)：所有者境界を守る機材の編集フォームを実装。mainへマージ済み |
 | 2-6 | レビュー待ち | [PR #18](https://github.com/AkitoTsukahara/tsumu/pull/18)：種目のDomain定義とDB構造を実装 |
 
@@ -112,6 +113,7 @@
 | 2-2 機材の保存 | Repository、登録Command、DI | 保存・再取得でき、Userに紐づく。DbIntegration |
 | 2-3 機材の一覧 | 所有者で絞るQuery、一覧画面 | 自分の機材だけが表示される |
 | 2-4 機材の登録画面 | 入力フォーム、入力エラー | レッグプレス・kg・9kgを登録できる |
+| 2-4a 機材登録ボタンの視認性 | 通常時とホバー時のボタン配色 | AC1: ホバー前から登録・更新ボタンの存在とラベルを認識できる。AC2: ホバー・フォーカス・処理中の状態を維持する |
 | 2-5 機材の編集 | 更新Commandと編集フォーム | 他ユーザーのIDでは変更できない |
 | 2-6 種目の定義 | 名前、任意の機材、主・副対象部位、記録方式の定義・migration | 機材と種目を分離。重量＋回数、時間、時間＋距離、速度＋時間を定義し、初回UIは重量＋回数だけを操作可能にする |
 | 2-7 種目の保存 | Repository、登録Command、所有者チェック | 他ユーザーの機材に紐づけられない |
