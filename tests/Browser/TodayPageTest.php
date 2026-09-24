@@ -5,7 +5,7 @@ use Infra\Persistence\Eloquent\Models\User;
 
 uses(RefreshDatabase::class);
 
-test('ログインしてTodayから機材を登録しログアウトできる', function () {
+test('ログインしてTodayを表示しログアウトできる', function () {
     $user = User::factory()->create();
 
     visit('/login')
@@ -18,14 +18,25 @@ test('ログインしてTodayから機材を登録しログアウトできる', 
         ->click('機材を管理')
         ->assertPathIs('/settings/equipment')
         ->assertSee('機材はまだありません')
+        ->press('ログアウト')
+        ->assertPathIs('/login')
+        ->assertSee('ログイン')
+        ->assertNoJavascriptErrors();
+});
+
+test('認証済みユーザーが機材を登録できる', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user);
+
+    visit('/settings/equipment')
+        ->resize(360, 800)
+        ->assertSee('機材はまだありません')
         ->type('name', 'レッグプレス')
         ->type('weight_increment', '9')
         ->press('登録する')
         ->assertSee('機材を登録しました。')
         ->assertSee('レッグプレス')
         ->assertSee('9.00 kg')
-        ->press('ログアウト')
-        ->assertPathIs('/login')
-        ->assertSee('ログイン')
         ->assertNoJavascriptErrors();
 });
