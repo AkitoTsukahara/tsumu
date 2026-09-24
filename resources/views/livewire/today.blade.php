@@ -27,9 +27,14 @@
 
         <section class="mt-6 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
             <p class="text-sm font-medium text-stone-500">Settings</p>
-            <a href="{{ route('equipment.index') }}" class="mt-3 inline-flex min-h-11 items-center rounded-xl font-semibold text-emerald-700 hover:text-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-100">
-                機材を管理
-            </a>
+            <div class="mt-3 flex flex-wrap gap-x-6 gap-y-2">
+                <a href="{{ route('equipment.index') }}" class="inline-flex min-h-11 items-center rounded-xl font-semibold text-emerald-700 hover:text-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-100">
+                    機材を管理
+                </a>
+                <a href="{{ route('exercise.index') }}" class="inline-flex min-h-11 items-center rounded-xl font-semibold text-emerald-700 hover:text-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-100">
+                    種目を管理
+                </a>
+            </div>
         </section>
     </main>
 </div>

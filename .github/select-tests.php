@@ -126,6 +126,7 @@ final class ChangedTestSelector
                 'backend' => [
                     'tests/Feature/Auth/TodayTest.php',
                     'tests/Feature/Equipment/IndexTest.php',
+                    'tests/Feature/Exercise/IndexTest.php',
                 ],
                 'browser' => ['tests/Browser/TodayPageTest.php'],
             ],
@@ -289,6 +290,22 @@ final class ChangedTestSelector
                     'tests/DbIntegration/Infra/Persistence/Queries/EquipmentListQueryTest.php',
                     'tests/Feature/Equipment/IndexTest.php',
                     'tests/Unit/App/Service/Query/Equipment/Dto/EquipmentListItemCollectionTest.php',
+                ],
+                'browser' => ['tests/Browser/TodayPageTest.php'],
+            ],
+            [
+                'patterns' => [
+                    'app/Livewire/Exercise/Index.php',
+                    'app/Service/Query/Exercise/Dto/ExerciseListItemDto.php',
+                    'app/Service/Query/Exercise/Dto/ExerciseListItemCollection.php',
+                    'app/Service/Query/Exercise/ExerciseListQuery.php',
+                    'infra/Persistence/Queries/ExerciseListQuery.php',
+                    'resources/views/components/exercise/body-part-label.blade.php',
+                    'resources/views/livewire/exercise/index.blade.php',
+                ],
+                'backend' => [
+                    'tests/DbIntegration/Infra/Persistence/Queries/ExerciseListQueryTest.php',
+                    'tests/Feature/Exercise/IndexTest.php',
                 ],
                 'browser' => ['tests/Browser/TodayPageTest.php'],
             ],

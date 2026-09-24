@@ -203,6 +203,24 @@ test('種目の永続化処理では種目Repositoryテストだけを選択す�
     'Repository' => 'infra/Persistence/Repositories/ExerciseRepository.php',
 ]);
 
+test('種目一覧ではQueryと画面のテストだけを選択する', function (string $path) {
+    expect(selector()->select([$path]))->toBe([
+        'backend' => [
+            'tests/DbIntegration/Infra/Persistence/Queries/ExerciseListQueryTest.php',
+            'tests/Feature/Exercise/IndexTest.php',
+        ],
+        'browser' => ['tests/Browser/TodayPageTest.php'],
+        'unmapped' => [],
+    ]);
+})->with([
+    'Livewire' => 'app/Livewire/Exercise/Index.php',
+    'Query契約' => 'app/Service/Query/Exercise/ExerciseListQuery.php',
+    'DTO Collection' => 'app/Service/Query/Exercise/Dto/ExerciseListItemCollection.php',
+    'Query実装' => 'infra/Persistence/Queries/ExerciseListQuery.php',
+    '部位ラベル' => 'resources/views/components/exercise/body-part-label.blade.php',
+    'Blade' => 'resources/views/livewire/exercise/index.blade.php',
+]);
+
 test('User Repositoryの新旧パスで関連テストを選択する', function (string $path) {
     expect(selector()->select([$path]))->toBe([
         'backend' => [
