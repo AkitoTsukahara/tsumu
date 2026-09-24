@@ -57,7 +57,8 @@
 | 2-6 | 完了 | [PR #18](https://github.com/AkitoTsukahara/tsumu/pull/18)：種目のDomain定義とDB構造を実装。mainへマージ済み |
 | 2-7 | 完了 | [PR #20](https://github.com/AkitoTsukahara/tsumu/pull/20)：種目のRepository、登録Command、所有者チェックを実装。mainへマージ済み |
 | 2-8a | 完了 | [PR #21](https://github.com/AkitoTsukahara/tsumu/pull/21)：所有者で絞った種目一覧Queryと設定画面への導線を実装。mainへマージ済み |
-| 2-8b | レビュー待ち | [PR #22](https://github.com/AkitoTsukahara/tsumu/pull/22)：Form Object、検証済みDTO、登録フォームを実装 |
+| 2-8b | 完了 | [PR #22](https://github.com/AkitoTsukahara/tsumu/pull/22)：Form Object、検証済みDTO、登録フォームを実装。mainへマージ済み |
+| 2-9 | レビュー待ち | [PR #23](https://github.com/AkitoTsukahara/tsumu/pull/23)：更新Commandと所有者境界を守る編集フォームを実装 |
 
 以下のStepは分割案。実際の差分量に応じてさらに小さくし、未決定の仕様は該当Stepに入る前に確認する。各Stepのテストは [テスト方針](testing.md) に従う。
 

@@ -29,11 +29,13 @@ final class ExerciseListQuery implements ExerciseListQueryContract
                 'exercises.primary_target',
                 'exercises.secondary_target',
                 'exercises.recording_method',
+                'equipment.id as equipment_id',
                 'equipment.name as equipment_name',
             ])
             ->map(fn (Exercise $exercise): ExerciseListItemDto => new ExerciseListItemDto(
                 id: $exercise->id,
                 name: $exercise->name,
+                equipmentId: $exercise->equipment_id,
                 equipmentName: $exercise->equipment_name,
                 primaryTarget: $exercise->primary_target->value,
                 secondaryTarget: $exercise->secondary_target?->value,
