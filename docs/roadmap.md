@@ -54,7 +54,8 @@
 | 2-4 | 完了 | [PR #16](https://github.com/AkitoTsukahara/tsumu/pull/16)：機材の登録フォームと入力エラーを実装。mainへマージ済み |
 | 2-4a | 完了 | [PR #19](https://github.com/AkitoTsukahara/tsumu/pull/19)：機材登録ボタンを通常時にも認識できる配色へ調整。mainへマージ済み |
 | 2-5 | 完了 | [PR #17](https://github.com/AkitoTsukahara/tsumu/pull/17)：所有者境界を守る機材の編集フォームを実装。mainへマージ済み |
-| 2-6 | レビュー待ち | [PR #18](https://github.com/AkitoTsukahara/tsumu/pull/18)：種目のDomain定義とDB構造を実装 |
+| 2-6 | 完了 | [PR #18](https://github.com/AkitoTsukahara/tsumu/pull/18)：種目のDomain定義とDB構造を実装。mainへマージ済み |
+| 2-7 | レビュー待ち | [PR #20](https://github.com/AkitoTsukahara/tsumu/pull/20)：種目のRepository、登録Command、所有者チェックを実装 |
 
 以下のStepは分割案。実際の差分量に応じてさらに小さくし、未決定の仕様は該当Stepに入る前に確認する。各Stepのテストは [テスト方針](testing.md) に従う。
 
