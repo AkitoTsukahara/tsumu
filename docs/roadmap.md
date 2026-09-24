@@ -53,7 +53,7 @@
 | 2-3 | 完了 | [PR #15](https://github.com/AkitoTsukahara/tsumu/pull/15)：所有者で絞り込むQueryと機材一覧画面を実装。mainへマージ済み |
 | 2-4 | 完了 | [PR #16](https://github.com/AkitoTsukahara/tsumu/pull/16)：機材の登録フォームと入力エラーを実装。mainへマージ済み |
 | 2-5 | 完了 | [PR #17](https://github.com/AkitoTsukahara/tsumu/pull/17)：所有者境界を守る機材の編集フォームを実装。mainへマージ済み |
-| 2-6 | 作業中 | 種目のDomain定義とDB構造を実装中 |
+| 2-6 | レビュー待ち | [PR #18](https://github.com/AkitoTsukahara/tsumu/pull/18)：種目のDomain定義とDB構造を実装 |
 
 以下のStepは分割案。実際の差分量に応じてさらに小さくし、未決定の仕様は該当Stepに入る前に確認する。各Stepのテストは [テスト方針](testing.md) に従う。
 
