@@ -160,6 +160,7 @@ final class ChangedTestSelector
                     'tests/DbIntegration/Infra/UserProviderTest.php',
                     'tests/DbIntegration/Domain/Equipment/EquipmentSchemaTest.php',
                     'tests/DbIntegration/Domain/Exercise/ExerciseSchemaTest.php',
+                    'tests/DbIntegration/Domain/Workout/WorkoutSchemaTest.php',
                     'tests/Feature/Console/CreateUserCommandTest.php',
                     'tests/Feature/Service/Command/AuthenticateUserTest.php',
                 ],
@@ -199,6 +200,7 @@ final class ChangedTestSelector
                     'tests/Unit/Domain/User/UserIdTest.php',
                     'tests/Unit/Domain/Equipment/EquipmentTest.php',
                     'tests/Unit/Domain/Exercise/ExerciseTest.php',
+                    'tests/Unit/Domain/Workout/WorkoutTest.php',
                 ],
             ],
             [
@@ -265,6 +267,18 @@ final class ChangedTestSelector
                 ],
                 'backend' => [
                     'tests/DbIntegration/Infra/Persistence/Repositories/ExerciseRepositoryTest.php',
+                ],
+            ],
+            [
+                'patterns' => [
+                    'domain/Workout/**',
+                    'database/factories/WorkoutFactory.php',
+                    'database/migrations/2026_10_02_132850_create_workouts_table.php',
+                    'infra/Persistence/Eloquent/Models/Workout.php',
+                ],
+                'backend' => [
+                    'tests/Unit/Domain/Workout/WorkoutTest.php',
+                    'tests/DbIntegration/Domain/Workout/WorkoutSchemaTest.php',
                 ],
             ],
             [
