@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Workout;
 
-use App\Service\Command\StartWorkout;
 use App\Service\Query\Workout\InProgressWorkoutQuery;
 use Domain\User\UserId;
 use Illuminate\Support\Facades\Auth;
@@ -11,27 +10,28 @@ use Livewire\Attributes\Locked;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
-#[Title('Today | Tsumu')]
-final class Today extends Component
+#[Title('Workout | Tsumu')]
+final class Index extends Component
 {
     #[Locked]
-    public bool $hasInProgressWorkout = false;
+    public string $startedAtLabel = '';
 
     public function mount(InProgressWorkoutQuery $inProgressWorkoutQuery): void
     {
-        $this->hasInProgressWorkout = $inProgressWorkoutQuery->forUser($this->authenticatedUserId()) !== null;
-    }
+        $workout = $inProgressWorkoutQuery->forUser($this->authenticatedUserId());
 
-    public function start(StartWorkout $startWorkout): void
-    {
-        $startWorkout->handle($this->authenticatedUserId());
+        if ($workout === null) {
+            $this->redirectRoute('today');
 
-        $this->redirectRoute('workout');
+            return;
+        }
+
+        $this->startedAtLabel = $workout->startedAt->format('Y年n月j日 H:i');
     }
 
     public function render(): View
     {
-        return view('livewire.today');
+        return view('livewire.workout.index');
     }
 
     private function authenticatedUserId(): UserId

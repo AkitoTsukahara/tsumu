@@ -5,6 +5,7 @@ use App\Livewire\Auth\Login;
 use App\Livewire\Equipment\Index as EquipmentIndex;
 use App\Livewire\Exercise\Index as ExerciseIndex;
 use App\Livewire\Today;
+use App\Livewire\Workout\Index as WorkoutIndex;
 use Illuminate\Support\Facades\Route;
 
 Route::livewire('/', Today::class)
@@ -14,6 +15,10 @@ Route::livewire('/', Today::class)
 Route::livewire('/login', Login::class)
     ->middleware('guest')
     ->name('login');
+
+Route::livewire('/workout', WorkoutIndex::class)
+    ->middleware('auth')
+    ->name('workout');
 
 Route::livewire('/settings/equipment', EquipmentIndex::class)
     ->middleware('auth')

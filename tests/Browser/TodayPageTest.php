@@ -29,6 +29,23 @@ test('ログインしてTodayを表示しログアウトできる', function () 
         ->assertNoJavascriptErrors();
 });
 
+test('Todayからフリートレーニングを開始して再開できる', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    visit('/')
+        ->resize(360, 800)
+        ->assertSee('フリートレーニングを始める')
+        ->press('フリートレーニングを始める')
+        ->assertPathIs('/workout')
+        ->assertSee('トレーニング中')
+        ->assertSee('種目はまだありません')
+        ->click('Today')
+        ->assertPathIs('/')
+        ->assertSee('トレーニングを再開する')
+        ->assertNoJavascriptErrors();
+});
+
 test('認証済みユーザーが機材を登録できる', function () {
     $user = User::factory()->create();
 
