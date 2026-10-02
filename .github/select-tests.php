@@ -127,7 +127,16 @@ final class ChangedTestSelector
                     'tests/Feature/Auth/TodayTest.php',
                     'tests/Feature/Equipment/IndexTest.php',
                     'tests/Feature/Exercise/IndexTest.php',
+                    'tests/Feature/Workout/IndexTest.php',
                 ],
+                'browser' => ['tests/Browser/TodayPageTest.php'],
+            ],
+            [
+                'patterns' => [
+                    'app/Livewire/Workout/Index.php',
+                    'resources/views/livewire/workout/index.blade.php',
+                ],
+                'backend' => ['tests/Feature/Workout/IndexTest.php'],
                 'browser' => ['tests/Browser/TodayPageTest.php'],
             ],
             [
@@ -283,8 +292,14 @@ final class ChangedTestSelector
                 ],
             ],
             [
+                'patterns' => ['app/Service/Command/StartWorkout.php'],
+                'backend' => [
+                    'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
+                    'tests/Feature/Workout/IndexTest.php',
+                ],
+            ],
+            [
                 'patterns' => [
-                    'app/Service/Command/StartWorkout.php',
                     'infra/Persistence/Mappers/WorkoutMapper.php',
                     'infra/Persistence/Repositories/WorkoutRepository.php',
                 ],
@@ -299,6 +314,7 @@ final class ChangedTestSelector
                 ],
                 'backend' => [
                     'tests/DbIntegration/Infra/Persistence/Queries/InProgressWorkoutQueryTest.php',
+                    'tests/Feature/Workout/IndexTest.php',
                 ],
             ],
             [

@@ -234,7 +234,20 @@ test('トレーニングの状態定義では関連するUnit・DbIntegrationテ
     'Eloquentモデル' => 'infra/Persistence/Eloquent/Models/Workout.php',
 ]);
 
-test('トレーニング開始処理ではWorkout Repositoryテストだけを選択する', function (string $path) {
+test('トレーニング開始CommandではRepositoryと画面のテストを選択する', function (string $path) {
+    expect(selector()->select([$path]))->toBe([
+        'backend' => [
+            'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
+            'tests/Feature/Workout/IndexTest.php',
+        ],
+        'browser' => [],
+        'unmapped' => [],
+    ]);
+})->with([
+    '開始Command' => 'app/Service/Command/StartWorkout.php',
+]);
+
+test('トレーニングの永続化処理ではWorkout Repositoryテストだけを選択する', function (string $path) {
     expect(selector()->select([$path]))->toBe([
         'backend' => [
             'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
@@ -243,15 +256,15 @@ test('トレーニング開始処理ではWorkout Repositoryテストだけを�
         'unmapped' => [],
     ]);
 })->with([
-    '開始Command' => 'app/Service/Command/StartWorkout.php',
     'Mapper' => 'infra/Persistence/Mappers/WorkoutMapper.php',
     'Repository' => 'infra/Persistence/Repositories/WorkoutRepository.php',
 ]);
 
-test('進行中トレーニングの参照処理では対応するQueryテストだけを選択する', function (string $path) {
+test('進行中トレーニングの参照処理ではQueryと画面のテストを選択する', function (string $path) {
     expect(selector()->select([$path]))->toBe([
         'backend' => [
             'tests/DbIntegration/Infra/Persistence/Queries/InProgressWorkoutQueryTest.php',
+            'tests/Feature/Workout/IndexTest.php',
         ],
         'browser' => [],
         'unmapped' => [],
@@ -260,6 +273,17 @@ test('進行中トレーニングの参照処理では対応するQueryテスト
     'Query契約' => 'app/Service/Query/Workout/InProgressWorkoutQuery.php',
     'DTO' => 'app/Service/Query/Workout/Dto/InProgressWorkoutDto.php',
     'Query実装' => 'infra/Persistence/Queries/InProgressWorkoutQuery.php',
+]);
+
+test('トレーニング画面では対応するFeatureとBrowserテストを選択する', function (string $path) {
+    expect(selector()->select([$path]))->toBe([
+        'backend' => ['tests/Feature/Workout/IndexTest.php'],
+        'browser' => ['tests/Browser/TodayPageTest.php'],
+        'unmapped' => [],
+    ]);
+})->with([
+    'Livewire' => 'app/Livewire/Workout/Index.php',
+    'Blade' => 'resources/views/livewire/workout/index.blade.php',
 ]);
 
 test('種目一覧ではQueryと画面のテストだけを選択する', function (string $path) {

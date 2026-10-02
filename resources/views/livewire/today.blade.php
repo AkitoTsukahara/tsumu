@@ -22,7 +22,22 @@
 
         <section class="mt-10 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
             <p class="text-sm font-medium text-stone-500">今日のトレーニング</p>
-            <p class="mt-3 text-xl font-semibold text-stone-900">準備ができたら始めましょう。</p>
+            <p class="mt-3 text-xl font-semibold text-stone-900">
+                {{ $hasInProgressWorkout ? '続きから積み重ねましょう。' : '準備ができたら始めましょう。' }}
+            </p>
+
+            <button
+                type="button"
+                wire:click="start"
+                wire:loading.attr="disabled"
+                wire:target="start"
+                class="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-emerald-700 px-5 py-3 text-base font-semibold text-white shadow-sm transition hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-100 disabled:cursor-wait disabled:opacity-60 sm:w-auto"
+            >
+                <span wire:loading.remove wire:target="start">
+                    {{ $hasInProgressWorkout ? 'トレーニングを再開する' : 'フリートレーニングを始める' }}
+                </span>
+                <span wire:loading wire:target="start">準備しています...</span>
+            </button>
         </section>
 
         <section class="mt-6 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
