@@ -63,6 +63,7 @@
 | 3-2 | 完了 | [PR #25](https://github.com/AkitoTsukahara/tsumu/pull/25)：トレーニングの開始・再開処理を実装。mainへマージ済み |
 | 3-3 | 完了 | [PR #26](https://github.com/AkitoTsukahara/tsumu/pull/26)：Todayからトレーニングを開始・再開する導線とWorkout画面の枠を実装。mainへマージ済み |
 | 3-4 | 完了 | [PR #27](https://github.com/AkitoTsukahara/tsumu/pull/27)：所有する種目を進行中トレーニングへ追加し、追加順に表示する処理を実装。mainへマージ済み |
+| 3-5a | レビュー待ち | [PR #28](https://github.com/AkitoTsukahara/tsumu/pull/28)：トレーニングセットのDomainルールとDB構造を実装 |
 
 以下のStepは分割案。実際の差分量に応じてさらに小さくし、未決定の仕様は該当Stepに入る前に確認する。各Stepのテストは [テスト方針](testing.md) に従う。
 
