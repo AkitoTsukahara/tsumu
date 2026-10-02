@@ -259,6 +259,7 @@ final class ChangedTestSelector
             [
                 'patterns' => [
                     'app/Service/Command/CreateExercise.php',
+                    'app/Service/Command/UpdateExercise.php',
                     'infra/Persistence/Mappers/ExerciseMapper.php',
                     'infra/Persistence/Repositories/ExerciseRepository.php',
                 ],

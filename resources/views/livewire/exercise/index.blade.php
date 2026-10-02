@@ -43,10 +43,14 @@
         @endif
 
         <section class="mt-8 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
-            <h2 class="text-xl font-semibold text-stone-950">種目を登録</h2>
-            <p class="mt-2 text-sm leading-6 text-stone-600">最初の画面では、重量と回数を記録する種目を登録できます。</p>
+            <h2 class="text-xl font-semibold text-stone-950">{{ $editingExerciseId === null ? '種目を登録' : '種目を編集' }}</h2>
+            <p class="mt-2 text-sm leading-6 text-stone-600">
+                {{ $editingExerciseId === null
+                    ? '最初の画面では、重量と回数を記録する種目を登録できます。'
+                    : '種目名、使用機材、対象部位を変更できます。記録方式は変更されません。' }}
+            </p>
 
-            <form wire:submit="save" class="mt-6 grid gap-5 sm:grid-cols-2">
+            <form wire:submit="{{ $editingExerciseId === null ? 'save' : 'update' }}" class="mt-6 grid gap-5 sm:grid-cols-2">
                 <div class="sm:col-span-2">
                     <label for="name" class="block text-sm font-medium text-stone-700">種目名</label>
                     <input
@@ -119,15 +123,31 @@
                 </div>
 
                 <div class="sm:col-span-2">
-                    <button
-                        type="submit"
-                        class="inline-flex min-h-11 items-center justify-center rounded-xl bg-emerald-700 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-200 disabled:cursor-wait disabled:opacity-70"
-                        wire:loading.attr="disabled"
-                        wire:target="save"
-                    >
-                        <span wire:loading.remove wire:target="save">登録する</span>
-                        <span wire:loading wire:target="save">登録中...</span>
-                    </button>
+                    <div class="flex flex-wrap gap-3">
+                        <button
+                            type="submit"
+                            class="inline-flex min-h-11 items-center justify-center rounded-xl bg-emerald-700 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-800 focus:outline-none focus:ring-4 focus:ring-emerald-200 disabled:cursor-wait disabled:opacity-70"
+                            wire:loading.attr="disabled"
+                            wire:target="{{ $editingExerciseId === null ? 'save' : 'update' }}"
+                        >
+                            <span wire:loading.remove wire:target="{{ $editingExerciseId === null ? 'save' : 'update' }}">
+                                {{ $editingExerciseId === null ? '登録する' : '更新する' }}
+                            </span>
+                            <span wire:loading wire:target="{{ $editingExerciseId === null ? 'save' : 'update' }}">
+                                {{ $editingExerciseId === null ? '登録中...' : '更新中...' }}
+                            </span>
+                        </button>
+
+                        @if ($editingExerciseId !== null)
+                            <button
+                                type="button"
+                                wire:click="cancelEditing"
+                                class="inline-flex min-h-11 items-center justify-center rounded-xl border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-stone-700 transition hover:bg-stone-100 focus:outline-none focus:ring-4 focus:ring-stone-200"
+                            >
+                                キャンセル
+                            </button>
+                        @endif
+                    </div>
                 </div>
             </form>
         </section>
@@ -168,6 +188,14 @@
                                 @endif
                             </p>
                         </div>
+
+                        <button
+                            type="button"
+                            wire:click="edit('{{ $exercise->id }}')"
+                            class="mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-xl border border-stone-300 px-4 py-2 text-sm font-semibold text-stone-700 transition hover:border-emerald-600 hover:text-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-100"
+                        >
+                            {{ $exercise->name }}を編集
+                        </button>
                     </li>
                 @endforeach
             </ul>
