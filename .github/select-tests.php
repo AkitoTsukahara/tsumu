@@ -287,8 +287,10 @@ final class ChangedTestSelector
                 ],
                 'backend' => [
                     'tests/Unit/Domain/Workout/WorkoutTest.php',
+                    'tests/Unit/Domain/Workout/WorkoutSetTest.php',
                     'tests/DbIntegration/Domain/Workout/WorkoutSchemaTest.php',
                     'tests/DbIntegration/Domain/Workout/WorkoutExerciseSchemaTest.php',
+                    'tests/DbIntegration/Domain/Workout/WorkoutSetSchemaTest.php',
                     'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
                 ],
             ],
@@ -300,6 +302,10 @@ final class ChangedTestSelector
                     'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
                     'tests/Feature/Workout/IndexTest.php',
                 ],
+            ],
+            [
+                'patterns' => ['database/migrations/2026_10_02_151325_create_workout_sets_table.php'],
+                'backend' => ['tests/DbIntegration/Domain/Workout/WorkoutSetSchemaTest.php'],
             ],
             [
                 'patterns' => ['app/Service/Command/StartWorkout.php'],
