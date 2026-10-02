@@ -220,6 +220,7 @@ test('種目の永続化処理では種目Repositoryテストだけを選択す�
 test('トレーニングの状態定義では関連するUnit・DbIntegrationテストだけを選択する', function (string $path) {
     expect(selector()->select([$path]))->toBe([
         'backend' => [
+            'tests/DbIntegration/Domain/Workout/WorkoutExerciseSchemaTest.php',
             'tests/DbIntegration/Domain/Workout/WorkoutSchemaTest.php',
             'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
             'tests/Unit/Domain/Workout/WorkoutTest.php',
@@ -234,6 +235,19 @@ test('トレーニングの状態定義では関連するUnit・DbIntegrationテ
     'Eloquentモデル' => 'infra/Persistence/Eloquent/Models/Workout.php',
 ]);
 
+test('トレーニング種目のDB構造では対応するSchema・Query・Repository・画面テストを選択する', function () {
+    expect(selector()->select(['database/migrations/2026_10_02_145345_create_workout_exercises_table.php']))->toBe([
+        'backend' => [
+            'tests/DbIntegration/Domain/Workout/WorkoutExerciseSchemaTest.php',
+            'tests/DbIntegration/Infra/Persistence/Queries/WorkoutExerciseListQueryTest.php',
+            'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
+            'tests/Feature/Workout/IndexTest.php',
+        ],
+        'browser' => [],
+        'unmapped' => [],
+    ]);
+});
+
 test('トレーニング開始CommandではRepositoryと画面のテストを選択する', function (string $path) {
     expect(selector()->select([$path]))->toBe([
         'backend' => [
@@ -246,6 +260,17 @@ test('トレーニング開始CommandではRepositoryと画面のテストを選
 })->with([
     '開始Command' => 'app/Service/Command/StartWorkout.php',
 ]);
+
+test('トレーニングへの種目追加CommandではRepositoryと画面のテストを選択する', function () {
+    expect(selector()->select(['app/Service/Command/AddExerciseToWorkout.php']))->toBe([
+        'backend' => [
+            'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
+            'tests/Feature/Workout/IndexTest.php',
+        ],
+        'browser' => [],
+        'unmapped' => [],
+    ]);
+});
 
 test('トレーニングの永続化処理ではWorkout Repositoryテストだけを選択する', function (string $path) {
     expect(selector()->select([$path]))->toBe([
@@ -264,6 +289,7 @@ test('進行中トレーニングの参照処理ではQueryと画面のテスト
     expect(selector()->select([$path]))->toBe([
         'backend' => [
             'tests/DbIntegration/Infra/Persistence/Queries/InProgressWorkoutQueryTest.php',
+            'tests/DbIntegration/Infra/Persistence/Queries/WorkoutExerciseListQueryTest.php',
             'tests/Feature/Workout/IndexTest.php',
         ],
         'browser' => [],
@@ -273,6 +299,7 @@ test('進行中トレーニングの参照処理ではQueryと画面のテスト
     'Query契約' => 'app/Service/Query/Workout/InProgressWorkoutQuery.php',
     'DTO' => 'app/Service/Query/Workout/Dto/InProgressWorkoutDto.php',
     'Query実装' => 'infra/Persistence/Queries/InProgressWorkoutQuery.php',
+    'トレーニング種目Query実装' => 'infra/Persistence/Queries/WorkoutExerciseListQuery.php',
 ]);
 
 test('トレーニング画面では対応するFeatureとBrowserテストを選択する', function (string $path) {
@@ -291,6 +318,7 @@ test('種目一覧ではQueryと画面のテストだけを選択する', functi
         'backend' => [
             'tests/DbIntegration/Infra/Persistence/Queries/ExerciseListQueryTest.php',
             'tests/Feature/Exercise/IndexTest.php',
+            'tests/Feature/Workout/IndexTest.php',
         ],
         'browser' => ['tests/Browser/TodayPageTest.php'],
         'unmapped' => [],
@@ -301,6 +329,7 @@ test('種目一覧ではQueryと画面のテストだけを選択する', functi
     'DTO Collection' => 'app/Service/Query/Exercise/Dto/ExerciseListItemCollection.php',
     'Query実装' => 'infra/Persistence/Queries/ExerciseListQuery.php',
     '部位ラベル' => 'resources/views/components/exercise/body-part-label.blade.php',
+    '記録方式ラベル' => 'resources/views/components/exercise/recording-method-label.blade.php',
     'Blade' => 'resources/views/livewire/exercise/index.blade.php',
 ]);
 

@@ -2,9 +2,13 @@
 
 declare(strict_types=1);
 
+use App\Service\Command\AddExerciseToWorkout;
 use App\Service\Command\StartWorkout;
+use Domain\Exercise\ExerciseId;
 use Domain\User\UserId;
 use Domain\Workout\WorkoutRepository;
+use Illuminate\Support\Facades\DB;
+use Infra\Persistence\Eloquent\Models\Exercise;
 use Infra\Persistence\Eloquent\Models\User;
 use Infra\Persistence\Eloquent\Models\Workout as WorkoutModel;
 
@@ -67,4 +71,53 @@ it('別ユーザーの進行中トレーニングを再開しない', function (
         'id' => $workoutId->value,
         'user_id' => $otherUser->id,
     ]);
+});
+
+it('所有する種目を追加順に一度だけ進行中トレーニングへ追加する', function () {
+    $user = User::factory()->create();
+    $workout = WorkoutModel::factory()->forUser($user)->create();
+    $firstExercise = Exercise::factory()->forUser($user)->create();
+    $secondExercise = Exercise::factory()->forUser($user)->create();
+    $command = app(AddExerciseToWorkout::class);
+    $userId = UserId::fromString($user->id);
+
+    expect($command->handle($userId, ExerciseId::fromString($firstExercise->id)))->toBeTrue()
+        ->and($command->handle($userId, ExerciseId::fromString($firstExercise->id)))->toBeTrue()
+        ->and($command->handle($userId, ExerciseId::fromString($secondExercise->id)))->toBeTrue();
+
+    $items = DB::table('workout_exercises')->where('workout_id', $workout->id)->orderBy('position')->get();
+
+    expect($items)->toHaveCount(2)
+        ->and($items[0]->exercise_id)->toBe($firstExercise->id)
+        ->and($items[0]->position)->toBe(1)
+        ->and($items[1]->exercise_id)->toBe($secondExercise->id)
+        ->and($items[1]->position)->toBe(2);
+});
+
+it('別ユーザーの種目を進行中トレーニングへ追加しない', function () {
+    $user = User::factory()->create();
+    $otherUser = User::factory()->create();
+    WorkoutModel::factory()->forUser($user)->create();
+    $otherExercise = Exercise::factory()->forUser($otherUser)->create();
+
+    $added = app(AddExerciseToWorkout::class)->handle(
+        UserId::fromString($user->id),
+        ExerciseId::fromString($otherExercise->id),
+    );
+
+    expect($added)->toBeFalse();
+    $this->assertDatabaseCount('workout_exercises', 0);
+});
+
+it('進行中トレーニングがなければ種目を追加しない', function () {
+    $user = User::factory()->create();
+    $exercise = Exercise::factory()->forUser($user)->create();
+
+    $added = app(AddExerciseToWorkout::class)->handle(
+        UserId::fromString($user->id),
+        ExerciseId::fromString($exercise->id),
+    );
+
+    expect($added)->toBeFalse();
+    $this->assertDatabaseCount('workout_exercises', 0);
 });

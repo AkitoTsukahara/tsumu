@@ -288,11 +288,28 @@ final class ChangedTestSelector
                 'backend' => [
                     'tests/Unit/Domain/Workout/WorkoutTest.php',
                     'tests/DbIntegration/Domain/Workout/WorkoutSchemaTest.php',
+                    'tests/DbIntegration/Domain/Workout/WorkoutExerciseSchemaTest.php',
                     'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
                 ],
             ],
             [
+                'patterns' => ['database/migrations/2026_10_02_145345_create_workout_exercises_table.php'],
+                'backend' => [
+                    'tests/DbIntegration/Domain/Workout/WorkoutExerciseSchemaTest.php',
+                    'tests/DbIntegration/Infra/Persistence/Queries/WorkoutExerciseListQueryTest.php',
+                    'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
+                    'tests/Feature/Workout/IndexTest.php',
+                ],
+            ],
+            [
                 'patterns' => ['app/Service/Command/StartWorkout.php'],
+                'backend' => [
+                    'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
+                    'tests/Feature/Workout/IndexTest.php',
+                ],
+            ],
+            [
+                'patterns' => ['app/Service/Command/AddExerciseToWorkout.php'],
                 'backend' => [
                     'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
                     'tests/Feature/Workout/IndexTest.php',
@@ -311,9 +328,11 @@ final class ChangedTestSelector
                 'patterns' => [
                     'app/Service/Query/Workout/**',
                     'infra/Persistence/Queries/InProgressWorkoutQuery.php',
+                    'infra/Persistence/Queries/WorkoutExerciseListQuery.php',
                 ],
                 'backend' => [
                     'tests/DbIntegration/Infra/Persistence/Queries/InProgressWorkoutQueryTest.php',
+                    'tests/DbIntegration/Infra/Persistence/Queries/WorkoutExerciseListQueryTest.php',
                     'tests/Feature/Workout/IndexTest.php',
                 ],
             ],
@@ -361,11 +380,13 @@ final class ChangedTestSelector
                     'app/Service/Query/Exercise/ExerciseListQuery.php',
                     'infra/Persistence/Queries/ExerciseListQuery.php',
                     'resources/views/components/exercise/body-part-label.blade.php',
+                    'resources/views/components/exercise/recording-method-label.blade.php',
                     'resources/views/livewire/exercise/index.blade.php',
                 ],
                 'backend' => [
                     'tests/DbIntegration/Infra/Persistence/Queries/ExerciseListQueryTest.php',
                     'tests/Feature/Exercise/IndexTest.php',
+                    'tests/Feature/Workout/IndexTest.php',
                 ],
                 'browser' => ['tests/Browser/TodayPageTest.php'],
             ],

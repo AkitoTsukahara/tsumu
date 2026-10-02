@@ -61,7 +61,8 @@
 | 2-9 | 完了 | [PR #23](https://github.com/AkitoTsukahara/tsumu/pull/23)：更新Commandと所有者境界を守る編集フォームを実装。mainへマージ済み |
 | 3-1 | 完了 | [PR #24](https://github.com/AkitoTsukahara/tsumu/pull/24)：トレーニングの状態遷移とDB構造を実装。mainへマージ済み |
 | 3-2 | 完了 | [PR #25](https://github.com/AkitoTsukahara/tsumu/pull/25)：トレーニングの開始・再開処理を実装。mainへマージ済み |
-| 3-3 | レビュー待ち | [PR #26](https://github.com/AkitoTsukahara/tsumu/pull/26)：Todayからトレーニングを開始・再開する導線とWorkout画面の枠を実装 |
+| 3-3 | 完了 | [PR #26](https://github.com/AkitoTsukahara/tsumu/pull/26)：Todayからトレーニングを開始・再開する導線とWorkout画面の枠を実装。mainへマージ済み |
+| 3-4 | レビュー待ち | [PR #27](https://github.com/AkitoTsukahara/tsumu/pull/27)：所有する種目を進行中トレーニングへ追加し、追加順に表示する処理を実装 |
 
 以下のStepは分割案。実際の差分量に応じてさらに小さくし、未決定の仕様は該当Stepに入る前に確認する。各Stepのテストは [テスト方針](testing.md) に従う。
 
@@ -239,6 +240,8 @@ Step 2-6時点では、種目名は前後の空白を除いて1〜100文字、�
 Step 3-1時点では、トレーニングの作成を開始として扱い、終了時刻がなければ進行中、あれば終了と判定する。状態と終了時刻の矛盾を避けるため状態列は持たない。進行中から終了への遷移だけを許可し、終了時刻は開始時刻以降とする。重複開始の扱いはStep 3-2、終了要求の再送時の扱いはStep 3-9で決める。
 
 Step 3-2時点では、開始操作時に同じユーザーの進行中トレーニングがあれば新規作成せず、そのIDを返して再開する。開始操作はユーザー単位で直列化し、連打や同時リクエストによる二重作成を防ぐ。終了済みのトレーニングや別ユーザーの進行中トレーニングは、新しい開始を妨げない。
+
+Step 3-4では、同じ種目は一つのトレーニングへ一度だけ追加し、追加順を保持する。連打や再送は重複させず同じ追加結果として扱う。種目の削除・並べ替えはこのStepに含めない。
 
 10回×2セットは、[ACSMの一般向け資料](https://www.acsm.org/docs/default-source/files-for-resource-library/resistance-training-for-health.pdf)の8〜12回・2〜3セットを参考に、短時間の継続を重視した初期案。レッグプレス固有の最適値や個別の運動処方ではない。9kg刻みは入力補助に使い、達成すれば必ず9kg増量するルールにはしない。
 
