@@ -167,12 +167,7 @@
                                 <p class="mt-1 text-sm text-stone-500">{{ $exercise->equipmentName ?? '機材なし' }}</p>
                             </div>
                             <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                                @switch($exercise->recordingMethod)
-                                    @case('weight_repetitions') 重量＋回数 @break
-                                    @case('duration') 時間 @break
-                                    @case('duration_distance') 時間＋距離 @break
-                                    @case('speed_duration') 速度＋時間 @break
-                                @endswitch
+                                <x-exercise.recording-method-label :value="$exercise->recordingMethod" />
                             </span>
                         </div>
 

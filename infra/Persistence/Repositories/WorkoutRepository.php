@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace Infra\Persistence\Repositories;
 
+use Domain\Exercise\ExerciseId;
 use Domain\User\UserId;
 use Domain\Workout\Workout;
+use Domain\Workout\WorkoutId;
 use Domain\Workout\WorkoutRepository as WorkoutRepositoryContract;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Infra\Persistence\Eloquent\Models\Workout as WorkoutModel;
 use Infra\Persistence\Mappers\WorkoutMapper;
 
@@ -29,5 +33,32 @@ final readonly class WorkoutRepository implements WorkoutRepositoryContract
             ->first();
 
         return $model === null ? null : $this->mapper->toDomain($model);
+    }
+
+    public function addExercise(WorkoutId $workoutId, ExerciseId $exerciseId): void
+    {
+        DB::transaction(function () use ($workoutId, $exerciseId): void {
+            $alreadyAdded = DB::table('workout_exercises')
+                ->where('workout_id', $workoutId->value)
+                ->where('exercise_id', $exerciseId->value)
+                ->exists();
+
+            if ($alreadyAdded) {
+                return;
+            }
+
+            $lastPosition = DB::table('workout_exercises')
+                ->where('workout_id', $workoutId->value)
+                ->max('position');
+
+            DB::table('workout_exercises')->insert([
+                'id' => (string) Str::uuid7(),
+                'workout_id' => $workoutId->value,
+                'exercise_id' => $exerciseId->value,
+                'position' => ((int) $lastPosition) + 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        });
     }
 }

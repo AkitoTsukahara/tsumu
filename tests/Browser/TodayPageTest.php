@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Infra\Persistence\Eloquent\Models\Equipment;
+use Infra\Persistence\Eloquent\Models\Exercise;
 use Infra\Persistence\Eloquent\Models\User;
 
 uses(RefreshDatabase::class);
@@ -43,6 +44,23 @@ test('Todayからフリートレーニングを開始して再開できる', fun
         ->click('Today')
         ->assertPathIs('/')
         ->assertSee('トレーニングを再開する')
+        ->assertNoJavascriptErrors();
+});
+
+test('進行中トレーニングへ自分の種目を追加できる', function () {
+    $user = User::factory()->create();
+    $exercise = Exercise::factory()->forUser($user)->create(['name' => 'レッグプレス']);
+    $this->actingAs($user);
+
+    visit('/')
+        ->resize(360, 800)
+        ->press('フリートレーニングを始める')
+        ->assertPathIs('/workout')
+        ->select('selected_exercise_id', $exercise->id)
+        ->press('追加する')
+        ->assertSee('種目を追加しました。')
+        ->assertSee('1種目目')
+        ->assertSee('レッグプレス')
         ->assertNoJavascriptErrors();
 });
 
