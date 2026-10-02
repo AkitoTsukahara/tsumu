@@ -60,7 +60,8 @@
 | 2-8b | 完了 | [PR #22](https://github.com/AkitoTsukahara/tsumu/pull/22)：Form Object、検証済みDTO、登録フォームを実装。mainへマージ済み |
 | 2-9 | 完了 | [PR #23](https://github.com/AkitoTsukahara/tsumu/pull/23)：更新Commandと所有者境界を守る編集フォームを実装。mainへマージ済み |
 | 3-1 | 完了 | [PR #24](https://github.com/AkitoTsukahara/tsumu/pull/24)：トレーニングの状態遷移とDB構造を実装。mainへマージ済み |
-| 3-2 | レビュー待ち | [PR #25](https://github.com/AkitoTsukahara/tsumu/pull/25)：トレーニングの開始・再開処理を実装 |
+| 3-2 | 完了 | [PR #25](https://github.com/AkitoTsukahara/tsumu/pull/25)：トレーニングの開始・再開処理を実装。mainへマージ済み |
+| 3-3 | レビュー待ち | [PR #26](https://github.com/AkitoTsukahara/tsumu/pull/26)：Todayからトレーニングを開始・再開する導線とWorkout画面の枠を実装 |
 
 以下のStepは分割案。実際の差分量に応じてさらに小さくし、未決定の仕様は該当Stepに入る前に確認する。各Stepのテストは [テスト方針](testing.md) に従う。
 
