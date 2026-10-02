@@ -174,6 +174,7 @@ test('UUIDv7識別子では識別子を利用するDomainのUnitテストだけ�
             'tests/Unit/Domain/Equipment/EquipmentTest.php',
             'tests/Unit/Domain/Exercise/ExerciseTest.php',
             'tests/Unit/Domain/User/UserIdTest.php',
+            'tests/Unit/Domain/Workout/WorkoutTest.php',
         ],
         'browser' => [],
         'unmapped' => [],
@@ -214,6 +215,22 @@ test('種目の永続化処理では種目Repositoryテストだけを選択す�
     '更新Command' => 'app/Service/Command/UpdateExercise.php',
     'Mapper' => 'infra/Persistence/Mappers/ExerciseMapper.php',
     'Repository' => 'infra/Persistence/Repositories/ExerciseRepository.php',
+]);
+
+test('トレーニングの状態定義では関連するUnit・DbIntegrationテストだけを選択する', function (string $path) {
+    expect(selector()->select([$path]))->toBe([
+        'backend' => [
+            'tests/DbIntegration/Domain/Workout/WorkoutSchemaTest.php',
+            'tests/Unit/Domain/Workout/WorkoutTest.php',
+        ],
+        'browser' => [],
+        'unmapped' => [],
+    ]);
+})->with([
+    'Domain' => 'domain/Workout/Workout.php',
+    'Factory' => 'database/factories/WorkoutFactory.php',
+    'Migration' => 'database/migrations/2026_10_02_132850_create_workouts_table.php',
+    'Eloquentモデル' => 'infra/Persistence/Eloquent/Models/Workout.php',
 ]);
 
 test('種目一覧ではQueryと画面のテストだけを選択する', function (string $path) {
