@@ -279,6 +279,26 @@ final class ChangedTestSelector
                 'backend' => [
                     'tests/Unit/Domain/Workout/WorkoutTest.php',
                     'tests/DbIntegration/Domain/Workout/WorkoutSchemaTest.php',
+                    'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
+                ],
+            ],
+            [
+                'patterns' => [
+                    'app/Service/Command/StartWorkout.php',
+                    'infra/Persistence/Mappers/WorkoutMapper.php',
+                    'infra/Persistence/Repositories/WorkoutRepository.php',
+                ],
+                'backend' => [
+                    'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
+                ],
+            ],
+            [
+                'patterns' => [
+                    'app/Service/Query/Workout/**',
+                    'infra/Persistence/Queries/InProgressWorkoutQuery.php',
+                ],
+                'backend' => [
+                    'tests/DbIntegration/Infra/Persistence/Queries/InProgressWorkoutQueryTest.php',
                 ],
             ],
             [

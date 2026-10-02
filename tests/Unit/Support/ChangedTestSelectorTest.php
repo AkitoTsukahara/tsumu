@@ -221,6 +221,7 @@ test('トレーニングの状態定義では関連するUnit・DbIntegrationテ
     expect(selector()->select([$path]))->toBe([
         'backend' => [
             'tests/DbIntegration/Domain/Workout/WorkoutSchemaTest.php',
+            'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
             'tests/Unit/Domain/Workout/WorkoutTest.php',
         ],
         'browser' => [],
@@ -231,6 +232,34 @@ test('トレーニングの状態定義では関連するUnit・DbIntegrationテ
     'Factory' => 'database/factories/WorkoutFactory.php',
     'Migration' => 'database/migrations/2026_10_02_132850_create_workouts_table.php',
     'Eloquentモデル' => 'infra/Persistence/Eloquent/Models/Workout.php',
+]);
+
+test('トレーニング開始処理ではWorkout Repositoryテストだけを選択する', function (string $path) {
+    expect(selector()->select([$path]))->toBe([
+        'backend' => [
+            'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
+        ],
+        'browser' => [],
+        'unmapped' => [],
+    ]);
+})->with([
+    '開始Command' => 'app/Service/Command/StartWorkout.php',
+    'Mapper' => 'infra/Persistence/Mappers/WorkoutMapper.php',
+    'Repository' => 'infra/Persistence/Repositories/WorkoutRepository.php',
+]);
+
+test('進行中トレーニングの参照処理では対応するQueryテストだけを選択する', function (string $path) {
+    expect(selector()->select([$path]))->toBe([
+        'backend' => [
+            'tests/DbIntegration/Infra/Persistence/Queries/InProgressWorkoutQueryTest.php',
+        ],
+        'browser' => [],
+        'unmapped' => [],
+    ]);
+})->with([
+    'Query契約' => 'app/Service/Query/Workout/InProgressWorkoutQuery.php',
+    'DTO' => 'app/Service/Query/Workout/Dto/InProgressWorkoutDto.php',
+    'Query実装' => 'infra/Persistence/Queries/InProgressWorkoutQuery.php',
 ]);
 
 test('種目一覧ではQueryと画面のテストだけを選択する', function (string $path) {
