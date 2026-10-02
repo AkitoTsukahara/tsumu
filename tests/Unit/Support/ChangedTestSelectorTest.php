@@ -222,7 +222,9 @@ test('トレーニングの状態定義では関連するUnit・DbIntegrationテ
         'backend' => [
             'tests/DbIntegration/Domain/Workout/WorkoutExerciseSchemaTest.php',
             'tests/DbIntegration/Domain/Workout/WorkoutSchemaTest.php',
+            'tests/DbIntegration/Domain/Workout/WorkoutSetSchemaTest.php',
             'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
+            'tests/Unit/Domain/Workout/WorkoutSetTest.php',
             'tests/Unit/Domain/Workout/WorkoutTest.php',
         ],
         'browser' => [],
@@ -234,6 +236,14 @@ test('トレーニングの状態定義では関連するUnit・DbIntegrationテ
     'Migration' => 'database/migrations/2026_10_02_132850_create_workouts_table.php',
     'Eloquentモデル' => 'infra/Persistence/Eloquent/Models/Workout.php',
 ]);
+
+test('セットのDB構造では対応するSchemaテストだけを選択する', function () {
+    expect(selector()->select(['database/migrations/2026_10_02_151325_create_workout_sets_table.php']))->toBe([
+        'backend' => ['tests/DbIntegration/Domain/Workout/WorkoutSetSchemaTest.php'],
+        'browser' => [],
+        'unmapped' => [],
+    ]);
+});
 
 test('トレーニング種目のDB構造では対応するSchema・Query・Repository・画面テストを選択する', function () {
     expect(selector()->select(['database/migrations/2026_10_02_145345_create_workout_exercises_table.php']))->toBe([
