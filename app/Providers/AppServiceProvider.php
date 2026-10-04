@@ -10,6 +10,7 @@ use Domain\Equipment\EquipmentRepository as EquipmentRepositoryContract;
 use Domain\Exercise\ExerciseRepository as ExerciseRepositoryContract;
 use Domain\User\UserRepository as UserRepositoryContract;
 use Domain\Workout\WorkoutRepository as WorkoutRepositoryContract;
+use Domain\Workout\WorkoutSetRepository as WorkoutSetRepositoryContract;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Foundation\Application;
@@ -22,6 +23,7 @@ use Infra\Persistence\Repositories\EquipmentRepository;
 use Infra\Persistence\Repositories\ExerciseRepository;
 use Infra\Persistence\Repositories\UserRepository;
 use Infra\Persistence\Repositories\WorkoutRepository;
+use Infra\Persistence\Repositories\WorkoutSetRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ExerciseRepositoryContract::class, ExerciseRepository::class);
         $this->app->bind(UserRepositoryContract::class, UserRepository::class);
         $this->app->bind(WorkoutRepositoryContract::class, WorkoutRepository::class);
+        $this->app->bind(WorkoutSetRepositoryContract::class, WorkoutSetRepository::class);
         $this->app->bind(
             StatefulGuard::class,
             fn (Application $app): StatefulGuard => $app->make(AuthManager::class)->guard(),
