@@ -224,6 +224,7 @@ test('トレーニングの状態定義では関連するUnit・DbIntegrationテ
             'tests/DbIntegration/Domain/Workout/WorkoutSchemaTest.php',
             'tests/DbIntegration/Domain/Workout/WorkoutSetSchemaTest.php',
             'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
+            'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutSetRepositoryTest.php',
             'tests/Unit/Domain/Workout/WorkoutSetTest.php',
             'tests/Unit/Domain/Workout/WorkoutTest.php',
         ],
@@ -293,6 +294,22 @@ test('トレーニングの永続化処理ではWorkout Repositoryテストだ�
 })->with([
     'Mapper' => 'infra/Persistence/Mappers/WorkoutMapper.php',
     'Repository' => 'infra/Persistence/Repositories/WorkoutRepository.php',
+]);
+
+test('セットの保存処理ではWorkoutSet Repositoryテストだけを選択する', function (string $path) {
+    expect(selector()->select([$path]))->toBe([
+        'backend' => [
+            'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutSetRepositoryTest.php',
+        ],
+        'browser' => [],
+        'unmapped' => [],
+    ]);
+})->with([
+    '記録Command' => 'app/Service/Command/RecordWorkoutSet.php',
+    'Factory' => 'database/factories/WorkoutSetFactory.php',
+    'Eloquentモデル' => 'infra/Persistence/Eloquent/Models/WorkoutSet.php',
+    'Mapper' => 'infra/Persistence/Mappers/WorkoutSetMapper.php',
+    'Repository' => 'infra/Persistence/Repositories/WorkoutSetRepository.php',
 ]);
 
 test('進行中トレーニングの参照処理ではQueryと画面のテストを選択する', function (string $path) {

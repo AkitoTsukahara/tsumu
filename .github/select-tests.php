@@ -292,6 +292,7 @@ final class ChangedTestSelector
                     'tests/DbIntegration/Domain/Workout/WorkoutExerciseSchemaTest.php',
                     'tests/DbIntegration/Domain/Workout/WorkoutSetSchemaTest.php',
                     'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
+                    'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutSetRepositoryTest.php',
                 ],
             ],
             [
@@ -319,6 +320,18 @@ final class ChangedTestSelector
                 'backend' => [
                     'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutRepositoryTest.php',
                     'tests/Feature/Workout/IndexTest.php',
+                ],
+            ],
+            [
+                'patterns' => [
+                    'app/Service/Command/RecordWorkoutSet.php',
+                    'database/factories/WorkoutSetFactory.php',
+                    'infra/Persistence/Eloquent/Models/WorkoutSet.php',
+                    'infra/Persistence/Mappers/WorkoutSetMapper.php',
+                    'infra/Persistence/Repositories/WorkoutSetRepository.php',
+                ],
+                'backend' => [
+                    'tests/DbIntegration/Infra/Persistence/Repositories/WorkoutSetRepositoryTest.php',
                 ],
             ],
             [
